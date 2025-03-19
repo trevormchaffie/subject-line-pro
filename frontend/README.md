@@ -1,12 +1,44 @@
-# React + Vite
+# Subject Line Pro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A tool that analyzes email subject lines for effectiveness and spam triggers while collecting potential client information.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Analyzes subject lines for spam triggers
+- Evaluates length optimization
+- Detects power words
+- Provides actionable suggestions
+- Mobile-responsive design
+- Lead capture form
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Clone the repository: git clone https://github.com/trevormchaffie/subject-line-pro.git
+   cd subject-line-pro/frontend
+
+2. Install dependencies:
+   npm install
+
+3. Run the development server:
+   npm run dev
+
+4. Build for production:
+   npm run build
+
+## Project Structure
+
+- `/src/components` - UI components
+- `/src/services` - Analysis logic
+- `/src/data` - Static data (spam words, power words)
+- `/src/hooks` - Custom React hooks
+- `/src/assets` - Static assets
+
+## Phase 1 Completion Checklist
+
+- [x] Project initialization
+- [x] Setting up React with Vite
+- [x] Implementing Tailwind CSS
+- [x] Creating core UI components
+- [x] Implementing subject line analysis logic
+- [x] Integrating components into a complete frontend
+- [x] Testing the application
