@@ -1,0 +1,21 @@
+export const spamTriggers = [
+  { word: "free", impact: "high", reason: "Common spam flag" },
+  { word: "guaranteed", impact: "high", reason: "Overpromising" },
+  {
+    word: "limited time",
+    impact: "medium",
+    reason: "Creates artificial urgency",
+  },
+  { word: "cash", impact: "high", reason: "Financial spam trigger" },
+  { word: "click here", impact: "medium", reason: "Generic call to action" },
+  { word: "congratulations", impact: "high", reason: "Common phishing opener" },
+  { word: "deal", impact: "low", reason: "Promotional language" },
+  { word: "discount", impact: "low", reason: "Promotional language" },
+  { word: "urgent", impact: "high", reason: "Creates artificial urgency" },
+  { word: "winner", impact: "high", reason: "Common phishing approach" },
+  { word: "!!!!", impact: "high", reason: "Excessive punctuation" },
+  { word: "$$$", impact: "high", reason: "Spam symbol" },
+  { word: "act now", impact: "medium", reason: "Creates artificial urgency" },
+  { word: "best price", impact: "medium", reason: "Promotional language" },
+  { word: "buy", impact: "low", reason: "Direct sales language" },
+];

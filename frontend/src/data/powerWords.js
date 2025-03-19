@@ -1,0 +1,17 @@
+export const powerWords = [
+  { word: "discover", category: "curiosity", impact: "medium" },
+  { word: "exclusive", category: "exclusivity", impact: "high" },
+  { word: "proven", category: "credibility", impact: "medium" },
+  { word: "transform", category: "improvement", impact: "high" },
+  { word: "unlock", category: "opportunity", impact: "medium" },
+  { word: "essential", category: "importance", impact: "medium" },
+  { word: "instantly", category: "speed", impact: "medium" },
+  { word: "guaranteed", category: "assurance", impact: "high" },
+  { word: "remarkable", category: "uniqueness", impact: "medium" },
+  { word: "revolutionary", category: "innovation", impact: "high" },
+  { word: "secret", category: "exclusivity", impact: "high" },
+  { word: "stunning", category: "impact", impact: "medium" },
+  { word: "unlimited", category: "abundance", impact: "medium" },
+  { word: "premium", category: "quality", impact: "medium" },
+  { word: "valuable", category: "worth", impact: "medium" },
+];
