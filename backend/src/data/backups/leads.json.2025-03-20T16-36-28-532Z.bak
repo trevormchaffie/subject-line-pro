@@ -12,19 +12,5 @@
     "ipAddress": "::1",
     "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "createdAt": "2025-03-20T16:19:20.863Z"
-  },
-  {
-    "id": "lead_1742488588532_2m9kn6t1u",
-    "name": "Test User",
-    "email": "test@example.com",
-    "businessType": "service",
-    "subjectLine": "Test subject line",
-    "analysisResults": {
-      "overallScore": 85,
-      "spamScore": 10
-    },
-    "ipAddress": "::1",
-    "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-    "createdAt": "2025-03-20T16:36:28.532Z"
   }
 ]

@@ -37,6 +37,15 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "UP", timestamp: new Date().toISOString() });
 });
 
+// Root route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Subject Line Pro API is running",
+    version: "1.0.0",
+    endpoints: ["/health", "/api/analyze", "/api/leads", "/api/stats"],
+  });
+});
+
 // Error handling middleware (should be last)
 app.use(errorHandler);
 
