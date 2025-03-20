@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.js",
+    "backup-data": "node src/utils/backupData.js"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,7 @@
     "helmet": "^8.1.0"
   },
   "devDependencies": {
+    "node-fetch": "^2.7.0",
     "nodemon": "^3.1.9"
   }
 }

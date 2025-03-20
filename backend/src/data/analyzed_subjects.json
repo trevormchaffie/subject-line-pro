@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "analysis_1742487560856_rf7c30nxv",
+    "subjectLine": "FREE Exclusive Offer: LIMITED TIME ONLY!!!",
+    "length": 42,
+    "wordCount": 6,
+    "spamScore": 75,
+    "overallScore": 50,
+    "powerWords": [
+      "exclusive"
+    ],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: free, limited time",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T16:19:20.842Z",
+    "createdAt": "2025-03-20T16:19:20.856Z"
+  }
+]

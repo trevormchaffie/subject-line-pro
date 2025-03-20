@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": "lead_1742487560863_1b5yhnpxr",
+    "name": "Test User",
+    "email": "test@example.com",
+    "businessType": "service",
+    "subjectLine": "Test subject line",
+    "analysisResults": {
+      "overallScore": 85,
+      "spamScore": 10
+    },
+    "ipAddress": "::1",
+    "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
+    "createdAt": "2025-03-20T16:19:20.863Z"
+  }
+]
