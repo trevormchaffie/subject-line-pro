@@ -50,6 +50,26 @@ function App() {
             />
 
             {!leadSubmitted && <LeadCaptureForm onSubmit={handleLeadSubmit} />}
+
+            {leadSubmitted && (
+              <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-2xl mt-6">
+                <div className="text-center py-8">
+                  <h3 className="text-xl font-semibold text-success mb-2">
+                    Thank You!
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Your information has been submitted successfully. We'll
+                    contact you soon with more email marketing tips!
+                  </p>
+                  <button
+                    onClick={() => setLeadSubmitted(false)}
+                    className="text-primary hover:underline"
+                  >
+                    Submit another email address
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </main>
