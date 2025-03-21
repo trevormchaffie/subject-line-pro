@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const LeadCaptureForm = ({ onSubmit, isLoading }) => {
+const LeadCaptureForm = ({ onSubmit, isLoading, isOffline }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,6 +58,13 @@ const LeadCaptureForm = ({ onSubmit, isLoading }) => {
         Sign up to receive our expert email marketing strategies directly to
         your inbox.
       </p>
+
+      {isOffline && (
+        <div className="mb-4 p-3 bg-warning/10 border-l-4 border-warning text-sm text-warning rounded">
+          <strong>You're offline:</strong> Your information will be saved
+          locally and submitted when you reconnect.
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -168,6 +175,8 @@ const LeadCaptureForm = ({ onSubmit, isLoading }) => {
               </svg>
               Submitting...
             </span>
+          ) : isOffline ? (
+            "Save Information Locally"
           ) : (
             "Get Free Tips"
           )}

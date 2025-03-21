@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/layout/Header";
 import SubjectLineInput from "./components/forms/SubjectLineInput";
 import AnalysisResults from "./components/analysis/AnalysisResults";
@@ -6,7 +6,7 @@ import LeadCaptureForm from "./components/forms/LeadCaptureForm";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import apiService from "./services/apiService";
-import { analyzeSubjectLine } from "./services/analysisService"; // Keep for fallback
+import { analyzeSubjectLine } from "./services/analysisService"; // Local fallback
 
 function App() {
   const [analysisResults, setAnalysisResults] = useState(null);
@@ -14,16 +14,46 @@ function App() {
   const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  // Monitor online/offline status
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   /**
    * Analyzes a subject line using the backend API
-   * Falls back to local analysis if API fails
+   * Falls back to local analysis if API fails or offline
    */
   const handleAnalyze = async (text) => {
     setSubjectLine(text);
     setIsLoading(true);
     setError(null);
 
+    // If offline, use local analysis immediately
+    if (isOffline) {
+      try {
+        const results = analyzeSubjectLine(text);
+        setAnalysisResults(results);
+      } catch (localError) {
+        setError("Unable to analyze subject line. Please try again.");
+        console.error("Local analysis error:", localError);
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    // Otherwise try API first, then fall back to local
     try {
       // Use backend API for analysis
       const response = await apiService.analyzeSubject(text);
@@ -31,7 +61,7 @@ function App() {
     } catch (error) {
       console.error("Analysis error:", error);
       setError(
-        "Failed to analyze subject line using our servers. Using local analysis instead."
+        "Failed to connect to our servers. Using local analysis instead."
       );
 
       // Fallback to local analysis if API fails
@@ -49,11 +79,49 @@ function App() {
 
   /**
    * Submits lead information to the backend API
+   * In offline mode, data is stored temporarily
    */
   const handleLeadSubmit = async (formData) => {
     setIsLoading(true);
     setError(null);
 
+    // If offline, store data locally
+    if (isOffline) {
+      try {
+        // Store in localStorage for later submission
+        const offlineLeads = JSON.parse(
+          localStorage.getItem("offlineLeads") || "[]"
+        );
+        const leadData = {
+          ...formData,
+          subjectLine,
+          analysisResults: {
+            overallScore: analysisResults.overallScore,
+            spamScore: analysisResults.spamScore,
+            suggestions: analysisResults.suggestions.length,
+          },
+          timestamp: new Date().toISOString(),
+          pending: true,
+        };
+
+        offlineLeads.push(leadData);
+        localStorage.setItem("offlineLeads", JSON.stringify(offlineLeads));
+        setLeadSubmitted(true);
+        setError(
+          "You're offline. Your information will be submitted when you reconnect."
+        );
+      } catch (error) {
+        console.error("Offline storage error:", error);
+        setError(
+          "Failed to store your information. Please try again when online."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    // If online, submit to API
     try {
       // Add subject line and analysis results to lead data
       const leadData = {
@@ -91,6 +159,13 @@ function App() {
     <div className="min-h-screen bg-gray-100">
       <Header />
 
+      {/* Offline Banner */}
+      {isOffline && (
+        <div className="bg-warning/20 border-warning text-warning px-4 py-2 text-center">
+          You are currently offline. Some features may be limited.
+        </div>
+      )}
+
       <main className="container mx-auto px-4 py-8 flex flex-col items-center">
         <h1 className="text-3xl font-bold text-center mb-8">
           Email Subject Line Analyzer
@@ -125,6 +200,7 @@ function App() {
               <LeadCaptureForm
                 onSubmit={handleLeadSubmit}
                 isLoading={isLoading}
+                isOffline={isOffline}
               />
             )}
 
@@ -149,8 +225,9 @@ function App() {
                     Thank You!
                   </h3>
                   <p className="text-gray-600 mb-4">
-                    Your information has been submitted successfully. We'll
-                    contact you soon with more email marketing tips!
+                    {isOffline
+                      ? "Your information has been saved and will be submitted when you're back online."
+                      : "Your information has been submitted successfully. We'll contact you soon with more email marketing tips!"}
                   </p>
                   <button
                     onClick={() => setLeadSubmitted(false)}
