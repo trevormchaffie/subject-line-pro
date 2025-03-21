@@ -26,20 +26,5 @@
     "ipAddress": "::1",
     "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
     "createdAt": "2025-03-20T16:36:28.532Z"
-  },
-  {
-    "id": "lead_1742490275502_d3e9xvvcz",
-    "name": "Trevor",
-    "email": "as@ads.com",
-    "businessType": "ecommerce",
-    "subjectLine": "This is my CRAZY subject line...",
-    "analysisResults": {
-      "overallScore": 75,
-      "spamScore": 0,
-      "suggestions": 3
-    },
-    "ipAddress": "::1",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-03-20T17:04:35.502Z"
   }
 ]

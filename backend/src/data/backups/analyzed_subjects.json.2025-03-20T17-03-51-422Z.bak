@@ -64,28 +64,5 @@
     "hasPunctuation": true,
     "analyzedAt": "2025-03-20T16:36:28.517Z",
     "createdAt": "2025-03-20T16:36:28.531Z"
-  },
-  {
-    "id": "analysis_1742490231422_pxwyhlxua",
-    "subjectLine": "This is my CRAZY subject line...",
-    "length": 32,
-    "wordCount": 6,
-    "spamScore": 0,
-    "overallScore": 75,
-    "powerWords": [],
-    "issues": [
-      {
-        "text": "Contains words in ALL CAPS",
-        "impact": "medium"
-      }
-    ],
-    "suggestions": [
-      "Consider adding power words like: instantly, discover, exclusive",
-      "Avoid using ALL CAPS as it can trigger spam filters",
-      "Add personalization to increase engagement"
-    ],
-    "hasPunctuation": true,
-    "analyzedAt": "2025-03-20T17:03:51.412Z",
-    "createdAt": "2025-03-20T17:03:51.422Z"
   }
 ]
