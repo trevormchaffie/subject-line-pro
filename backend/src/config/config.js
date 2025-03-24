@@ -8,7 +8,8 @@ const config = {
   nodeEnv: process.env.NODE_ENV || "development",
 
   // CORS configuration
-  corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  corsOrigin:
+    process.env.CORS_ORIGIN || "https://subjectlinepro.trevormchaffie.com",
 
   // Rate limiting
   rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000, // 15 minutes
