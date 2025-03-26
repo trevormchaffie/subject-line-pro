@@ -11,7 +11,7 @@ import syncService from "./services/syncService.js";
 import "./index.css";
 
 // Import a placeholder dashboard page
-const AdminDashboard = () => <div>Admin Dashboard (Coming in Step 2)</div>;
+import DashboardPage from "./pages/admin/DashboardPage";
 
 // Register the service worker
 registerServiceWorker();
@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             {/* Admin routes */}
             <Route path="/admin/login" element={<LoginPage />} />
             <Route element={<AdminRoutes />}>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/dashboard" element={<DashboardPage />} />
               {/* More admin routes will be added in future steps */}
             </Route>
           </Routes>
