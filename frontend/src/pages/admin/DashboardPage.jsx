@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom"; // Add NavLink import
 import { useAuth } from "../../hooks/useAuth";
+import routes from "../../config/routeConfig"; // Add this import
 
 const DashboardPage = () => {
   const { logout, user } = useAuth();
@@ -36,6 +37,84 @@ const DashboardPage = () => {
           </div>
         </div>
       </header>
+
+      {/* Add navigation menu here - between header and main content */}
+      <nav className="bg-white shadow-sm mt-1 mb-6">
+        <div className="container mx-auto px-4">
+          <ul className="flex space-x-4 overflow-x-auto py-2">
+            <li>
+              <NavLink
+                to={routes.admin.dashboard}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routes.admin.leads}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                Leads
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routes.admin.analytics}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                Analytics
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routes.admin.content}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                Content
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routes.admin.settings}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-md ${
+                    isActive
+                      ? "bg-primary text-white"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`
+                }
+              >
+                Settings
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
       {/* Dashboard Content Placeholder */}
       <main className="container mx-auto px-4 py-8">

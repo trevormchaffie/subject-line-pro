@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import routes from "../../config/routeConfig";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -9,8 +10,23 @@ const LoginPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState("");
 
-  const { login, error: authError } = useAuth();
+  const { login, error: authError, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get returnTo from query params
+  const getReturnUrl = () => {
+    const params = new URLSearchParams(location.search);
+    const returnTo = params.get("returnTo");
+    return returnTo || routes.admin.dashboard;
+  };
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(getReturnUrl(), { replace: true });
+    }
+  }, [isAuthenticated, navigate, location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,7 +43,7 @@ const LoginPage = () => {
       const success = await login(username, password, rememberMe);
 
       if (success) {
-        navigate("/admin/dashboard");
+        navigate(getReturnUrl(), { replace: true });
       } else {
         setLoginError(authError || "Invalid credentials");
       }
