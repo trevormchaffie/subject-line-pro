@@ -1,4 +1,5 @@
 const dataService = require("../services/dataService");
+const statsService = require("../services/statsService");
 
 /**
  * Controller for statistics
@@ -40,6 +41,26 @@ const statsController = {
       res.status(200).json({
         success: true,
         data: analyzedSubjects,
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Get dashboard metrics
+   * @param {Object} req - Express request
+   * @param {Object} res - Express response
+   * @param {Function} next - Express next middleware function
+   */
+  async getDashboardMetrics(req, res, next) {
+    try {
+      const period = req.query.period || "all";
+      const metrics = await statsService.getDashboardMetrics({ period });
+
+      res.status(200).json({
+        success: true,
+        data: metrics,
       });
     } catch (error) {
       next(error);

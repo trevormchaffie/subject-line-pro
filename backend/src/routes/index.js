@@ -4,6 +4,8 @@ const analyzeController = require("../controllers/analyze.controller");
 const leadsController = require("../controllers/leads.controller");
 const analyticsController = require("../controllers/analyticsController");
 const authController = require("../controllers/authController");
+const analyticsRoutes = require("./admin/analyticsRoutes");
+const statsRoutes = require("./stats.routes");
 const { authenticate } = require("../middleware/authMiddleware");
 
 // Analysis routes
@@ -13,7 +15,6 @@ router.get("/analyze/power-words", analyzeController.getPowerWords);
 
 // Leads routes
 router.post("/leads", leadsController.submitLead);
-console.log("getLeads is:", leadsController.getLeads);
 router.get("/leads", authenticate, leadsController.getLeads);
 
 // Analytics routes
@@ -37,6 +38,10 @@ router.get(
   authenticate,
   analyticsController.getConversionMetrics
 );
+router.use("/admin/analytics", analyticsRoutes);
+
+// Stats routes
+router.use("/stats", statsRoutes);
 
 // Auth routes
 router.post("/auth/login", authController.login);

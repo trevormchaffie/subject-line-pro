@@ -4,21 +4,20 @@
 const express = require("express");
 const router = express.Router();
 const analyticsController = require("../../controllers/analyticsController");
-const { authenticateAdmin } = require("../../middleware/authMiddleware");
+const {
+  authenticateToken,
+  requireRole,
+} = require("../../middleware/authMiddleware");
 
-// Apply admin authentication to all routes
-router.use(authenticateAdmin);
+// Apply authentication middleware
+router.use(authenticateToken);
+// If you have role-based auth, add this line to require admin role
+router.use((req, res, next) => requireRole("admin")(req, res, next));
 
-// GET /api/admin/analytics/basic-metrics
+// Routes remain the same
 router.get("/basic-metrics", analyticsController.getBasicMetrics);
-
-// GET /api/admin/analytics/subject-metrics
 router.get("/subject-metrics", analyticsController.getSubjectLineMetrics);
-
-// GET /api/admin/analytics/time-series
 router.get("/time-series", analyticsController.getTimeSeriesData);
-
-// POST /api/admin/analytics/refresh-cache
 router.post("/refresh-cache", analyticsController.refreshCache);
 
 module.exports = router;

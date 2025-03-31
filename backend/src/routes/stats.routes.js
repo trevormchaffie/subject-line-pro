@@ -13,4 +13,7 @@ router.get(
   statsController.getAnalyzedSubjects
 );
 
+// GET /api/stats/dashboard (admin only)
+router.get("/dashboard", basicAuth, statsController.getDashboardMetrics);
+
 module.exports = router;
