@@ -1,9 +1,5 @@
 /**
  * Session Manager
- *
- * Handles user session operations, tracking, and management.
- * This implementation uses JSON file storage for simplicity in the MVP.
- * For production, this would use a database or Redis.
  */
 
 const fs = require("fs");
@@ -47,20 +43,13 @@ const saveSessions = () => {
 
 /**
  * Creates a new session for a user
- * @param {string} userId - The user's ID
- * @param {string} role - The user's role
- * @param {string} deviceInfo - Information about the user's device
- * @returns {Object} The session data with tokens
  */
 const createSession = (userId, role = "user", deviceInfo = "unknown") => {
-  // Generate a unique session ID
   const sessionId = Math.random().toString(36).substring(2, 15);
 
-  // Generate tokens
   const accessToken = jwtUtils.generateAccessToken(userId, role);
   const refreshToken = jwtUtils.generateRefreshToken(userId, sessionId);
 
-  // Create session record
   const session = {
     userId,
     role,
@@ -71,7 +60,6 @@ const createSession = (userId, role = "user", deviceInfo = "unknown") => {
     isActive: true,
   };
 
-  // Store session
   if (!sessions[userId]) {
     sessions[userId] = {};
   }
@@ -89,9 +77,6 @@ const createSession = (userId, role = "user", deviceInfo = "unknown") => {
 
 /**
  * Updates the last activity timestamp for a session
- * @param {string} userId - The user's ID
- * @param {string} sessionId - The session ID
- * @returns {boolean} True if successful, false otherwise
  */
 const updateSessionActivity = (userId, sessionId) => {
   if (!sessions[userId] || !sessions[userId][sessionId]) {
@@ -105,9 +90,6 @@ const updateSessionActivity = (userId, sessionId) => {
 
 /**
  * Validates a session
- * @param {string} userId - The user's ID
- * @param {string} sessionId - The session ID
- * @returns {Object|null} The session if valid, null otherwise
  */
 const validateSession = (userId, sessionId) => {
   if (!sessions[userId] || !sessions[userId][sessionId]) {
@@ -128,10 +110,6 @@ const validateSession = (userId, sessionId) => {
 
 /**
  * Invalidates a session (logout)
- * @param {string} userId - The user's ID
- * @param {string} sessionId - The session ID
- * @param {string} refreshToken - The refresh token to blacklist
- * @returns {boolean} True if successful, false otherwise
  */
 const invalidateSession = (userId, sessionId, refreshToken) => {
   if (!sessions[userId] || !sessions[userId][sessionId]) {
@@ -151,8 +129,6 @@ const invalidateSession = (userId, sessionId, refreshToken) => {
 
 /**
  * Gets all active sessions for a user
- * @param {string} userId - The user's ID
- * @returns {Array} Array of active sessions
  */
 const getUserActiveSessions = (userId) => {
   if (!sessions[userId]) {
@@ -178,10 +154,8 @@ const getUserActiveSessions = (userId) => {
 
 /**
  * Cleans up expired sessions
- * @param {number} expiryTime - Time in milliseconds after which a session is considered expired
  */
 const cleanupExpiredSessions = (expiryTime = 7 * 24 * 60 * 60 * 1000) => {
-  // Default: 7 days
   const now = Date.now();
   let changed = false;
 

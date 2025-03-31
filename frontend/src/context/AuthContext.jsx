@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useCallback } from "react";
+import axios from "axios";
 
 // Get API base URL based on environment
 const API_BASE_URL =
@@ -239,6 +240,29 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setUser(null);
   };
+
+  // Add this to the end of the file, before the return statement
+  // Setup axios interceptor for protected requests
+  useEffect(() => {
+    const interceptor = axios.interceptors.request.use(
+      (config) => {
+        if (config.requiresAuth !== false) {
+          const token = getAccessToken();
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+          }
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(interceptor);
+    };
+  }, [getAccessToken]);
 
   return (
     <AuthContext.Provider

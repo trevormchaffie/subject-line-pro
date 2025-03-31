@@ -16,7 +16,7 @@ const API_BASE_URL =
  * @param {object} data - Request data (for POST, PUT)
  * @returns {Promise<object>} Response data
  */
-async function apiRequest(endpoint, method = "GET", data = null) {
+async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
   const url = `${API_BASE_URL}${endpoint}`;
 
   const options = {
@@ -25,6 +25,15 @@ async function apiRequest(endpoint, method = "GET", data = null) {
       "Content-Type": "application/json",
     },
   };
+
+  // Add this block to handle authentication
+  if (auth) {
+    const token =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    if (token) {
+      options.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
 
   if (data && (method === "POST" || method === "PUT")) {
     options.body = JSON.stringify(data);
@@ -95,6 +104,51 @@ const apiService = {
    */
   async getPowerWords() {
     return apiRequest("/analyze/power-words");
+  },
+
+  /**
+   * Get time-series analytics data
+   * @param {string} timeframe - daily, weekly, or monthly
+   * @param {number} limit - number of periods to return
+   * @returns {Promise<object>} Time-series data
+   */
+  async getAnalyticsTimeSeries(timeframe = "daily", limit = 30) {
+    return apiRequest(
+      `/analytics/time-series?timeframe=${timeframe}&limit=${limit}`,
+      "GET",
+      null,
+      true
+    );
+  },
+
+  /**
+   * Get score distribution data
+   * @returns {Promise<object>} Distribution data
+   */
+  async getScoreDistribution() {
+    return apiRequest("/analytics/score-distribution", "GET", null, true);
+  },
+
+  /**
+   * Get top-performing subject lines
+   * @param {number} limit - number of items to return
+   * @returns {Promise<object>} Top subject lines
+   */
+  async getTopSubjectLines(limit = 10) {
+    return apiRequest(
+      `/analytics/top-subjects?limit=${limit}`,
+      "GET",
+      null,
+      true
+    );
+  },
+
+  /**
+   * Get lead conversion metrics
+   * @returns {Promise<object>} Conversion metrics
+   */
+  async getConversionMetrics() {
+    return apiRequest("/analytics/conversion", "GET", null, true);
   },
 };
 

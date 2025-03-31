@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const config = require("./config/config");
+const authRoutes = require("./routes/authRoutes");
 
 // Import middleware
 const errorHandler = require("./middleware/errorHandler");
@@ -31,6 +32,7 @@ app.use(rateLimiter); // Apply rate limiting
 
 // Apply routes
 app.use("/api", apiRoutes);
+app.use("/api/auth", authRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

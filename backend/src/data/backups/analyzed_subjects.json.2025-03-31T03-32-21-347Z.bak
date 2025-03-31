@@ -87,38 +87,5 @@
     "hasPunctuation": true,
     "analyzedAt": "2025-03-20T17:03:51.412Z",
     "createdAt": "2025-03-20T17:03:51.422Z"
-  },
-  {
-    "id": "analysis_1743391941347_i92yes1vj",
-    "subjectLine": "Free Textbook!",
-    "length": 14,
-    "wordCount": 2,
-    "spamScore": 25,
-    "overallScore": 60,
-    "powerWords": [],
-    "issues": [
-      {
-        "text": "Contains spam trigger word \"free\"",
-        "impact": "high"
-      },
-      {
-        "text": "Subject line is too short",
-        "impact": "low"
-      },
-      {
-        "text": "Too few words",
-        "impact": "medium"
-      }
-    ],
-    "suggestions": [
-      "Add more detail to increase subject line length (aim for 30-50 characters)",
-      "Replace spam trigger words: free",
-      "Consider adding power words like: premium, secret, guaranteed",
-      "Add personalization to increase engagement",
-      "Use at least 3-5 words for better impact"
-    ],
-    "hasPunctuation": true,
-    "analyzedAt": "2025-03-31T03:32:21.333Z",
-    "createdAt": "2025-03-31T03:32:21.347Z"
   }
 ]

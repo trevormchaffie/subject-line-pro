@@ -321,6 +321,8 @@ const trackSessionActivity = (req, res, next) => {
 
 module.exports = {
   authenticateToken,
+  authenticate: authenticateToken,
+  authenticateJWT: authenticateToken,
   requireRole,
   refreshTokenMiddleware,
   forceUserLogout,

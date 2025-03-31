@@ -23,11 +23,20 @@ const config = {
   // Admin credentials
   adminUsername: process.env.ADMIN_USERNAME || "admin",
   adminPassword: process.env.ADMIN_PASSWORD || "changeme",
+
+  // JWT Authentication (add this new section)
+  jwtSecret: process.env.JWT_SECRET || "your-secret-key",
 };
 
 // Simple validation to ensure critical values are set
 function validateConfig() {
-  const requiredVars = ["port", "corsOrigin", "adminUsername", "adminPassword"];
+  const requiredVars = [
+    "port",
+    "corsOrigin",
+    "adminUsername",
+    "adminPassword",
+    "jwtSecret",
+  ];
 
   for (const item of requiredVars) {
     if (!config[item]) {
@@ -39,6 +48,13 @@ function validateConfig() {
   if (config.adminPassword === "changeme") {
     console.warn(
       "WARNING: Using default admin password. Change this in production!"
+    );
+  }
+
+  // Warn if using default JWT secret
+  if (config.jwtSecret === "your-secret-key") {
+    console.warn(
+      "WARNING: Using default JWT secret. Change this in production!"
     );
   }
 }

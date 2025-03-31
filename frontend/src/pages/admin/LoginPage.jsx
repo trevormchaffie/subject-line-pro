@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import routes from "../../config/routeConfig";
 
@@ -9,7 +9,6 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loginError, setLoginError] = useState("");
-
   const { login, error: authError, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,7 +40,6 @@ const LoginPage = () => {
 
     try {
       const success = await login(username, password, rememberMe);
-
       if (success) {
         navigate(getReturnUrl(), { replace: true });
       } else {
