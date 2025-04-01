@@ -1,4 +1,15 @@
-const MetricCard = ({ title, value, icon, change, trend, color = "blue" }) => {
+const MetricCard = ({
+  title,
+  value,
+  icon,
+  change,
+  trend,
+  color = "blue",
+  suffix = "",
+  prefix = "",
+  isInverted = false,
+  period = "last month",
+}) => {
   const colorClasses = {
     blue: "bg-blue-50 text-blue-500 border-blue-200",
     green: "bg-green-50 text-green-500 border-green-200",
@@ -7,8 +18,30 @@ const MetricCard = ({ title, value, icon, change, trend, color = "blue" }) => {
     purple: "bg-purple-50 text-purple-500 border-purple-200",
   };
 
+  // Handle both string-based trends ('up'/'down') and numeric trends
+  let trendDirection = trend;
+  let trendValue = change;
+
+  // If trend is a number, determine direction
+  if (typeof trend === "number" || !isNaN(parseFloat(trend))) {
+    const numericTrend = parseFloat(trend);
+
+    if (!isInverted) {
+      // Normal metrics (higher is better)
+      trendDirection =
+        numericTrend > 0 ? "up" : numericTrend < 0 ? "down" : null;
+    } else {
+      // Inverted metrics (lower is better, like spam score)
+      trendDirection =
+        numericTrend < 0 ? "up" : numericTrend > 0 ? "down" : null;
+    }
+
+    // Store absolute value for display
+    trendValue = Math.abs(numericTrend).toFixed(2) + "%";
+  }
+
   const trendIcon =
-    trend === "up" ? (
+    trendDirection === "up" ? (
       <svg
         className="w-4 h-4"
         fill="none"
@@ -47,21 +80,31 @@ const MetricCard = ({ title, value, icon, change, trend, color = "blue" }) => {
         <div className="text-lg">{icon}</div>
       </div>
 
-      <div className="text-2xl font-bold mb-2">{value}</div>
+      <div className="text-2xl font-bold mb-2">
+        {prefix}
+        {value}
+        {suffix}
+      </div>
 
-      {change && (
+      {(change || trendDirection) && (
         <div className="flex items-center text-sm">
+          {trendDirection && (
+            <span
+              className={`mr-1 ${
+                trendDirection === "up" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {trendIcon}
+            </span>
+          )}
           <span
-            className={`mr-1 ${
-              trend === "up" ? "text-green-500" : "text-red-500"
-            }`}
+            className={
+              trendDirection === "up" ? "text-green-500" : "text-red-500"
+            }
           >
-            {trendIcon}
+            {trendValue || change}
           </span>
-          <span className={trend === "up" ? "text-green-500" : "text-red-500"}>
-            {change}
-          </span>
-          <span className="text-gray-500 ml-1">from last month</span>
+          {period && <span className="text-gray-500 ml-1">from {period}</span>}
         </div>
       )}
     </div>

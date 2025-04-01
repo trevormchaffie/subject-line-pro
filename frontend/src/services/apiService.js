@@ -150,6 +150,15 @@ const apiService = {
   async getConversionMetrics() {
     return apiRequest("/analytics/conversion", "GET", null, true);
   },
+
+  /**
+   * Get dashboard metrics
+   * @param {string} period - 'day', 'week', 'month', 'year', or 'all'
+   * @returns {Promise<object>} Dashboard metrics
+   */
+  async getDashboardMetrics(period = "all") {
+    return apiRequest(`/stats/dashboard?period=${period}`, "GET");
+  },
 };
 
 export default apiService;
