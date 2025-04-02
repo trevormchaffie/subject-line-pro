@@ -55,19 +55,30 @@ const DashboardOverview = () => {
       setLoading(true);
       setMetricsLoading(true);
 
-      // Pass timestamp parameter to force fresh data
-      const dashboardStats = await dashboardService.getDashboardStats(
-        `?_t=${Date.now()}`
-      );
-      const status = await dashboardService.getSystemStatus();
-
-      setStats(dashboardStats);
-      setSystemStatus(status);
-
-      // Fetch advanced metrics
+      console.log('🔄 Starting full metrics refresh...');
+      
+      // Fetch advanced metrics with dashboard stats
       const response = await apiService.getDashboardMetrics(period);
-      setAdvancedMetrics(response.data);
-      setMetricsError(null);
+      console.log('📊 Full dashboard response:', response);
+      
+      if (response && response.data) {
+        // Extract dashboard stats from metrics response
+        if (response.data.dashboardStats) {
+          console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
+          setStats(response.data.dashboardStats);
+        } else {
+          console.warn('⚠️ No dashboard stats found in metrics response');
+        }
+        
+        // Set advanced metrics
+        setAdvancedMetrics(response.data);
+        setMetricsError(null);
+      }
+      
+      // Also get system status in parallel
+      const status = await dashboardService.getSystemStatus();
+      setSystemStatus(status);
+      
     } catch (error) {
       console.error("Error refreshing dashboard data:", error);
     } finally {
@@ -76,8 +87,10 @@ const DashboardOverview = () => {
     }
   };
 
-  // NEW: Add forceFullRefresh function
+  // Add forceFullRefresh function that uses the refreshAllMetrics approach
   const forceFullRefresh = async () => {
+    console.log('🔄 Force refresh triggered by user');
+    
     // Clear stats first to trigger UI updates
     setStats({
       totalLeads: 0,
@@ -98,26 +111,40 @@ const DashboardOverview = () => {
     // Add a slight delay to ensure state updates first
     setTimeout(async () => {
       try {
+        console.log('📡 Force fetching metrics with cache buster...');
         // Force fresh data with timestamp
-        const dashboardStats = await dashboardService.getDashboardStats(
-          `?_t=${Date.now()}`
-        );
-
-        const status = await dashboardService.getSystemStatus();
-
-        // Update states with new data
-        setStats(dashboardStats);
+        const cacheBuster = `${period}&_t=${Date.now()}`;
+        console.log('🔑 Using period and cache buster:', cacheBuster);
+        
+        // Fetch advanced metrics with dashboard stats
+        const response = await apiService.getDashboardMetrics(cacheBuster);
+        console.log('📊 Full dashboard response:', response);
+        
+        if (response && response.data) {
+          // Extract dashboard stats from metrics response
+          if (response.data.dashboardStats) {
+            console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
+            setStats(response.data.dashboardStats);
+          } else {
+            console.warn('⚠️ No dashboard stats found in metrics response');
+          }
+          
+          // Set advanced metrics
+          setAdvancedMetrics(response.data);
+          setMetricsError(null);
+        }
+        
+        // Also get system status in parallel
+        const statusResponse = await dashboardService.getSystemStatus();
+        const status = statusResponse.success && statusResponse.data ? statusResponse.data : statusResponse;
         setSystemStatus(status);
-
-        // Fetch advanced metrics
-        const response = await apiService.getDashboardMetrics(period);
-        setAdvancedMetrics(response.data);
-        setMetricsError(null);
+        
       } catch (error) {
-        console.error("Error during force refresh:", error);
+        console.error("❌ Error during force refresh:", error);
       } finally {
         setLoading(false);
         setMetricsLoading(false);
+        console.log('✅ Force refresh completed');
       }
     }, 100);
   };
@@ -125,38 +152,66 @@ const DashboardOverview = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const dashboardStats = await dashboardService.getDashboardStats();
+        console.log('📊 Initial dashboard data fetch starting...');
+        
+        // Fetch advanced metrics with dashboard stats
+        const response = await apiService.getDashboardMetrics(period);
+        console.log('📊 Initial full dashboard response:', response);
+        
+        if (response && response.data) {
+          // Extract dashboard stats from metrics response
+          if (response.data.dashboardStats) {
+            console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
+            
+            const dashboardStats = response.data.dashboardStats;
+            
+            // Check data structure
+            if (
+              !dashboardStats.recentLeads ||
+              !Array.isArray(dashboardStats.recentLeads) ||
+              !dashboardStats.recentLeads.length
+            ) {
+              console.warn("No recent leads data received from backend");
+            }
 
-        // Check data structure
-        if (
-          !dashboardStats.recentLeads ||
-          !Array.isArray(dashboardStats.recentLeads) ||
-          !dashboardStats.recentLeads.length
-        ) {
-          console.warn("No recent leads data received from backend");
+            if (
+              !dashboardStats.recentAnalyses ||
+              !Array.isArray(dashboardStats.recentAnalyses) ||
+              !dashboardStats.recentAnalyses.length
+            ) {
+              console.warn("No recent analyses data received from backend");
+            }
+            
+            // Update stats
+            setStats(dashboardStats);
+          } else {
+            console.warn('⚠️ No dashboard stats found in metrics response');
+          }
+          
+          // Set advanced metrics
+          setAdvancedMetrics(response.data);
+          setMetricsError(null);
         }
 
-        if (
-          !dashboardStats.recentAnalyses ||
-          !Array.isArray(dashboardStats.recentAnalyses) ||
-          !dashboardStats.recentAnalyses.length
-        ) {
-          console.warn("No recent analyses data received from backend");
-        }
-
-        const status = await dashboardService.getSystemStatus();
-
-        setStats(dashboardStats);
+        // Also get system status
+        const statusResponse = await dashboardService.getSystemStatus();
+        console.log('🔋 Raw system status response:', statusResponse);
+        
+        // Extract the actual status from the response
+        const status = statusResponse.success && statusResponse.data ? statusResponse.data : statusResponse;
+        console.log('🔋 Extracted system status:', status);
         setSystemStatus(status);
+        
       } catch (error) {
-        console.error("Error loading dashboard data:", error);
+        console.error("❌ Error loading dashboard data:", error);
       } finally {
         setLoading(false);
+        setMetricsLoading(false);
       }
     };
 
     fetchDashboardData();
-  }, []);
+  }, [period]);
 
   // Add this new useEffect to simulate activity data if needed
   useEffect(() => {
@@ -165,6 +220,7 @@ const DashboardOverview = () => {
       (!stats.recentLeads || !stats.recentLeads.length) &&
       (!stats.recentAnalyses || !stats.recentAnalyses.length)
     ) {
+      console.log('🤖 No activity data found, adding simulated data');
       setStats((prevStats) => ({
         ...prevStats,
         recentLeads: [
@@ -186,6 +242,11 @@ const DashboardOverview = () => {
           },
         ],
       }));
+    } else {
+      console.log('✅ Found real activity data:', {
+        recentLeads: stats.recentLeads?.length || 0,
+        recentAnalyses: stats.recentAnalyses?.length || 0
+      });
     }
   }, [stats.recentLeads, stats.recentAnalyses]);
 
@@ -354,12 +415,8 @@ const DashboardOverview = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <ActivityFeed
-            activities={[
-              ...(Array.isArray(stats.recentLeads) ? stats.recentLeads : []),
-              ...(Array.isArray(stats.recentAnalyses)
-                ? stats.recentAnalyses
-                : []),
-            ]}
+            leads={Array.isArray(stats.recentLeads) ? stats.recentLeads : []}
+            analyses={Array.isArray(stats.recentAnalyses) ? stats.recentAnalyses : []}
           />
         </div>
         <div>

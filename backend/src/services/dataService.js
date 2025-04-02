@@ -100,8 +100,8 @@ const dataService = {
       totalLeads: leads.length,
       conversionRate:
         analyses.length > 0
-          ? ((leads.length / analyses.length) * 100).toFixed(2) + "%"
-          : "0%",
+          ? parseFloat(((leads.length / analyses.length) * 100).toFixed(2))
+          : 0,
       // You can add more statistics as needed
     };
   },

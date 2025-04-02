@@ -3,17 +3,17 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import routes from "../../../config/routeConfig";
 
-const ActivityFeed = ({ activities = [] }) => {
+const ActivityFeed = ({ activities = [], leads = [], analyses = [] }) => {
   const navigate = useNavigate();
   // Add some debug logging to check what's being passed in
-  console.log("ActivityFeed received activities:", activities);
+  console.log("ActivityFeed received:", { activities, leads, analyses });
 
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    console.log("Activities changed in ActivityFeed:", activities);
+    console.log("Activities, leads, or analyses changed in ActivityFeed:", { activities, leads, analyses });
     setKey((prevKey) => prevKey + 1);
-  }, [activities]);
+  }, [activities, leads, analyses]);
 
   const handleViewAll = () => {
     navigate(routes.admin.analytics);
@@ -156,32 +156,92 @@ const ActivityFeed = ({ activities = [] }) => {
     }
   };
 
+  // Prepare leads and analyses for display
+  const prepareActivityData = () => {
+    // If we have separate leads and analyses props, use those first
+    let leadItems = [];
+    let analysisItems = [];
+    
+    // Process provided leads
+    if (Array.isArray(leads) && leads.length > 0) {
+      leadItems = leads.map(lead => getActivityDetails(lead));
+    }
+    
+    // Process provided analyses
+    if (Array.isArray(analyses) && analyses.length > 0) {
+      analysisItems = analyses.map(analysis => getActivityDetails(analysis));
+    }
+    
+    // If no separate leads/analyses but combined activities are provided, separate them
+    if (leadItems.length === 0 && analysisItems.length === 0 && Array.isArray(displayActivities) && displayActivities.length > 0) {
+      // Split combined activities into leads and analyses
+      displayActivities.forEach(activity => {
+        const details = getActivityDetails(activity);
+        
+        if (details.type === 'lead') {
+          leadItems.push(details);
+        } else if (details.type === 'analysis') {
+          analysisItems.push(details);
+        }
+      });
+    }
+    
+    // Only keep the 5 most recent of each type
+    return {
+      leads: leadItems.slice(0, 5),
+      analyses: analysisItems.slice(0, 5)
+    };
+  };
+  
+  const { leads: leadItems, analyses: analysisItems } = prepareActivityData();
+  
+  const renderActivityItem = (activity) => {
+    const { id, type, text, detail, timestamp } = activity;
+    
+    return (
+      <div key={id} className="py-3 flex items-start">
+        <div className="mr-3 mt-1">{getIcon(type)}</div>
+        <div className="flex-1">
+          <p className="text-sm font-medium">{text}</p>
+          <p className="text-sm text-gray-500 truncate" title={detail}>{detail}</p>
+          <p className="text-xs text-gray-400 mt-1">
+            {typeof timestamp === "string"
+              ? formatDistanceToNow(new Date(timestamp), { addSuffix: true })
+              : formatDistanceToNow(timestamp, { addSuffix: true })}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-4">
       <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
 
-      <div className="divide-y">
-        {displayActivities.map((activity) => {
-          const { id, type, text, detail, timestamp } =
-            getActivityDetails(activity);
-          return (
-            <div key={id} className="py-3 flex items-start">
-              <div className="mr-3 mt-1">{getIcon(type)}</div>
-
-              <div className="flex-1">
-                <p className="text-sm font-medium">{text}</p>
-                <p className="text-sm text-gray-500">{detail}</p>
-                <p className="text-xs text-gray-400 mt-1">
-                  {typeof timestamp === "string"
-                    ? formatDistanceToNow(new Date(timestamp), {
-                        addSuffix: true,
-                      })
-                    : formatDistanceToNow(timestamp, { addSuffix: true })}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Leads Column */}
+        <div>
+          <h4 className="font-medium text-sm mb-2 text-gray-700 border-b pb-1">Recent Leads</h4>
+          <div className="divide-y">
+            {leadItems.length > 0 ? (
+              leadItems.map(renderActivityItem)
+            ) : (
+              <p className="text-sm text-gray-500 py-4">No recent leads</p>
+            )}
+          </div>
+        </div>
+        
+        {/* Analyses Column */}
+        <div>
+          <h4 className="font-medium text-sm mb-2 text-gray-700 border-b pb-1">Recent Analyses</h4>
+          <div className="divide-y">
+            {analysisItems.length > 0 ? (
+              analysisItems.map(renderActivityItem)
+            ) : (
+              <p className="text-sm text-gray-500 py-4">No recent analyses</p>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 text-center">
