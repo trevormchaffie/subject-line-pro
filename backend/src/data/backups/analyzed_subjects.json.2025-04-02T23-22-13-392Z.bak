@@ -458,56 +458,5 @@
     "hasPunctuation": false,
     "analyzedAt": "2025-04-02T23:16:06.356Z",
     "createdAt": "2025-04-02T23:16:06.358Z"
-  },
-  {
-    "id": "analysis_1743636133390_xwfuc16dg",
-    "subjectLine": "This Is Live!",
-    "length": 13,
-    "wordCount": 3,
-    "spamScore": 0,
-    "overallScore": 80,
-    "powerWords": [],
-    "issues": [
-      {
-        "text": "Subject line is too short",
-        "impact": "low"
-      }
-    ],
-    "suggestions": [
-      "Add more detail to increase subject line length (aim for 30-50 characters)",
-      "Consider adding power words like: exclusive, stunning, unlock",
-      "Add personalization to increase engagement"
-    ],
-    "hasPunctuation": true,
-    "analyzedAt": "2025-04-02T23:22:13.386Z",
-    "createdAt": "2025-04-02T23:22:13.390Z"
-  },
-  {
-    "id": "analysis_1743636599968_4x0bo5rs2",
-    "subjectLine": "All Working",
-    "length": 11,
-    "wordCount": 2,
-    "spamScore": 0,
-    "overallScore": 70,
-    "powerWords": [],
-    "issues": [
-      {
-        "text": "Subject line is too short",
-        "impact": "low"
-      },
-      {
-        "text": "Too few words",
-        "impact": "medium"
-      }
-    ],
-    "suggestions": [
-      "Add more detail to increase subject line length (aim for 30-50 characters)",
-      "Consider adding power words like: revolutionary, remarkable, discover",
-      "Add personalization to increase engagement",
-      "Use at least 3-5 words for better impact"
-    ],
-    "hasPunctuation": false,
-    "analyzedAt": "2025-04-02T23:29:59.966Z",
-    "createdAt": "2025-04-02T23:29:59.968Z"
   }
 ]
