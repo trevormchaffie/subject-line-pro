@@ -19,12 +19,22 @@ const statsService = {
 
     // Filter by date range if specified
     const filteredLeads = leads.filter((lead) => {
+      // Skip entries without createdAt date or with invalid dates
+      if (!lead.createdAt) return false;
       const leadDate = new Date(lead.createdAt);
+      if (isNaN(leadDate.getTime())) return false;
+
+      // Apply date range filter
       return leadDate >= startDate && leadDate <= endDate;
     });
 
     const filteredSubjects = analyzedSubjects.filter((subject) => {
+      // Skip entries without createdAt date or with invalid dates
+      if (!subject.createdAt) return false;
       const subjectDate = new Date(subject.createdAt);
+      if (isNaN(subjectDate.getTime())) return false;
+
+      // Apply date range filter
       return subjectDate >= startDate && subjectDate <= endDate;
     });
 

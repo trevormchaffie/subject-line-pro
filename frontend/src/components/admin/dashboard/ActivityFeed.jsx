@@ -1,36 +1,100 @@
+import { useState, useEffect } from "react";
 import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
+import routes from "../../../config/routeConfig";
 
 const ActivityFeed = ({ activities = [] }) => {
-  // If no activities provided, show placeholders
+  const navigate = useNavigate();
+  // Add some debug logging to check what's being passed in
+  console.log("ActivityFeed received activities:", activities);
+
+  const [key, setKey] = useState(0);
+
+  useEffect(() => {
+    console.log("Activities changed in ActivityFeed:", activities);
+    setKey((prevKey) => prevKey + 1);
+  }, [activities]);
+
+  const handleViewAll = () => {
+    navigate(routes.admin.analytics);
+  };
+
+  // Placeholder activities as a fallback
   const placeholderActivities = [
     {
-      id: 1,
+      id: "placeholder-1",
       type: "lead",
       text: "New lead captured",
       detail: "john.doe@example.com",
-      timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+      timestamp: new Date(Date.now() - 1000 * 60 * 30),
     },
     {
-      id: 2,
+      id: "placeholder-2",
       type: "analysis",
       text: "Subject line analyzed",
       detail: "Spring Sale Promotion",
-      timestamp: new Date(Date.now() - 1000 * 60 * 120), // 2 hours ago
+      timestamp: new Date(Date.now() - 1000 * 60 * 120),
     },
     {
-      id: 3,
+      id: "placeholder-3",
       type: "lead",
       text: "New lead captured",
       detail: "sarah@company.com",
-      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5), // 5 hours ago
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
     },
   ];
 
-  const displayActivities = activities.length
-    ? activities
-    : placeholderActivities;
+  // IMPROVED: Always show something - either real data or placeholders
+  const displayActivities =
+    activities && activities.length > 0 ? activities : placeholderActivities;
+
+  // Handle various activity formats
+  const getActivityDetails = (activity) => {
+    // Default values
+    let type = "unknown";
+    let text = "Unknown activity";
+    let detail = "";
+    let timestamp = new Date();
+    let id = activity.id || `activity-${Math.random()}`;
+
+    // Try to extract data based on structure
+    if (activity) {
+      // Use activity.type if available, otherwise infer from structure
+      type =
+        activity.type ||
+        (activity.email
+          ? "lead"
+          : activity.subjectLine
+          ? "analysis"
+          : "unknown");
+
+      // Generate appropriate text
+      text =
+        activity.text ||
+        (type === "lead"
+          ? "New lead captured"
+          : type === "analysis"
+          ? "Subject line analyzed"
+          : "Activity recorded");
+
+      // Extract detail information
+      detail =
+        activity.detail ||
+        activity.email ||
+        activity.subjectLine ||
+        activity.name ||
+        "";
+
+      // Set timestamp if available
+      timestamp =
+        activity.timestamp || activity.createdAt || activity.date || new Date();
+    }
+
+    return { id, type, text, detail, timestamp };
+  };
 
   const getIcon = (type) => {
+    // Existing icon code...
     switch (type) {
       case "lead":
         return (
@@ -97,25 +161,34 @@ const ActivityFeed = ({ activities = [] }) => {
       <h3 className="text-lg font-medium mb-4">Recent Activity</h3>
 
       <div className="divide-y">
-        {displayActivities.map((activity) => (
-          <div key={activity.id} className="py-3 flex items-start">
-            <div className="mr-3 mt-1">{getIcon(activity.type)}</div>
+        {displayActivities.map((activity) => {
+          const { id, type, text, detail, timestamp } =
+            getActivityDetails(activity);
+          return (
+            <div key={id} className="py-3 flex items-start">
+              <div className="mr-3 mt-1">{getIcon(type)}</div>
 
-            <div className="flex-1">
-              <p className="text-sm font-medium">{activity.text}</p>
-              <p className="text-sm text-gray-500">{activity.detail}</p>
-              <p className="text-xs text-gray-400 mt-1">
-                {formatDistanceToNow(new Date(activity.timestamp), {
-                  addSuffix: true,
-                })}
-              </p>
+              <div className="flex-1">
+                <p className="text-sm font-medium">{text}</p>
+                <p className="text-sm text-gray-500">{detail}</p>
+                <p className="text-xs text-gray-400 mt-1">
+                  {typeof timestamp === "string"
+                    ? formatDistanceToNow(new Date(timestamp), {
+                        addSuffix: true,
+                      })
+                    : formatDistanceToNow(timestamp, { addSuffix: true })}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-4 text-center">
-        <button className="text-primary text-sm hover:underline">
+        <button
+          onClick={handleViewAll}
+          className="text-primary text-sm hover:underline"
+        >
           View All Activity
         </button>
       </div>

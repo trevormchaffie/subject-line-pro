@@ -1,0 +1,175 @@
+[
+  {
+    "id": "analysis_1742487560856_rf7c30nxv",
+    "subjectLine": "FREE Exclusive Offer: LIMITED TIME ONLY!!!",
+    "length": 42,
+    "wordCount": 6,
+    "spamScore": 75,
+    "overallScore": 50,
+    "powerWords": [
+      "exclusive"
+    ],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: free, limited time",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T16:19:20.842Z",
+    "createdAt": "2025-03-20T16:19:20.856Z"
+  },
+  {
+    "id": "analysis_1742488588531_mljo50q39",
+    "subjectLine": "FREE Exclusive Offer: LIMITED TIME ONLY!!!",
+    "length": 42,
+    "wordCount": 6,
+    "spamScore": 75,
+    "overallScore": 50,
+    "powerWords": [
+      "exclusive"
+    ],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: free, limited time",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T16:36:28.517Z",
+    "createdAt": "2025-03-20T16:36:28.531Z"
+  },
+  {
+    "id": "analysis_1742490231422_pxwyhlxua",
+    "subjectLine": "This is my CRAZY subject line...",
+    "length": 32,
+    "wordCount": 6,
+    "spamScore": 0,
+    "overallScore": 75,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Consider adding power words like: instantly, discover, exclusive",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T17:03:51.412Z",
+    "createdAt": "2025-03-20T17:03:51.422Z"
+  },
+  {
+    "id": "analysis_1743391941347_i92yes1vj",
+    "subjectLine": "Free Textbook!",
+    "length": 14,
+    "wordCount": 2,
+    "spamScore": 25,
+    "overallScore": 60,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Replace spam trigger words: free",
+      "Consider adding power words like: premium, secret, guaranteed",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-31T03:32:21.333Z",
+    "createdAt": "2025-03-31T03:32:21.347Z"
+  },
+  {
+    "id": "analysis_1743480107502_de87vz4uo",
+    "subjectLine": "Checking Test 1",
+    "length": 15,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, instantly, secret",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-01T04:01:47.491Z",
+    "createdAt": "2025-04-01T04:01:47.502Z"
+  },
+  {
+    "id": "analysis_1743527056709_zlxuco75q",
+    "subjectLine": "Testing 123",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: premium, essential, secret",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-01T17:04:16.706Z",
+    "createdAt": "2025-04-01T17:04:16.709Z"
+  }
+]

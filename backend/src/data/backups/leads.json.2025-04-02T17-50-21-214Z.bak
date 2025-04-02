@@ -206,20 +206,5 @@
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
     "createdAt": "2025-04-02T17:46:55.160Z"
-  },
-  {
-    "id": "lead_1743616221213_r58nxig4p",
-    "name": "sd",
-    "email": "sd@sd.com",
-    "businessType": "ecommerce",
-    "subjectLine": "another",
-    "analysisResults": {
-      "overallScore": 70,
-      "spamScore": 0,
-      "suggestions": 4
-    },
-    "ipAddress": "::1",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T17:50:21.213Z"
   }
 ]

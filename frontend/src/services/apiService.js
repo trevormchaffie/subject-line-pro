@@ -9,14 +9,26 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
+// Admin credentials for Basic Auth - in production, use environment variables
+const ADMIN_USERNAME = "mr1018";
+const ADMIN_PASSWORD = "Maya03112005";
+
 /**
  * Make an API request with error handling
  * @param {string} endpoint - API endpoint path
  * @param {string} method - HTTP method (GET, POST, etc.)
  * @param {object} data - Request data (for POST, PUT)
+ * @param {boolean} auth - Whether to use token auth
+ * @param {boolean} useBasicAuth - Whether to use Basic Auth
  * @returns {Promise<object>} Response data
  */
-async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
+async function apiRequest(
+  endpoint,
+  method = "GET",
+  data = null,
+  auth = false,
+  useBasicAuth = false
+) {
   const url = `${API_BASE_URL}${endpoint}`;
 
   const options = {
@@ -26,7 +38,7 @@ async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
     },
   };
 
-  // Add this block to handle authentication
+  // Add token-based authentication
   if (auth) {
     const token =
       localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
@@ -35,11 +47,18 @@ async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
     }
   }
 
+  // Add Basic Auth
+  if (useBasicAuth) {
+    const credentials = btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`);
+    options.headers["Authorization"] = `Basic ${credentials}`;
+  }
+
   if (data && (method === "POST" || method === "PUT")) {
     options.body = JSON.stringify(data);
   }
 
   try {
+    console.log(`Making ${method} request to ${url}`, options);
     const response = await fetch(url, options);
 
     // Check for network or HTTP errors
@@ -61,7 +80,9 @@ async function apiRequest(endpoint, method = "GET", data = null, auth = false) {
     }
 
     // Parse and return response data
-    return await response.json();
+    const responseData = await response.json();
+    console.log(`Response from ${url}:`, responseData);
+    return responseData;
   } catch (error) {
     console.error(`API Error (${method} ${url}):`, error);
     throw error; // Re-throw to allow components to handle the error
@@ -157,7 +178,14 @@ const apiService = {
    * @returns {Promise<object>} Dashboard metrics
    */
   async getDashboardMetrics(period = "all") {
-    return apiRequest(`/stats/dashboard?period=${period}`, "GET");
+    // Use Basic Auth for this endpoint to match your curl command
+    return apiRequest(
+      `/stats/dashboard?period=${period}`,
+      "GET",
+      null,
+      false,
+      true
+    );
   },
 };
 
