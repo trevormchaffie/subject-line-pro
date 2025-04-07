@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useAdminLayout } from "../../../context/AdminLayoutContext";
 import routes from "../../../config/routeConfig";
 
@@ -104,6 +104,7 @@ const navItems = [
 
 const AdminSidebar = () => {
   const { sidebarOpen, toggleSidebar, isMobile } = useAdminLayout();
+  const location = useLocation();
 
   // Overlay for mobile when sidebar is open
   const renderOverlay = () => {
@@ -161,6 +162,7 @@ const AdminSidebar = () => {
               <li key={item.path}>
                 <NavLink
                   to={item.path}
+                  end={item.path === routes.admin.dashboard}
                   className={({ isActive }) => `
                     flex items-center px-4 py-3 rounded-md transition-colors
                     ${

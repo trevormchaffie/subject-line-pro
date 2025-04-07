@@ -163,6 +163,15 @@ const apiService = {
       true
     );
   },
+  
+  /**
+   * Get detailed analysis for a subject line
+   * @param {string} id - ID of the subject line
+   * @returns {Promise<object>} Detailed analysis
+   */
+  async getSubjectLineDetails(id) {
+    return apiRequest(`/analytics/subject-details/${id}`, "GET", null, true);
+  },
 
   /**
    * Get lead conversion metrics

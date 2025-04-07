@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../../../config/routeConfig";
 
 const QuickNav = () => {
+  const navigate = useNavigate();
   const navItems = [
     {
       title: "Manage Leads",
@@ -22,7 +23,7 @@ const QuickNav = () => {
           />
         </svg>
       ),
-      path: routes.admin.leads,
+      path: "/admin/leads",
     },
     {
       title: "View Analytics",
@@ -43,7 +44,7 @@ const QuickNav = () => {
           />
         </svg>
       ),
-      path: routes.admin.analytics,
+      path: "/admin/analytics",
     },
     {
       title: "Manage Content",
@@ -64,7 +65,7 @@ const QuickNav = () => {
           />
         </svg>
       ),
-      path: routes.admin.content,
+      path: "/admin/content",
     },
     {
       title: "Settings",
@@ -91,7 +92,7 @@ const QuickNav = () => {
           />
         </svg>
       ),
-      path: routes.admin.settings,
+      path: "/admin/settings",
     },
   ];
 
@@ -101,15 +102,15 @@ const QuickNav = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {navItems.map((item) => (
-          <Link
+          <div
             key={item.path}
-            to={item.path}
-            className="border rounded-lg p-4 hover:bg-gray-50 transition-colors flex flex-col items-center text-center"
+            onClick={() => navigate(item.path)}
+            className="border rounded-lg p-4 hover:bg-gray-50 transition-colors flex flex-col items-center text-center cursor-pointer"
           >
             <div className="mb-2">{item.icon}</div>
             <h4 className="font-medium text-gray-800">{item.title}</h4>
             <p className="text-xs text-gray-500 mt-1">{item.description}</p>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

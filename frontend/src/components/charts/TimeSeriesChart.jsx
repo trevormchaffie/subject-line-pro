@@ -18,6 +18,7 @@ const TimeSeriesChart = ({
   color = "#3490dc",
   loading = false,
   error = null,
+  onPointClick = null,
 }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
@@ -70,7 +71,20 @@ const TimeSeriesChart = ({
               type="monotone"
               dataKey={dataKey}
               stroke={color}
-              activeDot={{ r: 8 }}
+              activeDot={{ 
+                r: 8, 
+                onClick: (data, index) => {
+                  if (onPointClick) {
+                    onPointClick({
+                      type: 'timeSeriesPoint',
+                      title: `${title} Details`,
+                      itemData: data.payload,
+                      subtitle: `Point details for ${data.payload[xAxisKey]}`,
+                      timestamp: new Date(data.payload[xAxisKey])
+                    });
+                  }
+                }
+              }}
               name={dataKey.charAt(0).toUpperCase() + dataKey.slice(1)}
             />
           </LineChart>

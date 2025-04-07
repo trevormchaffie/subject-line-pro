@@ -17,6 +17,7 @@ const DistributionChart = ({
   color = "#3490dc",
   loading = false,
   error = null,
+  onBarClick = null,
 }) => {
   // Transform data format if needed
   const chartData = Array.isArray(data)
@@ -53,7 +54,25 @@ const DistributionChart = ({
             <YAxis allowDecimals={false} />
             <Tooltip />
             <Legend />
-            <Bar dataKey={dataKey} fill={color} name="Count" />
+            <Bar 
+              dataKey={dataKey} 
+              fill={color} 
+              name="Count" 
+              onClick={(data) => {
+                if (onBarClick) {
+                  onBarClick({
+                    type: 'distributionBar',
+                    title: `${title} Details`,
+                    itemData: {
+                      range: data[xAxisKey],
+                      count: data[dataKey],
+                      percentage: Math.round((data[dataKey] / chartData.reduce((sum, item) => sum + item[dataKey], 0)) * 100)
+                    },
+                    subtitle: `Details for range ${data[xAxisKey]}`
+                  });
+                }
+              }}
+            />
           </BarChart>
         </ResponsiveContainer>
       ) : !loading && !error ? (

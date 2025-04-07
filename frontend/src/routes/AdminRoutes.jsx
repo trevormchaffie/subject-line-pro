@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import AdminLayout from "../components/admin/layout/AdminLayout";
 
 const AdminRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -18,8 +19,12 @@ const AdminRoutes = () => {
     return <Navigate to="/admin/login" />;
   }
 
-  // Render child routes if authenticated
-  return <Outlet />;
+  // Render child routes if authenticated within AdminLayout
+  return (
+    <AdminLayout>
+      <Outlet />
+    </AdminLayout>
+  );
 };
 
 export default AdminRoutes;

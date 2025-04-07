@@ -326,20 +326,5 @@
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
     "createdAt": "2025-04-07T03:22:12.018Z"
-  },
-  {
-    "id": "lead_1743996784898_weza4ac9h",
-    "name": "e",
-    "email": "w@c.c",
-    "businessType": "ecommerce",
-    "subjectLine": "Subjct line",
-    "analysisResults": {
-      "overallScore": 70,
-      "spamScore": 0,
-      "suggestions": 4
-    },
-    "ipAddress": "::1",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-07T03:33:04.898Z"
   }
 ]

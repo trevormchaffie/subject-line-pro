@@ -17,6 +17,7 @@ const TopSubjectsChart = ({
   title = "Top Performing Subject Lines",
   loading = false,
   error = null,
+  onSubjectClick = null,
 }) => {
   // Format data for the chart
   const chartData =
@@ -78,11 +79,31 @@ const TopSubjectsChart = ({
                 }
               />
               <Legend />
-              <Bar dataKey="overallScore" name="Overall Score">
+              <Bar 
+                dataKey="overallScore" 
+                name="Overall Score"
+                onClick={(data) => {
+                  if (onSubjectClick) {
+                    // Find the full subject data
+                    const subjectData = chartData.find(item => 
+                      item.shortSubject === data.shortSubject
+                    );
+                    
+                    onSubjectClick({
+                      type: 'subjectLine',
+                      title: 'Subject Line Analysis',
+                      itemData: subjectData,
+                      subtitle: subjectData.subjectLine,
+                      timestamp: subjectData.created || new Date()
+                    });
+                  }
+                }}
+              >
                 {chartData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={getBarColor(entry.overallScore)}
+                    cursor="pointer"
                   />
                 ))}
               </Bar>

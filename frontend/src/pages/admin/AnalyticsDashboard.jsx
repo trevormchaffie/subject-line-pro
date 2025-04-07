@@ -4,6 +4,7 @@ import TimeSeriesChart from "../../components/charts/TimeSeriesChart";
 import DistributionChart from "../../components/charts/DistributionChart";
 import TopSubjectsChart from "../../components/charts/TopSubjectsChart";
 import ConversionMetrics from "../../components/charts/ConversionMetrics";
+import DetailedAnalysisView from "../../components/analysis/DetailedAnalysisView";
 
 const AnalyticsDashboard = () => {
   // States for different data sets
@@ -23,6 +24,9 @@ const AnalyticsDashboard = () => {
   const [conversionData, setConversionData] = useState(null);
   const [conversionLoading, setConversionLoading] = useState(false);
   const [conversionError, setConversionError] = useState(null);
+  
+  // State for detailed view
+  const [detailedViewData, setDetailedViewData] = useState(null);
 
   // Fetch time series data
   useEffect(() => {
@@ -116,6 +120,15 @@ const AnalyticsDashboard = () => {
   const handleTimeframeChange = (newTimeframe) => {
     setTimeframe(newTimeframe);
   };
+  
+  // Handlers for drill-down clicks
+  const handleDetailedView = (data) => {
+    setDetailedViewData(data);
+  };
+  
+  const handleCloseDetailedView = () => {
+    setDetailedViewData(null);
+  };
 
   return (
     <div className="p-6">
@@ -178,6 +191,7 @@ const AnalyticsDashboard = () => {
             timeframe.charAt(0).toUpperCase() + timeframe.slice(1)
           })`}
           dataKey="count"
+          onPointClick={handleDetailedView}
         />
       </div>
 
@@ -191,6 +205,7 @@ const AnalyticsDashboard = () => {
               error={distributionError}
               title="Overall Score Distribution"
               color="#3490dc"
+              onBarClick={handleDetailedView}
             />
 
             <DistributionChart
@@ -199,6 +214,7 @@ const AnalyticsDashboard = () => {
               error={distributionError}
               title="Spam Score Distribution"
               color="#e3342f"
+              onBarClick={handleDetailedView}
             />
           </>
         )}
@@ -210,8 +226,17 @@ const AnalyticsDashboard = () => {
           data={topSubjectsData}
           loading={topSubjectsLoading}
           error={topSubjectsError}
+          onSubjectClick={handleDetailedView}
         />
       </div>
+      
+      {/* Detailed Analysis View */}
+      {detailedViewData && (
+        <DetailedAnalysisView 
+          data={detailedViewData} 
+          onClose={handleCloseDetailedView}
+        />
+      )}
     </div>
   );
 };
