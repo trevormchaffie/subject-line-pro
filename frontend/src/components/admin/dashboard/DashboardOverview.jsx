@@ -34,13 +34,53 @@ const DashboardOverview = () => {
   const [metricsError, setMetricsError] = useState(null);
   const [period, setPeriod] = useState("month");
 
-  // Existing refreshMetrics function
+  // Refreshes just the dashboard metrics using Basic Auth
   const refreshMetrics = async () => {
     try {
       setMetricsLoading(true);
+      console.log('🔄 Refreshing dashboard metrics for period:', period);
       const response = await apiService.getDashboardMetrics(period);
-      setAdvancedMetrics(response.data);
-      setMetricsError(null);
+      console.log('📊 Dashboard metrics response:', response);
+      
+      if (response && response.data) {
+        // Set advanced metrics with same defensive structure
+        const safeData = {
+          totalSubjectsAnalyzed: response.data?.totalSubjectsAnalyzed || 0,
+          totalLeads: response.data?.totalLeads || 0,
+          conversionRate: response.data?.conversionRate || 0,
+          avgEffectivenessScore: response.data?.avgEffectivenessScore || 0,
+          avgSpamScore: response.data?.avgSpamScore || 0,
+          trends: {
+            subjectsAnalyzedTrend: response.data?.trends?.subjectsAnalyzedTrend || 0,
+            leadsTrend: response.data?.trends?.leadsTrend || 0,
+            conversionRateTrend: response.data?.trends?.conversionRateTrend || 0,
+            effectivenessScoreTrend: response.data?.trends?.effectivenessScoreTrend || 0,
+            spamScoreTrend: response.data?.trends?.spamScoreTrend || 0
+          },
+          timeSeriesData: {
+            labels: response.data?.timeSeriesData?.labels || [],
+            datasets: {
+              subjects: response.data?.timeSeriesData?.datasets?.subjects || [],
+              leads: response.data?.timeSeriesData?.datasets?.leads || [],
+              conversionRates: response.data?.timeSeriesData?.datasets?.conversionRates || [],
+              effectivenessScores: response.data?.timeSeriesData?.datasets?.effectivenessScores || [],
+              spamScores: response.data?.timeSeriesData?.datasets?.spamScores || []
+            }
+          },
+          dashboardStats: response.data?.dashboardStats || null
+        };
+        
+        setAdvancedMetrics(safeData);
+        setMetricsError(null);
+        
+        // Also update stats if dashboardStats are available
+        if (response.data.dashboardStats) {
+          setStats(response.data.dashboardStats);
+        }
+      } else {
+        console.warn('⚠️ No data in metrics response');
+        setMetricsError("Received empty data from server");
+      }
     } catch (err) {
       console.error("Error fetching dashboard metrics:", err);
       setMetricsError("Failed to load advanced metrics. Please try again.");
@@ -49,7 +89,7 @@ const DashboardOverview = () => {
     }
   };
 
-  // NEW: Add refreshAllMetrics function
+  // Function to refresh all dashboard data using consistent Basic Auth
   const refreshAllMetrics = async () => {
     try {
       setLoading(true);
@@ -57,26 +97,69 @@ const DashboardOverview = () => {
 
       console.log('🔄 Starting full metrics refresh...');
       
-      // Fetch advanced metrics with dashboard stats
+      // Fetch advanced metrics with dashboard stats - using Basic Auth consistently
       const response = await apiService.getDashboardMetrics(period);
       console.log('📊 Full dashboard response:', response);
       
       if (response && response.data) {
         // Extract dashboard stats from metrics response
-        if (response.data.dashboardStats) {
+        if (response.data && response.data.dashboardStats) {
           console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
           setStats(response.data.dashboardStats);
         } else {
-          console.warn('⚠️ No dashboard stats found in metrics response');
+          console.warn('⚠️ No dashboard stats found in metrics response:', response);
+          // Set fallback data for UI to avoid errors
+          setStats({
+            totalLeads: 0,
+            totalAnalyses: 0,
+            conversionRate: 0,
+            avgScore: 0,
+            recentLeads: [],
+            recentAnalyses: []
+          });
         }
         
-        // Set advanced metrics
-        setAdvancedMetrics(response.data);
+        // Set advanced metrics with defensive checks for structure
+        // Check that response.data has the expected properties, otherwise provide default values
+        const safeData = {
+          totalSubjectsAnalyzed: response.data?.totalSubjectsAnalyzed || 0,
+          totalLeads: response.data?.totalLeads || 0,
+          conversionRate: response.data?.conversionRate || 0,
+          avgEffectivenessScore: response.data?.avgEffectivenessScore || 0,
+          avgSpamScore: response.data?.avgSpamScore || 0,
+          trends: {
+            subjectsAnalyzedTrend: response.data?.trends?.subjectsAnalyzedTrend || 0,
+            leadsTrend: response.data?.trends?.leadsTrend || 0,
+            conversionRateTrend: response.data?.trends?.conversionRateTrend || 0,
+            effectivenessScoreTrend: response.data?.trends?.effectivenessScoreTrend || 0,
+            spamScoreTrend: response.data?.trends?.spamScoreTrend || 0
+          },
+          timeSeriesData: {
+            labels: response.data?.timeSeriesData?.labels || [],
+            datasets: {
+              subjects: response.data?.timeSeriesData?.datasets?.subjects || [],
+              leads: response.data?.timeSeriesData?.datasets?.leads || [],
+              conversionRates: response.data?.timeSeriesData?.datasets?.conversionRates || [],
+              effectivenessScores: response.data?.timeSeriesData?.datasets?.effectivenessScores || [],
+              spamScores: response.data?.timeSeriesData?.datasets?.spamScores || []
+            }
+          },
+          // Include the dashboardStats if they're available
+          dashboardStats: response.data?.dashboardStats || null
+        };
+        
+        // Log the sanitized data structure
+        console.log('📊 Sanitized data for advanced metrics:', safeData);
+        
+        setAdvancedMetrics(safeData);
         setMetricsError(null);
       }
       
-      // Also get system status in parallel
-      const status = await dashboardService.getSystemStatus();
+      // Also get system status in parallel - now using Basic Auth consistently
+      const statusResponse = await apiService.apiRequest("/stats/system", "GET", null, false, true);
+      console.log('🔋 System status response:', statusResponse);
+      
+      const status = statusResponse.success && statusResponse.data ? statusResponse.data : statusResponse;
       setSystemStatus(status);
       
     } catch (error) {
@@ -87,7 +170,7 @@ const DashboardOverview = () => {
     }
   };
 
-  // Add forceFullRefresh function that uses the refreshAllMetrics approach
+  // Enhanced force refresh function that uses consistent Basic Auth
   const forceFullRefresh = async () => {
     console.log('🔄 Force refresh triggered by user');
     
@@ -113,29 +196,66 @@ const DashboardOverview = () => {
       try {
         console.log('📡 Force fetching metrics with cache buster...');
         // Force fresh data with timestamp
-        const cacheBuster = `${period}&_t=${Date.now()}`;
+        const cacheBuster = `${period}?_t=${Date.now()}`;
         console.log('🔑 Using period and cache buster:', cacheBuster);
         
-        // Fetch advanced metrics with dashboard stats
+        // Fetch advanced metrics with dashboard stats - using Basic Auth consistently
         const response = await apiService.getDashboardMetrics(cacheBuster);
         console.log('📊 Full dashboard response:', response);
         
         if (response && response.data) {
           // Extract dashboard stats from metrics response
-          if (response.data.dashboardStats) {
+          if (response.data && response.data.dashboardStats) {
             console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
             setStats(response.data.dashboardStats);
           } else {
-            console.warn('⚠️ No dashboard stats found in metrics response');
+            console.warn('⚠️ No dashboard stats found in metrics response:', response);
+            // Set fallback data for UI to avoid errors
+            setStats({
+              totalLeads: 0,
+              totalAnalyses: 0,
+              conversionRate: 0,
+              avgScore: 0,
+              recentLeads: [],
+              recentAnalyses: []
+            });
           }
           
-          // Set advanced metrics
-          setAdvancedMetrics(response.data);
+          // Set advanced metrics with same defensive structure
+          const safeData = {
+            totalSubjectsAnalyzed: response.data?.totalSubjectsAnalyzed || 0,
+            totalLeads: response.data?.totalLeads || 0,
+            conversionRate: response.data?.conversionRate || 0,
+            avgEffectivenessScore: response.data?.avgEffectivenessScore || 0,
+            avgSpamScore: response.data?.avgSpamScore || 0,
+            trends: {
+              subjectsAnalyzedTrend: response.data?.trends?.subjectsAnalyzedTrend || 0,
+              leadsTrend: response.data?.trends?.leadsTrend || 0,
+              conversionRateTrend: response.data?.trends?.conversionRateTrend || 0,
+              effectivenessScoreTrend: response.data?.trends?.effectivenessScoreTrend || 0,
+              spamScoreTrend: response.data?.trends?.spamScoreTrend || 0
+            },
+            timeSeriesData: {
+              labels: response.data?.timeSeriesData?.labels || [],
+              datasets: {
+                subjects: response.data?.timeSeriesData?.datasets?.subjects || [],
+                leads: response.data?.timeSeriesData?.datasets?.leads || [],
+                conversionRates: response.data?.timeSeriesData?.datasets?.conversionRates || [],
+                effectivenessScores: response.data?.timeSeriesData?.datasets?.effectivenessScores || [],
+                spamScores: response.data?.timeSeriesData?.datasets?.spamScores || []
+              }
+            },
+            dashboardStats: response.data?.dashboardStats || null
+          };
+          
+          setAdvancedMetrics(safeData);
           setMetricsError(null);
         }
         
-        // Also get system status in parallel
-        const statusResponse = await dashboardService.getSystemStatus();
+        // Also get system status in parallel - now using Basic Auth consistently
+        const statusResponse = await apiService.getDashboardMetrics("system");
+        console.log('🔋 System status response:', statusResponse);
+        
         const status = statusResponse.success && statusResponse.data ? statusResponse.data : statusResponse;
         setSystemStatus(status);
         
@@ -152,15 +272,15 @@ const DashboardOverview = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        console.log('📊 Initial dashboard data fetch starting...');
+        console.log('📊 Initial dashboard data fetch starting with period:', period);
         
-        // Fetch advanced metrics with dashboard stats
+        // Fetch advanced metrics with dashboard stats - using Basic Auth consistently
         const response = await apiService.getDashboardMetrics(period);
         console.log('📊 Initial full dashboard response:', response);
         
         if (response && response.data) {
           // Extract dashboard stats from metrics response
-          if (response.data.dashboardStats) {
+          if (response.data && response.data.dashboardStats) {
             console.log('📈 Found dashboard stats in metrics response:', response.data.dashboardStats);
             
             const dashboardStats = response.data.dashboardStats;
@@ -185,16 +305,51 @@ const DashboardOverview = () => {
             // Update stats
             setStats(dashboardStats);
           } else {
-            console.warn('⚠️ No dashboard stats found in metrics response');
+            console.warn('⚠️ No dashboard stats found in metrics response:', response);
+            // Set fallback data for UI to avoid errors
+            setStats({
+              totalLeads: 0,
+              totalAnalyses: 0,
+              conversionRate: 0,
+              avgScore: 0,
+              recentLeads: [],
+              recentAnalyses: []
+            });
           }
           
-          // Set advanced metrics
-          setAdvancedMetrics(response.data);
+          // Set advanced metrics with defensive structure
+          const safeData = {
+            totalSubjectsAnalyzed: response.data?.totalSubjectsAnalyzed || 0,
+            totalLeads: response.data?.totalLeads || 0,
+            conversionRate: response.data?.conversionRate || 0,
+            avgEffectivenessScore: response.data?.avgEffectivenessScore || 0,
+            avgSpamScore: response.data?.avgSpamScore || 0,
+            trends: {
+              subjectsAnalyzedTrend: response.data?.trends?.subjectsAnalyzedTrend || 0,
+              leadsTrend: response.data?.trends?.leadsTrend || 0,
+              conversionRateTrend: response.data?.trends?.conversionRateTrend || 0,
+              effectivenessScoreTrend: response.data?.trends?.effectivenessScoreTrend || 0,
+              spamScoreTrend: response.data?.trends?.spamScoreTrend || 0
+            },
+            timeSeriesData: {
+              labels: response.data?.timeSeriesData?.labels || [],
+              datasets: {
+                subjects: response.data?.timeSeriesData?.datasets?.subjects || [],
+                leads: response.data?.timeSeriesData?.datasets?.leads || [],
+                conversionRates: response.data?.timeSeriesData?.datasets?.conversionRates || [],
+                effectivenessScores: response.data?.timeSeriesData?.datasets?.effectivenessScores || [],
+                spamScores: response.data?.timeSeriesData?.datasets?.spamScores || []
+              }
+            },
+            dashboardStats: response.data?.dashboardStats || null
+          };
+          
+          setAdvancedMetrics(safeData);
           setMetricsError(null);
         }
 
-        // Also get system status
-        const statusResponse = await dashboardService.getSystemStatus();
+        // Also get system status - now using Basic Auth consistently through getDashboardMetrics
+        const statusResponse = await apiService.getDashboardMetrics("system");
         console.log('🔋 Raw system status response:', statusResponse);
         
         // Extract the actual status from the response
@@ -213,50 +368,40 @@ const DashboardOverview = () => {
     fetchDashboardData();
   }, [period]);
 
-  // Add this new useEffect to simulate activity data if needed
+  // Process activity data when stats change - but only once during initial load
   useEffect(() => {
-    // Create simulated activity data if none exists
+    // Create simulated activity data if none exists, but only on initial load
     if (
+      loading === false && // Only after initial loading is complete
       (!stats.recentLeads || !stats.recentLeads.length) &&
       (!stats.recentAnalyses || !stats.recentAnalyses.length)
     ) {
-      console.log('🤖 No activity data found, adding simulated data');
-      setStats((prevStats) => ({
-        ...prevStats,
-        recentLeads: [
-          {
-            id: "sim-1",
-            type: "lead",
-            text: "New lead captured",
-            detail: "latest@example.com",
-            timestamp: new Date(),
-          },
-        ],
-        recentAnalyses: [
-          {
-            id: "sim-2",
-            type: "analysis",
-            text: "Subject line analyzed",
-            detail: "Latest Product Launch Email",
-            timestamp: new Date(Date.now() - 1000 * 60 * 30),
-          },
-        ],
-      }));
+      console.log('🤖 No activity data found, using placeholder data instead');
+      // We'll use the placeholder data in ActivityFeed rather than updating state
+      // This prevents infinite render loops
     } else {
-      console.log('✅ Found real activity data:', {
+      console.log('✅ Activity data status:', {
         recentLeads: stats.recentLeads?.length || 0,
         recentAnalyses: stats.recentAnalyses?.length || 0
       });
     }
-  }, [stats.recentLeads, stats.recentAnalyses]);
+  }, [loading]); // Only run when loading state changes, not on every stats update
 
   useEffect(() => {
     const fetchAdvancedMetrics = async () => {
       try {
         setMetricsLoading(true);
+        console.log('📊 Fetching advanced metrics for period:', period);
         const response = await apiService.getDashboardMetrics(period);
-        setAdvancedMetrics(response.data);
-        setMetricsError(null);
+        console.log('📊 Advanced metrics response:', response);
+        
+        if (response && response.data) {
+          setAdvancedMetrics(response.data);
+          setMetricsError(null);
+        } else {
+          console.warn('⚠️ No data in advanced metrics response');
+          setMetricsError("Received empty data from server");
+        }
       } catch (err) {
         console.error("Error fetching dashboard metrics:", err);
         setMetricsError("Failed to load advanced metrics. Please try again.");
@@ -415,8 +560,8 @@ const DashboardOverview = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <ActivityFeed
-            leads={Array.isArray(stats.recentLeads) ? stats.recentLeads : []}
-            analyses={Array.isArray(stats.recentAnalyses) ? stats.recentAnalyses : []}
+            leads={stats && stats.recentLeads && Array.isArray(stats.recentLeads) ? stats.recentLeads : []}
+            analyses={stats && stats.recentAnalyses && Array.isArray(stats.recentAnalyses) ? stats.recentAnalyses : []}
           />
         </div>
         <div>
@@ -458,8 +603,8 @@ const DashboardOverview = () => {
         ) : advancedMetrics ? (
           <>
             {/* Add this code right here, before the Detailed Metrics cards */}
-            {advancedMetrics &&
-              advancedMetrics.timeSeriesData.labels.length === 0 && (
+            {advancedMetrics && 
+              (advancedMetrics.timeSeriesData?.labels?.length === 0 || !advancedMetrics.timeSeriesData?.labels) && (
                 <div className="bg-white rounded-lg shadow-md p-6 text-center">
                   <p className="text-gray-500">
                     No data available for the selected period.
@@ -613,24 +758,27 @@ const DashboardOverview = () => {
 
             {/* Format chart data */}
             {(() => {
-              const chartData = advancedMetrics.timeSeriesData.labels.map(
+              // Ensure we have valid data with optional chaining and default values
+              const labels = advancedMetrics?.timeSeriesData?.labels || [];
+              
+              const chartData = labels.map(
                 (label, index) => {
                   return {
                     date: label,
                     subjects:
-                      advancedMetrics.timeSeriesData.datasets.subjects[index] ||
+                      advancedMetrics?.timeSeriesData?.datasets?.subjects?.[index] ||
                       0,
                     leads:
-                      advancedMetrics.timeSeriesData.datasets.leads[index] || 0,
+                      advancedMetrics?.timeSeriesData?.datasets?.leads?.[index] || 0,
                     conversionRate:
-                      advancedMetrics.timeSeriesData.datasets.conversionRates[
+                      advancedMetrics?.timeSeriesData?.datasets?.conversionRates?.[
                         index
                       ] || 0,
                     effectivenessScore:
-                      advancedMetrics.timeSeriesData.datasets
-                        .effectivenessScores[index] || 0,
+                      advancedMetrics?.timeSeriesData?.datasets
+                        ?.effectivenessScores?.[index] || 0,
                     spamScore:
-                      advancedMetrics.timeSeriesData.datasets.spamScores[
+                      advancedMetrics?.timeSeriesData?.datasets?.spamScores?.[
                         index
                       ] || 0,
                   };

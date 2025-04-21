@@ -14,24 +14,26 @@ const dashboardService = {
     try {
       console.log('🔄 Fetching dashboard stats with cache buster...');
       
-      // Use the existing endpoint that's actually being called
-      const endpoint = `/api/stats/dashboard${queryParam || `?_t=${Date.now()}`}`;
-      console.log('📡 Calling API endpoint:', endpoint);
+      // Use the dashboard endpoint with time-based cache busting
+      const period = queryParam || `day?_t=${Date.now()}`;
+      console.log('📡 Calling API endpoint with period:', period);
 
-      // Use apiService's apiRequest method with Basic Auth
-      const response = await apiService.apiRequest(
-        endpoint, 
-        "GET", 
-        null, 
-        false, 
-        true
-      );
-
+      // Use getDashboardMetrics which uses Basic Auth consistently
+      const response = await apiService.getDashboardMetrics(period);
+      
       console.log('✅ Dashboard stats API response:', response);
 
       // If the request was successful, return the data
       if (response && response.data) {
         console.log('📊 Received dashboard stats data:', response.data);
+        
+        // If there's dashboard stats in the response, return those stats directly
+        if (response.data.dashboardStats) {
+          console.log('📊 Found dashboardStats in response', response.data.dashboardStats);
+          return response.data.dashboardStats;
+        }
+        
+        // If no dashboardStats but we have general data, return that
         return response.data;
       } else {
         console.warn('⚠️ No data received from dashboard stats API');
@@ -65,15 +67,17 @@ const dashboardService = {
    */
   async getSystemStatus() {
     try {
-      // Use apiService's apiRequest method with Basic Auth
-      const response = await apiService.apiRequest(
-        "/api/stats/system",
-        "GET",
-        null,
-        false,
-        true
-      );
-      return response.data;
+      console.log('🔄 Fetching system status...');
+      
+      // Use getDashboardMetrics which uses Basic Auth for consistency
+      const response = await apiService.getDashboardMetrics("system");
+      console.log('✅ System status response:', response);
+      
+      // Handle both response formats
+      if (response.success && response.data) {
+        return response.data;
+      }
+      return response;
     } catch (error) {
       console.error("Error fetching system status:", error);
       // Return fallback data

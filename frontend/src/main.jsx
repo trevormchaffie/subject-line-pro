@@ -11,6 +11,7 @@ import LeadsPage from "./pages/admin/LeadsPage";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 import SettingsPage from "./pages/admin/SettingsPage";
 import ContentPage from "./pages/admin/ContentPage";
+import ApiTestPage from "./pages/admin/ApiTestPage";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { registerServiceWorker } from "./registerSW.js";
 import syncService from "./services/syncService.js";
@@ -42,6 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path={routes.admin.analytics} element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
               <Route path={routes.admin.settings} element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
               <Route path={routes.admin.content} element={<ProtectedRoute><ContentPage /></ProtectedRoute>} />
+              <Route path="/api-test" element={<ApiTestPage />} />
 
               {/* Catch-all route - 404 */}
               <Route
