@@ -36,19 +36,31 @@ const authenticateToken = (req, res, next) => {
   }
 
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Access denied. No token provided.",
-    });
+    if (typeof next === 'function' && next.length >= 1) {
+      // If next accepts an error parameter, use it for chaining middleware
+      return next(new Error("Access denied. No token provided."));
+    } else {
+      // Standard response
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. No token provided.",
+      });
+    }
   }
 
   // Verify the token
   const decoded = jwtUtils.verifyAccessToken(token);
   if (!decoded) {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token.",
-    });
+    if (typeof next === 'function' && next.length >= 1) {
+      // If next accepts an error parameter, use it for chaining middleware
+      return next(new Error("Invalid or expired token."));
+    } else {
+      // Standard response
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token.",
+      });
+    }
   }
 
   // Extract session and user info

@@ -7,6 +7,7 @@ const authController = require("../controllers/authController");
 const analyticsRoutes = require("./admin/analyticsRoutes");
 const statsRoutes = require("./stats.routes");
 const { authenticate } = require("../middleware/authMiddleware");
+const authOrBasic = require("../middleware/authOrBasicMiddleware");
 
 // Analysis routes
 router.post("/analyze", analyzeController.analyzeSubject);
@@ -17,25 +18,25 @@ router.get("/analyze/power-words", analyzeController.getPowerWords);
 router.post("/leads", leadsController.submitLead);
 router.get("/leads", authenticate, leadsController.getLeads);
 
-// Analytics routes
+// Analytics routes - allow both JWT and Basic Auth
 router.get(
   "/analytics/time-series",
-  authenticate,
+  authOrBasic,
   analyticsController.getTimeSeries
 );
 router.get(
   "/analytics/score-distribution",
-  authenticate,
+  authOrBasic,
   analyticsController.getScoreDistribution
 );
 router.get(
   "/analytics/top-subjects",
-  authenticate,
+  authOrBasic,
   analyticsController.getTopSubjectLines
 );
 router.get(
   "/analytics/conversion",
-  authenticate,
+  authOrBasic,
   analyticsController.getConversionMetrics
 );
 router.use("/admin/analytics", analyticsRoutes);
