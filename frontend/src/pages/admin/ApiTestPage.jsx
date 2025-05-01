@@ -13,7 +13,7 @@ function ApiTestPage() {
 
   // Base URL determination
   const API_BASE_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000/api' 
+    ? 'http://localhost:3001/api' 
     : 'https://api.subjectlinepro.com/api';
 
   // Admin credentials

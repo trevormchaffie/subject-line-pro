@@ -37,12 +37,55 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path={routes.public.login} element={<LoginPage />} />
 
               {/* Protected admin routes */}
-              <Route path="/admin" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-              <Route path={routes.admin.dashboard} element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-              <Route path={routes.admin.leads} element={<ProtectedRoute><LeadsPage /></ProtectedRoute>} />
-              <Route path={routes.admin.analytics} element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
-              <Route path={routes.admin.settings} element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-              <Route path={routes.admin.content} element={<ProtectedRoute><ContentPage /></ProtectedRoute>} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.dashboard}
+                element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.leads}
+                element={
+                  <ProtectedRoute>
+                    <LeadsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.analytics}
+                element={
+                  <ProtectedRoute>
+                    <AnalyticsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.settings}
+                element={
+                  <ProtectedRoute>
+                    <SettingsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.content}
+                element={
+                  <ProtectedRoute>
+                    <ContentPage />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route path="/api-test" element={<ApiTestPage />} />
 
               {/* Catch-all route - 404 */}

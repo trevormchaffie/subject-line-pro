@@ -71,6 +71,7 @@ const ContentIcon = () => (
   </svg>
 );
 
+
 const SettingsIcon = () => (
   <svg
     className="w-5 h-5"
@@ -125,9 +126,9 @@ const AdminSidebar = () => {
       {renderOverlay()}
 
       <aside
-        className={`fixed top-0 left-0 z-20 h-full w-64 bg-gray-800 text-white transition-all duration-300 transform ${
+        className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] w-64 bg-gray-800 text-white shadow-lg transition-all duration-300 transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } ${isMobile ? "mt-0" : "mt-14"}`}
+        }`}
       >
         {/* Sidebar header with close button (mobile only) */}
         {isMobile && (

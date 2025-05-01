@@ -21,11 +21,15 @@ const DistributionChart = ({
 }) => {
   // Transform data format if needed
   const chartData = Array.isArray(data)
-    ? data
-    : data?.ranges.map((range, index) => ({
+    ? data.map(item => ({
+        ...item,
+        // Support both 'score' and 'range' properties for x-axis
+        range: item.score || item.range
+      }))
+    : data?.ranges?.map((range, index) => ({
         range,
-        count: data.counts[index],
-      }));
+        count: data.counts?.[index] || 0,
+      })) || [];
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">

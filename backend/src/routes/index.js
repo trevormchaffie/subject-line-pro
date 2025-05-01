@@ -6,6 +6,7 @@ const analyticsController = require("../controllers/analyticsController");
 const authController = require("../controllers/authController");
 const analyticsRoutes = require("./admin/analyticsRoutes");
 const statsRoutes = require("./stats.routes");
+const leadsRoutes = require("./leads.routes");
 const { authenticate } = require("../middleware/authMiddleware");
 const authOrBasic = require("../middleware/authOrBasicMiddleware");
 
@@ -14,9 +15,8 @@ router.post("/analyze", analyzeController.analyzeSubject);
 router.get("/analyze/spam-triggers", analyzeController.getSpamTriggers);
 router.get("/analyze/power-words", analyzeController.getPowerWords);
 
-// Leads routes
-router.post("/leads", leadsController.submitLead);
-router.get("/leads", authenticate, leadsController.getLeads);
+// Leads routes - use the dedicated router
+router.use("/leads", leadsRoutes);
 
 // Analytics routes - allow both JWT and Basic Auth
 router.get(

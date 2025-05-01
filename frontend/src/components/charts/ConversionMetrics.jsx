@@ -13,8 +13,14 @@ const ConversionMetrics = ({
   loading = false,
   error = null,
 }) => {
-  // Format data for pie chart
-  const pieData = data
+  // Check if data has all required properties
+  const isValidData = data && 
+    typeof data.analyzed === 'number' && 
+    typeof data.leads === 'number' && 
+    typeof data.conversionRate === 'number';
+  
+  // Format data for pie chart with safety checks
+  const pieData = isValidData
     ? [
         { name: "Converted", value: data.leads },
         { name: "Not Converted", value: data.analyzed - data.leads },
@@ -24,14 +30,14 @@ const ConversionMetrics = ({
   // Colors for the pie chart
   const COLORS = ["#38c172", "#e2e8f0"];
 
-  // Formatted metrics
-  const metrics = data
+  // Formatted metrics with safety checks
+  const metrics = isValidData
     ? {
         analyzed: data.analyzed.toLocaleString(),
         leads: data.leads.toLocaleString(),
         rate: data.conversionRate.toFixed(1) + "%",
       }
-    : { analyzed: 0, leads: 0, rate: "0%" };
+    : { analyzed: "0", leads: "0", rate: "0%" };
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
@@ -49,7 +55,7 @@ const ConversionMetrics = ({
         </div>
       )}
 
-      {!loading && !error && data ? (
+      {!loading && !error && isValidData ? (
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2">
             <ResponsiveContainer width="100%" height={250}>

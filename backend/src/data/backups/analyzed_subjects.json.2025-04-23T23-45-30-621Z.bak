@@ -1,0 +1,738 @@
+[
+  {
+    "id": "analysis_1742487560856_rf7c30nxv",
+    "subjectLine": "FREE Exclusive Offer: LIMITED TIME ONLY!!!",
+    "length": 42,
+    "wordCount": 6,
+    "spamScore": 75,
+    "overallScore": 50,
+    "powerWords": [
+      "exclusive"
+    ],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: free, limited time",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T16:19:20.842Z",
+    "createdAt": "2025-03-20T16:19:20.856Z"
+  },
+  {
+    "id": "analysis_1742488588531_mljo50q39",
+    "subjectLine": "FREE Exclusive Offer: LIMITED TIME ONLY!!!",
+    "length": 42,
+    "wordCount": 6,
+    "spamScore": 75,
+    "overallScore": 50,
+    "powerWords": [
+      "exclusive"
+    ],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: free, limited time",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T16:36:28.517Z",
+    "createdAt": "2025-03-20T16:36:28.531Z"
+  },
+  {
+    "id": "analysis_1742490231422_pxwyhlxua",
+    "subjectLine": "This is my CRAZY subject line...",
+    "length": 32,
+    "wordCount": 6,
+    "spamScore": 0,
+    "overallScore": 75,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Consider adding power words like: instantly, discover, exclusive",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-20T17:03:51.412Z",
+    "createdAt": "2025-03-20T17:03:51.422Z"
+  },
+  {
+    "id": "analysis_1743391941347_i92yes1vj",
+    "subjectLine": "Free Textbook!",
+    "length": 14,
+    "wordCount": 2,
+    "spamScore": 25,
+    "overallScore": 60,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"free\"",
+        "impact": "high"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Replace spam trigger words: free",
+      "Consider adding power words like: premium, secret, guaranteed",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-03-31T03:32:21.333Z",
+    "createdAt": "2025-03-31T03:32:21.347Z"
+  },
+  {
+    "id": "analysis_1743480107502_de87vz4uo",
+    "subjectLine": "Checking Test 1",
+    "length": 15,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, instantly, secret",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-01T04:01:47.491Z",
+    "createdAt": "2025-04-01T04:01:47.502Z"
+  },
+  {
+    "id": "analysis_1743527056709_zlxuco75q",
+    "subjectLine": "Testing 123",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: premium, essential, secret",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-01T17:04:16.706Z",
+    "createdAt": "2025-04-01T17:04:16.709Z"
+  },
+  {
+    "id": "analysis_1743562729829_spxq4uyj7",
+    "subjectLine": "Testing 321",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: revolutionary, instantly, stunning",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T02:58:49.810Z",
+    "createdAt": "2025-04-02T02:58:49.829Z"
+  },
+  {
+    "id": "analysis_1743562915897_ifgjhw4ef",
+    "subjectLine": "Timeing Is Everything",
+    "length": 21,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 90,
+    "powerWords": [],
+    "issues": [],
+    "suggestions": [
+      "Consider adding power words like: premium, instantly, valuable",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T03:01:55.895Z",
+    "createdAt": "2025-04-02T03:01:55.897Z"
+  },
+  {
+    "id": "analysis_1743564415244_ehmuwqqd4",
+    "subjectLine": "Get this ASAP!",
+    "length": 14,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 65,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: valuable, remarkable, instantly",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-02T03:26:51.363Z",
+    "createdAt": "2025-04-02T03:26:55.244Z"
+  },
+  {
+    "id": "analysis_1743564637248_3sff9poqx",
+    "subjectLine": "WHOOOOO!!",
+    "length": 9,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 55,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: valuable, essential, exclusive",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-02T03:30:37.246Z",
+    "createdAt": "2025-04-02T03:30:37.248Z"
+  },
+  {
+    "id": "analysis_1743564815948_xug9lx8dp",
+    "subjectLine": "Another",
+    "length": 7,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: essential, revolutionary, unlock",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T03:33:35.946Z",
+    "createdAt": "2025-04-02T03:33:35.948Z"
+  },
+  {
+    "id": "analysis_1743612174591_s4wgw88qt",
+    "subjectLine": "Limited Time Offer",
+    "length": 18,
+    "wordCount": 3,
+    "spamScore": 15,
+    "overallScore": 74,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Replace spam trigger words: limited time",
+      "Consider adding power words like: revolutionary, stunning, unlock",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T16:42:54.587Z",
+    "createdAt": "2025-04-02T16:42:54.591Z"
+  },
+  {
+    "id": "analysis_1743613980340_d1cacqwa8",
+    "subjectLine": "Time is money",
+    "length": 13,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: proven, revolutionary, premium",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T17:13:00.327Z",
+    "createdAt": "2025-04-02T17:13:00.340Z"
+  },
+  {
+    "id": "analysis_1743615996996_bjrk1wc61",
+    "subjectLine": "Testing 123",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, stunning, instantly",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T17:46:32.178Z",
+    "createdAt": "2025-04-02T17:46:36.996Z"
+  },
+  {
+    "id": "analysis_1743616203367_9p9b6ggug",
+    "subjectLine": "another",
+    "length": 7,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, unlimited, unlock",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T17:50:03.364Z",
+    "createdAt": "2025-04-02T17:50:03.367Z"
+  },
+  {
+    "id": "analysis_1743629932569_42vf59d80",
+    "subjectLine": "Test Subject Line",
+    "length": 17,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: unlock, guaranteed, revolutionary",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T21:38:52.566Z",
+    "createdAt": "2025-04-02T21:38:52.569Z"
+  },
+  {
+    "id": "analysis_1743635766358_v4aqnz4xi",
+    "subjectLine": "nother Subject line",
+    "length": 19,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: transform, proven, unlimited",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T23:16:06.356Z",
+    "createdAt": "2025-04-02T23:16:06.358Z"
+  },
+  {
+    "id": "analysis_1743636133390_xwfuc16dg",
+    "subjectLine": "This Is Live!",
+    "length": 13,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: exclusive, stunning, unlock",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-02T23:22:13.386Z",
+    "createdAt": "2025-04-02T23:22:13.390Z"
+  },
+  {
+    "id": "analysis_1743636599968_4x0bo5rs2",
+    "subjectLine": "All Working",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: revolutionary, remarkable, discover",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-02T23:29:59.966Z",
+    "createdAt": "2025-04-02T23:29:59.968Z"
+  },
+  {
+    "id": "analysis_1743994483154_ezoxwhtiw",
+    "subjectLine": "Test this out Todat!",
+    "length": 20,
+    "wordCount": 4,
+    "spamScore": 0,
+    "overallScore": 90,
+    "powerWords": [],
+    "issues": [],
+    "suggestions": [
+      "Consider adding power words like: transform, proven, unlimited",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-07T02:54:43.140Z",
+    "createdAt": "2025-04-07T02:54:43.154Z"
+  },
+  {
+    "id": "analysis_1743995024787_q9xjwp5v7",
+    "subjectLine": "test7512\\",
+    "length": 9,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: premium, transform, guaranteed",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-07T03:03:44.784Z",
+    "createdAt": "2025-04-07T03:03:44.787Z"
+  },
+  {
+    "id": "analysis_1743996122850_2dohh69uv",
+    "subjectLine": "WIxked Test",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: valuable, discover, secret",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-07T03:22:02.841Z",
+    "createdAt": "2025-04-07T03:22:02.850Z"
+  },
+  {
+    "id": "analysis_1743996772489_2w8sgepin",
+    "subjectLine": "Subjct line",
+    "length": 11,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: unlock, exclusive, secret",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-07T03:32:52.471Z",
+    "createdAt": "2025-04-07T03:32:52.489Z"
+  },
+  {
+    "id": "analysis_1745207852551_xg1g8c4pc",
+    "subjectLine": "Test 4 20 2025",
+    "length": 14,
+    "wordCount": 4,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: remarkable, transform, proven",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-04-21T03:57:32.532Z",
+    "createdAt": "2025-04-21T03:57:32.551Z"
+  },
+  {
+    "id": "analysis_1745291102320_e2bwbna0y",
+    "subjectLine": "Yippeee!!!!",
+    "length": 11,
+    "wordCount": 1,
+    "spamScore": 45,
+    "overallScore": 52,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"!!!!\"",
+        "impact": "high"
+      },
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Replace spam trigger words: !!!!",
+      "Consider adding power words like: transform, proven, instantly",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-22T03:05:02.311Z",
+    "createdAt": "2025-04-22T03:05:02.320Z"
+  },
+  {
+    "id": "analysis_1745291160336_w0i73fb9f",
+    "subjectLine": "Another!!",
+    "length": 9,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: unlock, discover, valuable",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-22T03:06:00.328Z",
+    "createdAt": "2025-04-22T03:06:00.336Z"
+  },
+  {
+    "id": "analysis_1745451879739_omr168ljc",
+    "subjectLine": "Check this out man/!",
+    "length": 20,
+    "wordCount": 4,
+    "spamScore": 0,
+    "overallScore": 90,
+    "powerWords": [],
+    "issues": [],
+    "suggestions": [
+      "Consider adding power words like: guaranteed, exclusive, remarkable",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-23T23:44:39.726Z",
+    "createdAt": "2025-04-23T23:44:39.739Z"
+  },
+  {
+    "id": "analysis_1745451910700_2t0uhjn9q",
+    "subjectLine": "New Subject line!!",
+    "length": 18,
+    "wordCount": 3,
+    "spamScore": 0,
+    "overallScore": 80,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, premium, exclusive",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-04-23T23:45:10.698Z",
+    "createdAt": "2025-04-23T23:45:10.700Z"
+  }
+]

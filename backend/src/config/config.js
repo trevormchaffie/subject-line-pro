@@ -21,8 +21,8 @@ const config = {
     process.env.ANALYZED_SUBJECTS_PATH || "./src/data/analyzed_subjects.json",
 
   // Admin credentials
-  adminUsername: process.env.ADMIN_USERNAME || "admin",
-  adminPassword: process.env.ADMIN_PASSWORD || "changeme",
+  adminUsername: process.env.ADMIN_USERNAME || "mr1018",
+  adminPassword: process.env.ADMIN_PASSWORD || "Maya03112005",
 
   // JWT Authentication (add this new section)
   jwtSecret: process.env.JWT_SECRET || "your-secret-key",

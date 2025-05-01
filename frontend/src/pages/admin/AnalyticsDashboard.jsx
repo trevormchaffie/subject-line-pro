@@ -58,7 +58,15 @@ const AnalyticsDashboard = () => {
 
       try {
         const response = await apiService.getScoreDistribution();
-        setDistributionData(response.data);
+        console.log("Score distribution response:", response);
+        if (response && response.success && response.data) {
+          setDistributionData(response.data);
+        } else {
+          console.error("Invalid score distribution format:", response);
+          setDistributionError(
+            "Failed to load score distribution data. Invalid data format."
+          );
+        }
       } catch (error) {
         console.error("Error fetching distribution data:", error);
         setDistributionError(
@@ -80,7 +88,15 @@ const AnalyticsDashboard = () => {
 
       try {
         const response = await apiService.getTopSubjectLines(10);
-        setTopSubjectsData(response.data);
+        console.log("Top subjects response:", response);
+        if (response && response.success && response.data) {
+          setTopSubjectsData(response.data);
+        } else {
+          console.error("Invalid top subjects format:", response);
+          setTopSubjectsError(
+            "Failed to load top subject lines. Invalid data format."
+          );
+        }
       } catch (error) {
         console.error("Error fetching top subjects data:", error);
         setTopSubjectsError(
@@ -102,7 +118,16 @@ const AnalyticsDashboard = () => {
 
       try {
         const response = await apiService.getConversionMetrics();
-        setConversionData(response.data);
+        console.log("Conversion metrics response:", response);
+        // Make sure we're setting the data property specifically
+        if (response && response.success && response.data) {
+          setConversionData(response.data);
+        } else {
+          console.error("Invalid conversion metrics response format:", response);
+          setConversionError(
+            "Failed to load conversion metrics. Invalid data format."
+          );
+        }
       } catch (error) {
         console.error("Error fetching conversion data:", error);
         setConversionError(

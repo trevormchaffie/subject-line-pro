@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Line Pro - API Test Page</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f7fa;
+      color: #2d3748;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    h1 {
+      margin: 0;
+      color: #3182ce;
+    }
+    .subtitle {
+      margin-top: 5px;
+      color: #718096;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -10px;
+    }
+    .col {
+      flex: 1;
+      padding: 0 10px;
+      min-width: 300px;
+    }
+    button {
+      background-color: #4299e1;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #3182ce;
+    }
+    button.secondary {
+      background-color: #a0aec0;
+    }
+    button.secondary:hover {
+      background-color: #718096;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .status-dot.green {
+      background-color: #48bb78;
+    }
+    .status-dot.red {
+      background-color: #f56565;
+    }
+    .status-dot.yellow {
+      background-color: #ecc94b;
+    }
+    .log-container {
+      background-color: #2d3748;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 15px;
+      height: 300px;
+      overflow: auto;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .log-entry {
+      margin-bottom: 8px;
+      border-bottom: 1px solid #4a5568;
+      padding-bottom: 8px;
+    }
+    .success {
+      color: #68d391;
+    }
+    .error {
+      color: #fc8181;
+    }
+    .warning {
+      color: #faf089;
+    }
+    .info {
+      color: #90cdf4;
+    }
+    .test-panel {
+      display: none;
+    }
+    .test-panel.active {
+      display: block;
+    }
+    .test-selector {
+      display: flex;
+      margin-bottom: 15px;
+    }
+    .test-selector button {
+      margin-right: 10px;
+    }
+    .test-selector button.active {
+      background-color: #2b6cb0;
+    }
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .response-box {
+      background-color: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      padding: 15px;
+      margin-top: 10px;
+      max-height: 300px;
+      overflow: auto;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+    .navbar {
+      background-color: #2d3748;
+      padding: 15px 20px;
+      margin: -20px -20px 20px -20px;
+    }
+    .navbar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="logo">Subject Line Pro - API Tester</div>
+      <div>
+        <span id="time-display" style="color: white;"></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header>
+      <h1>API Test Console</h1>
+      <p class="subtitle">Diagnose and test API connectivity issues</p>
+    </header>
+
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="panel-title">
+            <h2>Connection Status</h2>
+            <button id="refresh-status">Refresh</button>
+          </div>
+          
+          <div class="status">
+            <div class="status-dot" id="api-status-dot"></div>
+            <span id="api-status-text">Checking API status...</span>
+          </div>
+          
+          <div class="status">
+            <div class="status-dot" id="auth-status-dot"></div>
+            <span id="auth-status-text">Checking authentication...</span>
+          </div>
+          
+          <div id="env-info" class="response-box" style="display: none;">
+            <h3>Environment Information</h3>
+            <pre id="env-info-content"></pre>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2>Test API Endpoints</h2>
+          
+          <div class="test-selector">
+            <button class="test-btn active" data-panel="basic-auth">Basic Auth</button>
+            <button class="test-btn" data-panel="token-auth">Token Auth</button>
+            <button class="test-btn" data-panel="service-test">Service Tests</button>
+          </div>
+          
+          <div class="test-panel active" id="basic-auth-panel">
+            <p>Test the dashboard endpoints using Basic Authentication:</p>
+            <button id="test-basic-auth">Run Basic Auth Test</button>
+            <div id="basic-auth-response" class="response-box" style="display: none;">
+              <pre id="basic-auth-result"></pre>
+            </div>
+          </div>
+          
+          <div class="test-panel" id="token-auth-panel">
+            <p>Test the dashboard endpoints using Token Authentication:</p>
+            <button id="test-token-auth">Run Token Auth Test</button>
+            <div id="token-auth-response" class="response-box" style="display: none;">
+              <pre id="token-auth-result"></pre>
+            </div>
+          </div>
+          
+          <div class="test-panel" id="service-test-panel">
+            <p>Test the service objects directly if they're available in the app:</p>
+            <button id="check-services">Check Services</button>
+            <div id="services-response" class="response-box" style="display: none;">
+              <pre id="services-result"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col">
+        <div class="card">
+          <div class="panel-title">
+            <h2>Test Log</h2>
+            <button id="clear-log" class="secondary">Clear Log</button>
+          </div>
+          <div class="log-container" id="log-output">
+            <div class="log-entry info">API Test Console initialized - Start testing using the buttons on the left</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Log to the UI log and console
+    function log(message, type = 'info') {
+      const logOutput = document.getElementById('log-output');
+      const entry = document.createElement('div');
+      entry.classList.add('log-entry', type);
+      
+      // Add timestamp
+      const now = new Date();
+      const timestamp = `${now.getHours().toString().padStart(2, '0')}:${
+        now.getMinutes().toString().padStart(2, '0')}:${
+        now.getSeconds().toString().padStart(2, '0')}.${
+        now.getMilliseconds().toString().padStart(3, '0')}`;
+      
+      entry.innerHTML = `[${timestamp}] ${message}`;
+      logOutput.appendChild(entry);
+      logOutput.scrollTop = logOutput.scrollHeight;
+      
+      // Also log to console
+      if (type === 'error') console.error(message);
+      else if (type === 'warning') console.warn(message);
+      else if (type === 'success') console.log('%c' + message, 'color: green');
+      else console.log(message);
+    }
+    
+    // Update status indicators
+    function updateStatus(id, status, message) {
+      const dot = document.getElementById(`${id}-dot`);
+      const text = document.getElementById(`${id}-text`);
+      
+      if (status === 'success') {
+        dot.className = 'status-dot green';
+      } else if (status === 'error') {
+        dot.className = 'status-dot red';
+      } else {
+        dot.className = 'status-dot yellow';
+      }
+      
+      text.textContent = message;
+    }
+    
+    // Configuration
+    const API_BASE_URL = window.location.hostname === 'localhost' ? 
+      'http://localhost:3000/api' : 
+      'https://api.subjectlinepro.com/api';
+    
+    // Admin credentials
+    const ADMIN_USERNAME = "mr1018";
+    const ADMIN_PASSWORD = "Maya03112005";
+    
+    // Update environment info
+    function updateEnvironmentInfo() {
+      const envInfo = {
+        url: window.location.href,
+        apiBaseUrl: API_BASE_URL,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString(),
+        hostname: window.location.hostname
+      };
+      
+      document.getElementById('env-info').style.display = 'block';
+      document.getElementById('env-info-content').textContent = JSON.stringify(envInfo, null, 2);
+      
+      // Also check if apiService and dashboardService exist in window
+      const hasApiService = typeof window.apiService !== 'undefined';
+      const hasDashboardService = typeof window.dashboardService !== 'undefined';
+      
+      if (hasApiService || hasDashboardService) {
+        let services = { available: {} };
+        if (hasApiService) {
+          services.available.apiService = {
+            methods: Object.keys(window.apiService)
+          };
+        }
+        if (hasDashboardService) {
+          services.available.dashboardService = {
+            methods: Object.keys(window.dashboardService)
+          };
+        }
+        
+        log(`Services detected in window: ${hasApiService ? 'apiService ' : ''}${hasDashboardService ? 'dashboardService' : ''}`, 'info');
+        
+        const envContent = document.getElementById('env-info-content');
+        const currentEnv = JSON.parse(envContent.textContent);
+        envContent.textContent = JSON.stringify({...currentEnv, services}, null, 2);
+      }
+    }
+    
+    // Test the API with Basic Auth
+    async function testBasicAuth() {
+      try {
+        log('Testing Basic Auth API access...', 'info');
+        updateStatus('api', 'pending', 'Testing Basic Auth connection...');
+        
+        const credentials = btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`);
+        
+        const response = await fetch(`${API_BASE_URL}/stats/dashboard?period=day`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${credentials}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        log('Basic Auth API call successful!', 'success');
+        
+        // Update the response display
+        document.getElementById('basic-auth-response').style.display = 'block';
+        document.getElementById('basic-auth-result').textContent = JSON.stringify(data, null, 2);
+        
+        updateStatus('api', 'success', 'API connection successful (Basic Auth)');
+        updateStatus('auth', 'success', 'Basic Authentication is working');
+        
+        return data;
+      } catch (err) {
+        log(`Basic Auth test failed: ${err.message}`, 'error');
+        
+        // Update the response display with error
+        document.getElementById('basic-auth-response').style.display = 'block';
+        document.getElementById('basic-auth-result').textContent = JSON.stringify({
+          error: err.message,
+          details: "Basic Authentication failed. This could be due to incorrect credentials or server issues."
+        }, null, 2);
+        
+        updateStatus('api', 'error', 'API connection failed');
+        updateStatus('auth', 'error', 'Basic Authentication failed');
+        
+        return null;
+      }
+    }
+    
+    // Test the API with Token Auth
+    async function testTokenAuth() {
+      try {
+        log('Testing Token Auth API access...', 'info');
+        
+        // Get token from storage
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        
+        if (!token) {
+          log('No auth token found in storage', 'warning');
+          document.getElementById('token-auth-response').style.display = 'block';
+          document.getElementById('token-auth-result').textContent = JSON.stringify({
+            error: 'No auth token found',
+            details: "No token was found in localStorage or sessionStorage. You need to log in to the application first."
+          }, null, 2);
+          
+          updateStatus('auth', 'error', 'No auth token available');
+          return null;
+        }
+        
+        log(`Auth token found: ${token.substring(0, 15)}...`, 'info');
+        
+        const response = await fetch(`${API_BASE_URL}/stats/dashboard`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        log('Token Auth API call successful!', 'success');
+        
+        // Update the response display
+        document.getElementById('token-auth-response').style.display = 'block';
+        document.getElementById('token-auth-result').textContent = JSON.stringify(data, null, 2);
+        
+        updateStatus('auth', 'success', 'Token Authentication is working');
+        
+        return data;
+      } catch (err) {
+        log(`Token Auth test failed: ${err.message}`, 'error');
+        
+        // Update the response display with error
+        document.getElementById('token-auth-response').style.display = 'block';
+        document.getElementById('token-auth-result').textContent = JSON.stringify({
+          error: err.message,
+          details: "Token Authentication failed. This could be due to an expired token or server issues."
+        }, null, 2);
+        
+        updateStatus('auth', 'error', 'Token Authentication failed');
+        
+        return null;
+      }
+    }
+    
+    // Check for API services in window
+    function checkServices() {
+      log('Checking for API services in window scope...', 'info');
+      
+      const hasApiService = typeof window.apiService !== 'undefined';
+      const hasDashboardService = typeof window.dashboardService !== 'undefined';
+      
+      const results = {
+        apiServiceAvailable: hasApiService,
+        dashboardServiceAvailable: hasDashboardService,
+        details: {}
+      };
+      
+      if (hasApiService) {
+        results.details.apiService = {
+          methods: Object.keys(window.apiService),
+          makeAuthenticatedRequest: typeof window.apiService.makeAuthenticatedRequest === 'function'
+        };
+        log('apiService found with ' + Object.keys(window.apiService).length + ' methods', 'success');
+      } else {
+        log('apiService not found in window scope', 'warning');
+      }
+      
+      if (hasDashboardService) {
+        results.details.dashboardService = {
+          methods: Object.keys(window.dashboardService)
+        };
+        log('dashboardService found with ' + Object.keys(window.dashboardService).length + ' methods', 'success');
+      } else {
+        log('dashboardService not found in window scope', 'warning');
+      }
+      
+      document.getElementById('services-response').style.display = 'block';
+      document.getElementById('services-result').textContent = JSON.stringify(results, null, 2);
+      
+      return results;
+    }
+    
+    // Initialize the page
+    function initPage() {
+      // Set up time display
+      function updateTime() {
+        const now = new Date();
+        document.getElementById('time-display').textContent = now.toLocaleTimeString();
+      }
+      setInterval(updateTime, 1000);
+      updateTime();
+      
+      // Initial status check
+      updateStatus('api', 'pending', 'API status unknown');
+      updateStatus('auth', 'pending', 'Authentication status unknown');
+      
+      // Show environment info
+      updateEnvironmentInfo();
+      
+      // Set up button handlers
+      document.getElementById('refresh-status').addEventListener('click', updateEnvironmentInfo);
+      document.getElementById('test-basic-auth').addEventListener('click', testBasicAuth);
+      document.getElementById('test-token-auth').addEventListener('click', testTokenAuth);
+      document.getElementById('check-services').addEventListener('click', checkServices);
+      document.getElementById('clear-log').addEventListener('click', () => {
+        document.getElementById('log-output').innerHTML = '';
+        log('Log cleared', 'info');
+      });
+      
+      // Set up tab switching
+      const testButtons = document.querySelectorAll('.test-btn');
+      const testPanels = document.querySelectorAll('.test-panel');
+      
+      testButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Update button states
+          testButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          // Show relevant panel
+          const panelId = button.getAttribute('data-panel') + '-panel';
+          testPanels.forEach(panel => panel.classList.remove('active'));
+          document.getElementById(panelId).classList.add('active');
+        });
+      });
+      
+      log('API Test Console initialized', 'success');
+    }
+    
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', initPage);
+    
+    // Quick console API
+    window.apiTest = {
+      testBasicAuth,
+      testTokenAuth,
+      checkServices,
+      log
+    };
+  </script>
+</body>
+</html>

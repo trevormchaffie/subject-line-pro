@@ -21,7 +21,7 @@ app.use(helmet()); // Adds security HTTP headers
 app.use(
   cors({
     origin: config.corsOrigin,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -39,6 +39,19 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "UP", timestamp: new Date().toISOString() });
 });
 
+// Test endpoint for analytics
+app.get("/test-reports", (req, res) => {
+  res.status(200).json({ 
+    message: "Test endpoint for reports is working",
+    analyticsRoutes: {
+      getMetrics: "/api/admin/analytics/reports/metrics",
+      generateReport: "/api/admin/analytics/reports/generate",
+      exportReport: "/api/admin/analytics/reports/export",
+      scheduledReports: "/api/admin/analytics/reports/scheduled"
+    }
+  });
+});
+
 // Root route
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -52,7 +65,7 @@ app.get("/", (req, res) => {
 app.use(errorHandler);
 
 // Start the server
-const PORT = config.port;
+const PORT = 3001; // Changed from 3000 to 3001 to avoid conflicts
 app.listen(PORT, () => {
   console.log(`Server running in ${config.nodeEnv} mode on port ${PORT}`);
 });

@@ -19,14 +19,20 @@ const TopSubjectsChart = ({
   error = null,
   onSubjectClick = null,
 }) => {
-  // Format data for the chart
+  // Format data for the chart - handle both data formats (subjectLine or subject)
   const chartData =
     data?.map((item) => ({
       ...item,
+      // Map from backend sample data format to component expected format
+      subjectLine: item.subject || item.subjectLine || '',
+      overallScore: item.score || item.overallScore || 0,
+      spamScore: item.spamScore || 0,
+      length: (item.subject || item.subjectLine || '').length,
+      // Create short version for axis labels
       shortSubject:
-        item.subjectLine.length > MAX_LABEL_LENGTH
-          ? item.subjectLine.substring(0, MAX_LABEL_LENGTH) + "..."
-          : item.subjectLine,
+        (item.subject || item.subjectLine || '').length > MAX_LABEL_LENGTH
+          ? (item.subject || item.subjectLine || '').substring(0, MAX_LABEL_LENGTH) + "..."
+          : (item.subject || item.subjectLine || ''),
     })) || [];
 
   // Colors based on score

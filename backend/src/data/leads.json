@@ -11,7 +11,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-    "createdAt": "2025-03-20T16:19:20.863Z"
+    "createdAt": "2025-03-20T16:19:20.863Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1742488588532_2m9kn6t1u",
@@ -25,7 +27,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)",
-    "createdAt": "2025-03-20T16:36:28.532Z"
+    "createdAt": "2025-03-20T16:36:28.532Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1742490275502_d3e9xvvcz",
@@ -40,7 +44,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-03-20T17:04:35.502Z"
+    "createdAt": "2025-03-20T17:04:35.502Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743480130781_6yl7gzja5",
@@ -55,7 +61,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-01T04:02:10.781Z"
+    "createdAt": "2025-04-01T04:02:10.781Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743527075709_0qbpc6g38",
@@ -70,7 +78,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-01T17:04:35.709Z"
+    "createdAt": "2025-04-01T17:04:35.709Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743562742671_h9rglk014",
@@ -85,7 +95,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T02:59:02.671Z"
+    "createdAt": "2025-04-02T02:59:02.671Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743563002181_vhsqd7s1y",
@@ -100,7 +112,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T03:03:22.181Z"
+    "createdAt": "2025-04-02T03:03:22.181Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743563030318_48bq4jsqm",
@@ -115,7 +129,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T03:03:50.318Z"
+    "createdAt": "2025-04-02T03:03:50.318Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743564455629_l3yvku9yd",
@@ -130,7 +146,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T03:27:35.629Z"
+    "createdAt": "2025-04-02T03:27:35.629Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743564656986_i2erulzny",
@@ -145,7 +163,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T03:30:56.986Z"
+    "createdAt": "2025-04-02T03:30:56.986Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743564832990_p8nvne9jt",
@@ -160,7 +180,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T03:33:52.990Z"
+    "createdAt": "2025-04-02T03:33:52.990Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743614033126_1erryeztb",
@@ -175,7 +197,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T17:13:53.126Z"
+    "createdAt": "2025-04-02T17:13:53.126Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743614355528_pektpwq0u",
@@ -190,7 +214,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T17:19:15.528Z"
+    "createdAt": "2025-04-02T17:19:15.528Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743616015160_sd8qcfie1",
@@ -205,7 +231,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T17:46:55.160Z"
+    "createdAt": "2025-04-02T17:46:55.160Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743616221213_r58nxig4p",
@@ -220,7 +248,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T17:50:21.213Z"
+    "createdAt": "2025-04-02T17:50:21.213Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743629949789_fyrdb4i3g",
@@ -235,7 +265,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T21:39:09.789Z"
+    "createdAt": "2025-04-02T21:39:09.789Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743635783440_so46qitz3",
@@ -250,7 +282,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T23:16:23.440Z"
+    "createdAt": "2025-04-02T23:16:23.440Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743636168202_nnbqlywsw",
@@ -265,7 +299,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T23:22:48.202Z"
+    "createdAt": "2025-04-02T23:22:48.202Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743636611773_z7ieok8aj",
@@ -280,7 +316,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-02T23:30:11.773Z"
+    "createdAt": "2025-04-02T23:30:11.773Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743994501770_0hz13d4cr",
@@ -295,7 +333,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-07T02:55:01.770Z"
+    "createdAt": "2025-04-07T02:55:01.770Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743995034010_7kz9tq8t6",
@@ -310,7 +350,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-07T03:03:54.010Z"
+    "createdAt": "2025-04-07T03:03:54.010Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743996132018_kcfevc917",
@@ -325,7 +367,9 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-07T03:22:12.018Z"
+    "createdAt": "2025-04-07T03:22:12.018Z",
+    "status": "New",
+    "notes": []
   },
   {
     "id": "lead_1743996784898_weza4ac9h",
@@ -340,6 +384,253 @@
     },
     "ipAddress": "::1",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36",
-    "createdAt": "2025-04-07T03:33:04.898Z"
+    "createdAt": "2025-04-07T03:33:04.898Z",
+    "status": "New",
+    "notes": []
+  },
+  {
+    "id": "lead_1745207874644_3r0omqlfe",
+    "name": "dsad",
+    "email": "asd@ad.cp",
+    "businessType": "ecommerce",
+    "subjectLine": "Test 4 20 2025",
+    "analysisResults": {
+      "overallScore": 80,
+      "spamScore": 0,
+      "suggestions": 3
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "createdAt": "2025-04-21T03:57:54.644Z",
+    "status": "New",
+    "notes": []
+  },
+  {
+    "id": "lead_1745291113271_auwc3lfaw",
+    "name": "sd",
+    "email": "sdf@saf.asd",
+    "businessType": "ecommerce",
+    "subjectLine": "Yippeee!!!!",
+    "analysisResults": {
+      "overallScore": 52,
+      "spamScore": 45,
+      "suggestions": 5
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "createdAt": "2025-04-22T03:05:13.271Z",
+    "status": "New",
+    "notes": []
+  },
+  {
+    "id": "lead_1745291177139_l23j3cre4",
+    "name": "sad",
+    "email": "asas@as.co",
+    "businessType": "ecommerce",
+    "subjectLine": "Another!!",
+    "analysisResults": {
+      "overallScore": 70,
+      "spamScore": 0,
+      "suggestions": 4
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "createdAt": "2025-04-22T03:06:17.139Z",
+    "status": "New",
+    "notes": []
+  },
+  {
+    "id": "lead_1745985578809_jblcy5ixv",
+    "name": "Test User",
+    "email": "test@example.com",
+    "businessType": "ecommerce",
+    "subjectLine": "Test subject line",
+    "analysisResults": {
+      "overallScore": 85,
+      "spamScore": 10,
+      "suggestions": 3
+    },
+    "ipAddress": "::1",
+    "userAgent": "PostmanRuntime/7.43.2",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T03:59:38.809Z"
+  },
+  {
+    "id": "lead_1745988145745_h5osiyr0r",
+    "name": "Test User",
+    "email": "test@example.com",
+    "businessType": "E-commerce",
+    "subjectLine": "Special 50% off sale ending soon",
+    "analysisResults": {
+      "score": 85,
+      "feedback": "Good subject line with clear incentive",
+      "powerWords": [
+        "special",
+        "off",
+        "ending soon"
+      ],
+      "problems": []
+    },
+    "ipAddress": "::1",
+    "userAgent": "curl/8.7.1",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T04:42:25.745Z"
+  },
+  {
+    "id": "lead_1745989019191_n2aobep97",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "businessType": "E-commerce",
+    "subjectLine": "Special 50% off sale ending soon",
+    "analysisResults": {
+      "score": 85,
+      "feedback": "Good subject line with clear incentive",
+      "powerWords": [
+        "special",
+        "off",
+        "ending soon"
+      ],
+      "problems": []
+    },
+    "ipAddress": "::1",
+    "userAgent": "axios/1.8.4",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T04:56:59.191Z"
+  },
+  {
+    "id": "lead_1745989031218_o5xukuoa7",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "businessType": "E-commerce",
+    "subjectLine": "Special 50% off sale ending soon",
+    "analysisResults": {
+      "score": 85,
+      "feedback": "Good subject line with clear incentive",
+      "powerWords": [
+        "special",
+        "off",
+        "ending soon"
+      ],
+      "problems": []
+    },
+    "ipAddress": "::1",
+    "userAgent": "axios/1.8.4",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T04:57:11.218Z"
+  },
+  {
+    "id": "lead_1745989972157_07uqwlels",
+    "name": "Test User",
+    "email": "testuser@example.com",
+    "businessType": "E-commerce",
+    "subjectLine": "Special 50% off sale ending soon",
+    "analysisResults": {
+      "score": 85,
+      "feedback": "Good subject line with clear incentive",
+      "powerWords": [
+        "special",
+        "off",
+        "ending soon"
+      ],
+      "problems": []
+    },
+    "ipAddress": "::1",
+    "userAgent": "axios/1.8.4",
+    "status": "Contacted",
+    "createdAt": "2025-04-30T05:12:52.157Z",
+    "updatedAt": "2025-04-30T05:12:52.188Z",
+    "notes": [
+      {
+        "id": "note_1745989972188_atgofzvpb",
+        "content": "This is a test note from the API test script",
+        "createdBy": "Admin",
+        "createdAt": "2025-04-30T05:12:52.187Z"
+      }
+    ]
+  },
+  {
+    "id": "lead_1745989998127_gpxzuz0zu",
+    "name": "Test User",
+    "email": "test@example.com",
+    "businessType": "E-commerce",
+    "subjectLine": "Special 50% off sale ending soon",
+    "analysisResults": {
+      "score": 85,
+      "feedback": "Good subject line with clear incentive",
+      "powerWords": [
+        "special",
+        "off",
+        "ending soon"
+      ],
+      "problems": []
+    },
+    "ipAddress": "::1",
+    "userAgent": "curl/8.7.1",
+    "status": "Contacted",
+    "createdAt": "2025-04-30T05:13:18.127Z",
+    "updatedAt": "2025-04-30T05:13:18.223Z"
+  },
+  {
+    "id": "lead_1746031356205_6fiakis19",
+    "name": "Trevor Test",
+    "email": "rest@test.com",
+    "businessType": "agency",
+    "subjectLine": "This is another amazing subject line",
+    "analysisResults": {
+      "overallScore": 90,
+      "spamScore": 0,
+      "suggestions": 2
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T16:42:36.205Z"
+  },
+  {
+    "id": "lead_1746031861713_zfe0tc0k9",
+    "name": "TT",
+    "email": "TT@TT.com",
+    "businessType": "agency",
+    "subjectLine": "ANother Best",
+    "analysisResults": {
+      "overallScore": 70,
+      "spamScore": 0,
+      "suggestions": 4
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-04-30T16:51:01.713Z"
+  },
+  {
+    "id": "lead_1746032167834_1h7e6kesg",
+    "name": "T",
+    "email": "T@T.com",
+    "businessType": "agency",
+    "subjectLine": "Best Ever",
+    "analysisResults": {
+      "overallScore": 70,
+      "spamScore": 0,
+      "suggestions": 4
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+    "status": "New",
+    "notes": [
+      {
+        "id": "note_1746069015541_cx4xn9515",
+        "content": "New note",
+        "createdBy": "Admin",
+        "createdAt": "2025-05-01T03:10:15.537Z"
+      }
+    ],
+    "createdAt": "2025-04-30T16:56:07.834Z",
+    "updatedAt": "2025-05-01T03:10:15.542Z"
   }
 ]

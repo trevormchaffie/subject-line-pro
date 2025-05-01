@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Line Pro API Tester</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+        }
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 300px;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #003d82;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+            font-family: monospace;
+        }
+        .result {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow: auto;
+        }
+        .success {
+            color: #28a745;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .token-display {
+            font-size: 12px;
+            word-break: break-all;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Subject Line Pro API Tester</h1>
+    <p>Use this page to test the various API endpoints of the Subject Line Pro application.</p>
+    
+    <div class="card">
+        <h2>Authentication</h2>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="mr1018">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" value="Maya03112005">
+        </div>
+        <button onclick="login()">Login</button>
+        <div id="authResult" class="result" style="margin-top: 10px;"></div>
+        <div id="tokenDisplay" class="token-display" style="display: none;"></div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h2>Submit Lead (Public)</h2>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" value="Test User">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" value="test@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="businessType">Business Type:</label>
+                    <select id="businessType">
+                        <option value="E-commerce">E-commerce</option>
+                        <option value="SaaS">SaaS</option>
+                        <option value="B2B">B2B</option>
+                        <option value="B2C">B2C</option>
+                        <option value="Nonprofit">Nonprofit</option>
+                        <option value="Agency">Agency</option>
+                        <option value="Education">Education</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subjectLine">Subject Line:</label>
+                    <input type="text" id="subjectLine" value="Special 50% off sale ending soon">
+                </div>
+                <button onclick="submitLead()">Submit Lead</button>
+                <div id="submitLeadResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <h2>Get Leads (Admin)</h2>
+                <div class="form-group">
+                    <label for="page">Page:</label>
+                    <input type="number" id="page" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="limit">Limit:</label>
+                    <input type="number" id="limit" value="10" min="1" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="sortBy">Sort By:</label>
+                    <select id="sortBy">
+                        <option value="createdAt">Created Date</option>
+                        <option value="name">Name</option>
+                        <option value="email">Email</option>
+                        <option value="businessType">Business Type</option>
+                        <option value="status">Status</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sortOrder">Sort Order:</label>
+                    <select id="sortOrder">
+                        <option value="desc">Descending</option>
+                        <option value="asc">Ascending</option>
+                    </select>
+                </div>
+                <button onclick="getLeads()">Get Leads</button>
+                <div id="getLeadsResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h2>Get Lead by ID (Admin)</h2>
+                <div class="form-group">
+                    <label for="leadId">Lead ID:</label>
+                    <input type="text" id="leadId" placeholder="Enter lead ID">
+                </div>
+                <button onclick="getLeadById()">Get Lead</button>
+                <div id="getLeadByIdResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <h2>Update Lead Status (Admin)</h2>
+                <div class="form-group">
+                    <label for="updateLeadId">Lead ID:</label>
+                    <input type="text" id="updateLeadId" placeholder="Enter lead ID">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status">
+                        <option value="New">New</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="Qualified">Qualified</option>
+                        <option value="Proposal">Proposal</option>
+                        <option value="Won">Won</option>
+                        <option value="Lost">Lost</option>
+                    </select>
+                </div>
+                <button onclick="updateLead()">Update Lead</button>
+                <div id="updateLeadResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <h2>Add Note to Lead (Admin)</h2>
+                <div class="form-group">
+                    <label for="noteLeadId">Lead ID:</label>
+                    <input type="text" id="noteLeadId" placeholder="Enter lead ID">
+                </div>
+                <div class="form-group">
+                    <label for="note">Note:</label>
+                    <textarea id="note" placeholder="Enter note content">This is a test note from the API tester.</textarea>
+                </div>
+                <button onclick="addLeadNote()">Add Note</button>
+                <div id="addLeadNoteResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="card">
+                <h2>Export Leads (Admin)</h2>
+                <div class="form-group">
+                    <label for="exportFormat">Format:</label>
+                    <select id="exportFormat">
+                        <option value="json">JSON</option>
+                        <option value="csv">CSV</option>
+                    </select>
+                </div>
+                <button onclick="exportLeads()">Export Leads</button>
+                <div id="exportLeadsResult" class="result" style="margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let token = '';
+        let leadId = '';
+        const API_URL = 'http://localhost:3000/api';
+
+        // Helper function to display results
+        function displayResult(elementId, result, isSuccess) {
+            const element = document.getElementById(elementId);
+            element.className = isSuccess ? 'result success' : 'result error';
+            
+            if (typeof result === 'object') {
+                element.textContent = JSON.stringify(result, null, 2);
+            } else {
+                element.textContent = result;
+            }
+        }
+
+        // Login function
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    token = data.token;
+                    document.getElementById('tokenDisplay').style.display = 'block';
+                    document.getElementById('tokenDisplay').textContent = `Token: ${token}`;
+                    displayResult('authResult', 'Authentication successful!', true);
+                } else {
+                    displayResult('authResult', data, false);
+                }
+            } catch (error) {
+                displayResult('authResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Submit Lead function
+        async function submitLead() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const businessType = document.getElementById('businessType').value;
+            const subjectLine = document.getElementById('subjectLine').value;
+            
+            if (!name || !email || !businessType) {
+                displayResult('submitLeadResult', 'Name, email, and business type are required', false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/leads`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        businessType,
+                        subjectLine,
+                        analysisResults: {
+                            score: 85,
+                            feedback: "Good subject line with clear incentive",
+                            powerWords: ["special", "off", "ending soon"],
+                            problems: []
+                        }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store the lead ID for other operations
+                    if (data.data && data.data.id) {
+                        leadId = data.data.id;
+                        document.getElementById('leadId').value = leadId;
+                        document.getElementById('updateLeadId').value = leadId;
+                        document.getElementById('noteLeadId').value = leadId;
+                    }
+                    displayResult('submitLeadResult', data, true);
+                } else {
+                    displayResult('submitLeadResult', data, false);
+                }
+            } catch (error) {
+                displayResult('submitLeadResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Get Leads function
+        async function getLeads() {
+            if (!token) {
+                displayResult('getLeadsResult', 'Please login first to get a valid token', false);
+                return;
+            }
+            
+            const page = document.getElementById('page').value;
+            const limit = document.getElementById('limit').value;
+            const sortBy = document.getElementById('sortBy').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/leads/admin?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('getLeadsResult', data, true);
+                } else {
+                    displayResult('getLeadsResult', data, false);
+                }
+            } catch (error) {
+                displayResult('getLeadsResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Get Lead by ID function
+        async function getLeadById() {
+            if (!token) {
+                displayResult('getLeadByIdResult', 'Please login first to get a valid token', false);
+                return;
+            }
+            
+            const id = document.getElementById('leadId').value;
+            
+            if (!id) {
+                displayResult('getLeadByIdResult', 'Please enter a lead ID', false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/leads/admin/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('getLeadByIdResult', data, true);
+                } else {
+                    displayResult('getLeadByIdResult', data, false);
+                }
+            } catch (error) {
+                displayResult('getLeadByIdResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Update Lead function
+        async function updateLead() {
+            if (!token) {
+                displayResult('updateLeadResult', 'Please login first to get a valid token', false);
+                return;
+            }
+            
+            const id = document.getElementById('updateLeadId').value;
+            const status = document.getElementById('status').value;
+            
+            if (!id) {
+                displayResult('updateLeadResult', 'Please enter a lead ID', false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/leads/admin/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('updateLeadResult', data, true);
+                } else {
+                    displayResult('updateLeadResult', data, false);
+                }
+            } catch (error) {
+                displayResult('updateLeadResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Add Lead Note function
+        async function addLeadNote() {
+            if (!token) {
+                displayResult('addLeadNoteResult', 'Please login first to get a valid token', false);
+                return;
+            }
+            
+            const leadId = document.getElementById('noteLeadId').value;
+            const note = document.getElementById('note').value;
+            
+            if (!leadId || !note) {
+                displayResult('addLeadNoteResult', 'Lead ID and note are required', false);
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/leads/admin/notes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ leadId, note })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    displayResult('addLeadNoteResult', data, true);
+                } else {
+                    displayResult('addLeadNoteResult', data, false);
+                }
+            } catch (error) {
+                displayResult('addLeadNoteResult', `Error: ${error.message}`, false);
+            }
+        }
+
+        // Export Leads function
+        async function exportLeads() {
+            if (!token) {
+                displayResult('exportLeadsResult', 'Please login first to get a valid token', false);
+                return;
+            }
+            
+            const format = document.getElementById('exportFormat').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/leads/admin/export?format=${format}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (format === 'json') {
+                    const data = await response.json();
+                    if (response.ok) {
+                        displayResult('exportLeadsResult', data, true);
+                    } else {
+                        displayResult('exportLeadsResult', data, false);
+                    }
+                } else {
+                    // Handle CSV format
+                    const text = await response.text();
+                    if (response.ok) {
+                        displayResult('exportLeadsResult', text, true);
+                    } else {
+                        try {
+                            const errorData = JSON.parse(text);
+                            displayResult('exportLeadsResult', errorData, false);
+                        } catch {
+                            displayResult('exportLeadsResult', text, false);
+                        }
+                    }
+                }
+            } catch (error) {
+                displayResult('exportLeadsResult', `Error: ${error.message}`, false);
+            }
+        }
+    </script>
+</body>
+</html>

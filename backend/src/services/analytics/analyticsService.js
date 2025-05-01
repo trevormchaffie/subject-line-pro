@@ -4,7 +4,8 @@
 const fs = require("fs").promises;
 const path = require("path");
 const cacheService = require("./cacheService");
-const { getLeadsFilePath } = require("../../utils/fileUtils");
+const fileUtils = require("../../utils/fileUtils");
+const { v4: uuidv4 } = require("uuid");
 
 // Helper function to format date strings consistently
 const formatDate = (date) => {
@@ -18,6 +19,34 @@ const formatDate = (date) => {
 const isDateInRange = (dateStr, startDate, endDate) => {
   const date = new Date(dateStr);
   return (!startDate || date >= startDate) && (!endDate || date <= endDate);
+};
+
+// File paths
+const getLeadsFilePath = () => path.join(process.cwd(), "src/data/leads.json");
+const getAnalyzedSubjectsFilePath = () => path.join(process.cwd(), "src/data/analyzed_subjects.json");
+const SCHEDULED_REPORTS_PATH = path.join(
+  process.cwd(),
+  "src/data/scheduled_reports.json"
+);
+
+// Available metrics mapping
+const AVAILABLE_METRICS = {
+  // Basic metrics (used in the UI as 'basic' category)
+  totalLeads: { name: "Total Leads", category: "basic", id: "leadCount" },
+  totalAnalyses: { name: "Total Subject Lines Analyzed", category: "basic", id: "subjectCount" },
+  conversionRate: { name: "Conversion Rate", category: "basic", id: "conversionRate" },
+  averageScore: { name: "Average Effectiveness Score", category: "subject", id: "avgScore" },
+  spamScoreAverage: { name: "Average Spam Score", category: "subject", id: "avgSpamScore" },
+  
+  // Chart data
+  spamScoreDistribution: { name: "Spam Score Distribution", category: "subject", id: "scoreDistribution" },
+  businessTypeCounts: { name: "Business Type Distribution", category: "leads", id: "businessTypes" },
+  
+  // Detailed metrics
+  subjectLineLength: { name: "Subject Line Length", category: "subject", id: "lengthDistribution" },
+  wordFrequency: { name: "Word Frequency", category: "subject", id: "wordAnalysis" },
+  timeSeries: { name: "Time Series Trend", category: "performance", id: "timeSeries" },
+  topSubjects: { name: "Top Performing Subject Lines", category: "performance", id: "topSubjects" },
 };
 
 /**
@@ -35,6 +64,27 @@ const analyticsService = {
       return data ? JSON.parse(data) : [];
     } catch (error) {
       if (error.code === "ENOENT") {
+        // Create an empty file if it doesn't exist
+        await fs.writeFile(filePath, JSON.stringify([]), "utf8");
+        return []; // File doesn't exist yet, return empty array
+      }
+      throw error;
+    }
+  },
+
+  /**
+   * Load analyzed subjects from storage
+   * @returns {Promise<Array>} Array of analyzed subject objects
+   */
+  async loadAnalyzedSubjects() {
+    try {
+      const filePath = getAnalyzedSubjectsFilePath();
+      const data = await fs.readFile(filePath, "utf8");
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        // Create an empty file if it doesn't exist
+        await fs.writeFile(filePath, JSON.stringify([]), "utf8");
         return []; // File doesn't exist yet, return empty array
       }
       throw error;
@@ -69,6 +119,7 @@ const analyticsService = {
 
     try {
       const leads = await this.loadLeads();
+      const analyzedSubjects = await this.loadAnalyzedSubjects();
 
       // Filter leads by date range if specified
       const filteredLeads =
@@ -78,9 +129,19 @@ const analyticsService = {
               return isDateInRange(createdAt, startDateTime, endDateTime);
             })
           : leads;
+          
+      // Filter analyzed subjects by date range if specified
+      const filteredSubjects =
+        startDateTime || endDateTime
+          ? analyzedSubjects.filter((subject) => {
+              const createdAt = new Date(subject.createdAt);
+              return isDateInRange(createdAt, startDateTime, endDateTime);
+            })
+          : analyzedSubjects;
 
       // Calculate metrics
       const totalLeads = filteredLeads.length;
+      const totalAnalyses = filteredSubjects.length;
 
       // Calculate average score
       let totalScore = 0;
@@ -130,6 +191,7 @@ const analyticsService = {
 
       const result = {
         totalLeads,
+        totalAnalyses,
         averageScore,
         businessTypeCounts,
         submissionsByDay,
@@ -389,6 +451,308 @@ const analyticsService = {
   invalidateCache() {
     cacheService.clear();
   },
+  
+  /**
+   * Get all available metrics with their categories
+   * @returns {Object} Available metrics organized by category
+   */
+  getAvailableMetrics() {
+    // Group metrics by front-end compatible categories (basic, subject, leads, performance)
+    const categories = {
+      basic: [],
+      subject: [],
+      leads: [],
+      performance: []
+    };
+    
+    Object.entries(AVAILABLE_METRICS).forEach(([key, metric]) => {
+      const category = metric.category;
+      
+      if (categories[category]) {
+        categories[category].push({
+          id: metric.id || key,
+          name: metric.name,
+          description: metric.description
+        });
+      }
+    });
+    
+    return categories;
+  },
+  
+  /**
+   * Generate a custom report based on selected metrics and date range
+   * @param {Object} options - Report options
+   * @param {Date|string} options.startDate - Start date 
+   * @param {Date|string} options.endDate - End date 
+   * @param {Array<string>} options.metrics - Array of metric keys to include
+   * @param {string} options.groupBy - Grouping for time series ('day'|'week'|'month')
+   * @returns {Promise<Object>} Report data
+   */
+  async generateCustomReport(options = {}) {
+    const { startDate, endDate, metrics = [], groupBy = "day" } = options;
+    
+    // Get basic metrics data
+    const basicMetrics = await this.getBasicMetrics({ startDate, endDate });
+    
+    // Get subject line metrics if needed
+    const needsSubjectMetrics = metrics.some(m => 
+      ["subjectLineLength", "wordFrequency"].includes(m)
+    );
+    
+    const subjectMetrics = needsSubjectMetrics ? 
+      await this.getSubjectLineMetrics({ startDate, endDate }) : null;
+    
+    // Get time series data if needed
+    const needsTimeSeries = metrics.some(m => m === "timeSeries");
+    
+    const timeSeriesData = needsTimeSeries ?
+      await this.getTimeSeriesData({ startDate, endDate, groupBy }) : null;
+    
+    // Build the report
+    const report = {
+      metadata: {
+        generatedAt: new Date().toISOString(),
+        dateRange: {
+          startDate,
+          endDate,
+        },
+        metrics: metrics.map(m => AVAILABLE_METRICS[m]?.name || m),
+      },
+      data: {}
+    };
+    
+    // Add requested metrics to the report
+    metrics.forEach(metric => {
+      switch (metric) {
+        case "totalLeads":
+          report.data.totalLeads = basicMetrics.totalLeads;
+          break;
+          
+        case "totalAnalyses":
+          report.data.totalAnalyses = basicMetrics.totalLeads; // Assuming each lead has an analysis
+          break;
+          
+        case "averageScore":
+          report.data.averageScore = basicMetrics.averageScore;
+          break;
+          
+        case "spamScoreDistribution":
+          report.data.spamScoreDistribution = basicMetrics.spamScoreDistribution;
+          break;
+          
+        case "businessTypeCounts":
+          report.data.businessTypeCounts = basicMetrics.businessTypeCounts;
+          break;
+          
+        case "subjectLineLength":
+          if (subjectMetrics) {
+            report.data.subjectLineLength = {
+              averageLength: subjectMetrics.averageLength,
+              averageWordCount: subjectMetrics.averageWordCount,
+              lengthDistribution: subjectMetrics.lengthDistribution,
+            };
+          }
+          break;
+          
+        case "wordFrequency":
+          if (subjectMetrics) {
+            report.data.wordFrequency = subjectMetrics.topWords;
+          }
+          break;
+          
+        case "timeSeries":
+          if (timeSeriesData) {
+            report.data.timeSeries = {
+              groupBy,
+              data: timeSeriesData,
+            };
+          }
+          break;
+      }
+    });
+    
+    return report;
+  },
+  
+  /**
+   * Export report data to CSV format
+   * @param {Object} reportData - Report data object
+   * @param {Object} options - Export options
+   * @returns {Promise<string>} CSV content
+   */
+  async exportToCSV(reportData, options = {}) {
+    // Simple CSV generation for demonstration purposes
+    const { data, metadata } = reportData;
+    let csvContent = [];
+    
+    // Add header row with metadata
+    csvContent.push(`# Subject Line Pro Analytics Report`);
+    csvContent.push(`# Generated: ${new Date(metadata.generatedAt).toLocaleString()}`);
+    csvContent.push(`# Date Range: ${metadata.dateRange.startDate} to ${metadata.dateRange.endDate}`);
+    csvContent.push(`# Metrics: ${metadata.metrics.join(", ")}`);
+    csvContent.push(``);
+    
+    // Process each metric into CSV rows
+    Object.entries(data).forEach(([metricName, metricData]) => {
+      csvContent.push(`## ${AVAILABLE_METRICS[metricName]?.name || metricName}`);
+      
+      if (metricName === "totalLeads" || metricName === "totalAnalyses" || metricName === "averageScore") {
+        csvContent.push(`Value,${metricData}`);
+      } 
+      else if (metricName === "spamScoreDistribution") {
+        csvContent.push(`Risk Level,Count`);
+        csvContent.push(`Low,${metricData.low}`);
+        csvContent.push(`Medium,${metricData.medium}`);
+        csvContent.push(`High,${metricData.high}`);
+      }
+      else if (metricName === "businessTypeCounts") {
+        csvContent.push(`Business Type,Count`);
+        Object.entries(metricData).forEach(([type, count]) => {
+          csvContent.push(`${type},${count}`);
+        });
+      }
+      else if (metricName === "subjectLineLength") {
+        csvContent.push(`Metric,Value`);
+        csvContent.push(`Average Length,${metricData.averageLength}`);
+        csvContent.push(`Average Word Count,${metricData.averageWordCount}`);
+        csvContent.push(``);
+        csvContent.push(`Length Category,Count`);
+        csvContent.push(`Short,${metricData.lengthDistribution.short}`);
+        csvContent.push(`Medium,${metricData.lengthDistribution.medium}`);
+        csvContent.push(`Long,${metricData.lengthDistribution.long}`);
+      }
+      else if (metricName === "wordFrequency") {
+        csvContent.push(`Word,Frequency`);
+        metricData.forEach(item => {
+          csvContent.push(`${item.word},${item.count}`);
+        });
+      }
+      else if (metricName === "timeSeries") {
+        csvContent.push(`Period,Count,Average Score,Average Spam Score`);
+        metricData.data.forEach(item => {
+          csvContent.push(`${item.period},${item.count},${item.averageScore},${item.averageSpamScore}`);
+        });
+      }
+      
+      csvContent.push(``); // Empty line between metrics
+    });
+    
+    return csvContent.join('\n');
+  },
+  
+  /**
+   * Export report data to PDF format
+   * @param {Object} reportData - Report data object
+   * @param {Object} options - Export options
+   * @returns {Promise<Buffer>} PDF content as buffer
+   */
+  async exportToPDF(reportData, options = {}) {
+    // In a real implementation, we would use a PDF library like PDFKit
+    // For this demonstration, we'll return a simple string indicating PDF generation
+    // In production, this would return a Buffer containing the PDF data
+    
+    // This is a simplified implementation
+    const csvContent = await this.exportToCSV(reportData, options);
+    
+    return Buffer.from(`PDF Export of report: ${reportData.metadata.generatedAt}\n\n` +
+      `This is a placeholder for real PDF generation.\n\n` +
+      `In a production environment, this would generate a styled PDF with charts and tables.\n\n` +
+      `CSV Data preview:\n${csvContent.substring(0, 500)}...`);
+  },
+  
+  /**
+   * Load scheduled reports from storage
+   * @returns {Promise<Array>} Array of scheduled report configurations
+   */
+  async getScheduledReports() {
+    try {
+      const data = await fs.readFile(SCHEDULED_REPORTS_PATH, "utf8");
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        // Create the directory if it doesn't exist
+        await fs.mkdir(path.dirname(SCHEDULED_REPORTS_PATH), { recursive: true });
+        // Create an empty file
+        await fs.writeFile(SCHEDULED_REPORTS_PATH, JSON.stringify([]), "utf8");
+        return []; // Return empty array
+      }
+      throw error;
+    }
+  },
+  
+  /**
+   * Save a scheduled report configuration
+   * @param {Object} report - Report configuration
+   * @returns {Promise<Object>} Saved report with ID
+   */
+  async saveScheduledReport(report) {
+    // Load existing reports
+    const reports = await this.getScheduledReports();
+    
+    // Create new report with ID
+    const newReport = {
+      id: uuidv4(),
+      ...report,
+    };
+    
+    // Add to reports array
+    reports.push(newReport);
+    
+    // Save to file
+    try {
+      // Ensure directory exists
+      await fs.mkdir(path.dirname(SCHEDULED_REPORTS_PATH), { recursive: true });
+      
+      // Write to file
+      await fs.writeFile(
+        SCHEDULED_REPORTS_PATH,
+        JSON.stringify(reports, null, 2),
+        "utf8"
+      );
+      
+      return newReport;
+    } catch (error) {
+      console.error("Error saving scheduled report:", error);
+      throw new Error("Failed to save scheduled report");
+    }
+  },
+  
+  /**
+   * Delete a scheduled report by ID
+   * @param {string} id - Report ID
+   * @returns {Promise<boolean>} Success status
+   */
+  async deleteScheduledReport(id) {
+    // Load existing reports
+    const reports = await this.getScheduledReports();
+    
+    // Filter out the report to delete
+    const filteredReports = reports.filter(report => report.id !== id);
+    
+    // If no reports were removed, the ID didn't exist
+    if (filteredReports.length === reports.length) {
+      return false;
+    }
+    
+    // Save the updated reports
+    try {
+      // Ensure directory exists
+      await fs.mkdir(path.dirname(SCHEDULED_REPORTS_PATH), { recursive: true });
+      
+      // Write to file
+      await fs.writeFile(
+        SCHEDULED_REPORTS_PATH,
+        JSON.stringify(filteredReports, null, 2),
+        "utf8"
+      );
+      
+      return true;
+    } catch (error) {
+      console.error("Error deleting scheduled report:", error);
+      throw new Error("Failed to delete scheduled report");
+    }
+  }
 };
 
 module.exports = analyticsService;

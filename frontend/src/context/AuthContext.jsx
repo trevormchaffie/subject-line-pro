@@ -4,7 +4,7 @@ import axios from "axios";
 // Get API base URL based on environment
 const API_BASE_URL =
   window.location.hostname === "localhost"
-    ? "http://localhost:3000/api/auth" // Development
+    ? "http://localhost:3001/api/auth" // Development (updated to port 3001)
     : "https://api.trevormchaffie.com/api/auth"; // Production
 
 export const AuthContext = createContext();

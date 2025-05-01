@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require("fs");
 const path = require("path");
 const config = require("../config/jwt.config");
+const mainConfig = require("../config/config");
 
 // In-memory token blacklist
 let tokenBlacklist = new Set();
@@ -82,7 +83,7 @@ const verifyAccessToken = (token) => {
       return null;
     }
 
-    return jwt.verify(token, config.accessToken.secret);
+    return jwt.verify(token, mainConfig.jwtSecret);
   } catch (error) {
     return null;
   }

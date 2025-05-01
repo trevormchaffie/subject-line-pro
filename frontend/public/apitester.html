@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Line Pro - API Tester</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    h1 {
+      margin: 0;
+      color: #2b6cb0;
+    }
+    .subtitle {
+      color: #718096;
+      margin-top: 5px;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    button {
+      background-color: #4299e1;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #3182ce;
+    }
+    button.secondary {
+      background-color: #a0aec0;
+    }
+    button.secondary:hover {
+      background-color: #718096;
+    }
+    button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .button-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .status-dot.green {
+      background-color: #48bb78;
+    }
+    .status-dot.red {
+      background-color: #f56565;
+    }
+    .status-dot.yellow {
+      background-color: #ecc94b;
+    }
+    .status-dot.gray {
+      background-color: #cbd5e0;
+    }
+    pre {
+      background-color: #f7fafc;
+      padding: 10px;
+      border-radius: 4px;
+      overflow: auto;
+      font-size: 13px;
+    }
+    .results-container {
+      height: 600px;
+      overflow-y: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      background-color: #f8fafc;
+    }
+    .result-item {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .result-item:last-child {
+      border-bottom: none;
+    }
+    .result-success {
+      border-left: 4px solid #48bb78;
+    }
+    .result-error {
+      border-left: 4px solid #f56565;
+    }
+    .result-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .result-time {
+      font-size: 12px;
+      color: #718096;
+    }
+    .result-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    .badge-success {
+      background-color: #c6f6d5;
+      color: #276749;
+    }
+    .badge-error {
+      background-color: #fed7d7;
+      color: #c53030;
+    }
+    .code-container {
+      background-color: #2d3748;
+      color: #e2e8f0;
+      padding: 15px;
+      border-radius: 6px;
+      font-family: monospace;
+      position: relative;
+      margin-top: 15px;
+    }
+    .copy-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #4299e1;
+      color: white;
+      border: none;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Subject Line Pro - API Tester</h1>
+        <div class="subtitle">Standalone Diagnostic Tool</div>
+      </div>
+      <div id="time">00:00:00</div>
+    </header>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>Connection Status</h2>
+          <div class="status">
+            <div class="status-dot gray" id="api-status-dot"></div>
+            <div>API: <span id="api-status-text">Unknown</span></div>
+          </div>
+          <div class="status">
+            <div class="status-dot gray" id="basic-auth-dot"></div>
+            <div>Basic Auth: <span id="basic-auth-text">Not tested</span></div>
+          </div>
+          <div class="status">
+            <div class="status-dot gray" id="token-auth-dot"></div>
+            <div>Token Auth: <span id="token-auth-text">Not tested</span></div>
+          </div>
+          <div id="env-info" style="margin-top: 15px; display: none;">
+            <h3>Environment Info</h3>
+            <pre id="env-info-content"></pre>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Test Actions</h2>
+          <button id="run-all-tests" class="full-width" style="width: 100%; margin-bottom: 15px;">Run All Tests</button>
+          
+          <div class="button-group">
+            <button id="test-basic-auth">Test Basic Auth</button>
+            <button id="test-token-auth">Test Token Auth</button>
+            <button id="check-global-objects">Check Window Objects</button>
+            <button id="clear-results" class="secondary">Clear Results</button>
+          </div>
+          
+          <div>
+            <h3>Browser Console Script</h3>
+            <p style="font-size: 14px;">Copy this script to test in any browser console:</p>
+            <div class="code-container">
+              <button class="copy-button" id="copy-script">Copy</button>
+              <pre id="console-script" style="white-space: pre-wrap; word-break: break-word; max-height: 200px; overflow: auto; margin: 0; font-size: 12px;">// Loading...</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h2>Test Results</h2>
+          <div class="results-container" id="results-container">
+            <div style="padding: 20px; text-align: center; color: #a0aec0;">
+              No test results yet. Run some tests to see output here.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configuration
+    const API_BASE_URL = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000/api' 
+      : 'https://api.subjectlinepro.com/api';
+    
+    // Admin credentials
+    const ADMIN_USERNAME = "mr1018";
+    const ADMIN_PASSWORD = "Maya03112005";
+    
+    // Initialize UI
+    const buttons = {
+      runAll: document.getElementById('run-all-tests'),
+      basicAuth: document.getElementById('test-basic-auth'),
+      tokenAuth: document.getElementById('test-token-auth'),
+      checkGlobal: document.getElementById('check-global-objects'),
+      clearResults: document.getElementById('clear-results'),
+      copyScript: document.getElementById('copy-script')
+    };
+    
+    const status = {
+      api: {
+        dot: document.getElementById('api-status-dot'),
+        text: document.getElementById('api-status-text')
+      },
+      basicAuth: {
+        dot: document.getElementById('basic-auth-dot'),
+        text: document.getElementById('basic-auth-text')
+      },
+      tokenAuth: {
+        dot: document.getElementById('token-auth-dot'),
+        text: document.getElementById('token-auth-text')
+      }
+    };
+    
+    const resultsContainer = document.getElementById('results-container');
+    const timeDisplay = document.getElementById('time');
+    const envInfo = document.getElementById('env-info');
+    const envInfoContent = document.getElementById('env-info-content');
+    const consoleScript = document.getElementById('console-script');
+    
+    // Update status indicators
+    function updateStatus(statusType, state, message) {
+      if (!status[statusType]) return;
+      
+      const { dot, text } = status[statusType];
+      
+      if (state === 'success') {
+        dot.className = 'status-dot green';
+      } else if (state === 'error') {
+        dot.className = 'status-dot red';
+      } else if (state === 'pending') {
+        dot.className = 'status-dot yellow';
+      } else {
+        dot.className = 'status-dot gray';
+      }
+      
+      text.textContent = message;
+    }
+    
+    // Add a test result
+    function addResult(title, success, data = null) {
+      // If first result, clear the placeholder
+      if (resultsContainer.children.length === 1 && 
+          resultsContainer.children[0].style.textAlign === 'center') {
+        resultsContainer.innerHTML = '';
+      }
+      
+      const resultItem = document.createElement('div');
+      resultItem.className = `result-item ${success ? 'result-success' : 'result-error'}`;
+      
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      
+      resultItem.innerHTML = `
+        <div class="result-heading">
+          <div>
+            <span class="result-badge ${success ? 'badge-success' : 'badge-error'}">
+              ${success ? 'SUCCESS' : 'ERROR'}
+            </span>
+            ${title}
+          </div>
+          <div class="result-time">${timeString}</div>
+        </div>
+        ${data ? `<pre>${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}</pre>` : ''}
+      `;
+      
+      resultsContainer.prepend(resultItem);
+      resultsContainer.scrollTop = 0;
+    }
+    
+    // Update environment info
+    function updateEnvironmentInfo() {
+      const info = {
+        url: window.location.href,
+        apiBaseUrl: API_BASE_URL,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString(),
+        hostname: window.location.hostname
+      };
+      
+      // Check for services in window scope
+      info.services = {
+        apiServiceAvailable: typeof window.apiService !== 'undefined',
+        dashboardServiceAvailable: typeof window.dashboardService !== 'undefined'
+      };
+      
+      if (window.apiService) {
+        info.services.apiServiceMethods = Object.keys(window.apiService);
+      }
+      
+      if (window.dashboardService) {
+        info.services.dashboardServiceMethods = Object.keys(window.dashboardService);
+      }
+      
+      envInfo.style.display = 'block';
+      envInfoContent.textContent = JSON.stringify(info, null, 2);
+      
+      return info;
+    }
+    
+    // Test Basic Auth
+    async function testBasicAuth() {
+      try {
+        addResult('Starting Basic Auth test...', true);
+        updateStatus('basicAuth', 'pending', 'Testing...');
+        
+        const credentials = btoa(`${ADMIN_USERNAME}:${ADMIN_PASSWORD}`);
+        
+        const response = await fetch(`${API_BASE_URL}/stats/dashboard?period=day`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${credentials}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        addResult('Basic Auth API call successful', true, data);
+        
+        updateStatus('api', 'success', 'Connected');
+        updateStatus('basicAuth', 'success', 'Working');
+        
+        return data;
+      } catch (err) {
+        addResult('Basic Auth test failed', false, { error: err.message });
+        
+        updateStatus('api', 'error', 'Connection failed');
+        updateStatus('basicAuth', 'error', 'Failed');
+        
+        return null;
+      }
+    }
+    
+    // Test Token Auth
+    async function testTokenAuth() {
+      try {
+        addResult('Starting Token Auth test...', true);
+        updateStatus('tokenAuth', 'pending', 'Testing...');
+        
+        // Get token from storage
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        
+        if (!token) {
+          addResult('No auth token found in storage', false, {
+            details: "No auth token was found in localStorage or sessionStorage. You need to log in to the application first."
+          });
+          
+          updateStatus('tokenAuth', 'error', 'No token found');
+          return null;
+        }
+        
+        addResult('Auth token found', true, {
+          source: localStorage.getItem('authToken') ? 'localStorage' : 'sessionStorage',
+          tokenPreview: `${token.substring(0, 15)}...`
+        });
+        
+        const response = await fetch(`${API_BASE_URL}/stats/dashboard`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        
+        const data = await response.json();
+        addResult('Token Auth API call successful', true, data);
+        
+        updateStatus('tokenAuth', 'success', 'Working');
+        
+        return data;
+      } catch (err) {
+        addResult('Token Auth test failed', false, { error: err.message });
+        
+        updateStatus('tokenAuth', 'error', 'Failed');
+        
+        return null;
+      }
+    }
+    
+    // Check for global objects
+    function checkGlobalObjects() {
+      const apiServiceExists = typeof window.apiService !== 'undefined';
+      const dashboardServiceExists = typeof window.dashboardService !== 'undefined';
+      
+      addResult('Checking for global objects', true, {
+        apiServiceAvailable: apiServiceExists,
+        dashboardServiceAvailable: dashboardServiceExists,
+        windowKeys: Object.keys(window).filter(key => 
+          key.includes('api') || 
+          key.includes('service') || 
+          key.includes('dashboard')
+        )
+      });
+      
+      if (apiServiceExists) {
+        addResult('apiService found in global scope', true, {
+          methods: Object.keys(window.apiService)
+        });
+        
+        // Try calling a method
+        try {
+          window.apiService.getDashboardMetrics('day')
+            .then(result => {
+              addResult('Successfully called apiService.getDashboardMetrics', true, result);
+            })
+            .catch(err => {
+              addResult('Error calling apiService.getDashboardMetrics', false, { error: err.message });
+            });
+        } catch (err) {
+          addResult('Error trying to use apiService', false, { error: err.message });
+        }
+      }
+      
+      if (dashboardServiceExists) {
+        addResult('dashboardService found in global scope', true, {
+          methods: Object.keys(window.dashboardService)
+        });
+        
+        // Try calling a method
+        try {
+          window.dashboardService.getDashboardStats()
+            .then(result => {
+              addResult('Successfully called dashboardService.getDashboardStats', true, result);
+            })
+            .catch(err => {
+              addResult('Error calling dashboardService.getDashboardStats', false, { error: err.message });
+            });
+        } catch (err) {
+          addResult('Error trying to use dashboardService', false, { error: err.message });
+        }
+      }
+      
+      return { apiServiceExists, dashboardServiceExists };
+    }
+    
+    // Run all tests
+    async function runAllTests() {
+      // Clear previous results
+      resultsContainer.innerHTML = '';
+      
+      addResult('Starting all tests', true);
+      
+      const envData = updateEnvironmentInfo();
+      addResult('Environment info updated', true, envData);
+      
+      await testBasicAuth();
+      await testTokenAuth();
+      checkGlobalObjects();
+      
+      addResult('All tests completed', true);
+    }
+    
+    // Initialize time display
+    function updateTime() {
+      const now = new Date();
+      timeDisplay.textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+    
+    // Initialize console script
+    const scriptText = `// Subject Line Pro - API Test Script
+(function() {
+  const API_BASE_URL = window.location.hostname === 'localhost' ? 
+    'http://localhost:3000/api' : 
+    'https://api.subjectlinepro.com/api';
+  
+  const ADMIN_USERNAME = "mr1018";
+  const ADMIN_PASSWORD = "Maya03112005";
+  
+  console.log('📊 Testing API connections...');
+  
+  // Create results UI
+  const container = document.createElement('div');
+  container.style.cssText = \`
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 10000;
+    width: 400px;
+    max-height: 80vh;
+    overflow: auto;
+    font-family: system-ui, sans-serif;
+  \`;
+  
+  container.innerHTML = \`
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <h3 style="margin: 0;">API Test Results</h3>
+      <button id="close-test-ui" style="background: none; border: none; cursor: pointer; font-size: 18px;">×</button>
+    </div>
+    <div id="test-results"></div>
+  \`;
+  
+  document.body.appendChild(container);
+  
+  document.getElementById('close-test-ui').addEventListener('click', () => {
+    container.remove();
+  });
+  
+  const resultsDiv = document.getElementById('test-results');
+  
+  function addResult(title, success, data) {
+    const result = document.createElement('div');
+    result.style.cssText = \`
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      border-left: 4px solid \${success ? '#38a169' : '#e53e3e'};
+      background: \${success ? '#f0fff4' : '#fff5f5'};
+    \`;
+    
+    result.innerHTML = \`
+      <div style="display: flex; align-items: center; margin-bottom: 5px;">
+        <span style="color: \${success ? 'green' : 'red'}; margin-right: 8px;">\${success ? '✅' : '❌'}</span>
+        <strong>\${title}</strong>
+      </div>
+      \${data ? \`<pre style="margin: 0; overflow: auto; max-height: 200px; background: #f8f8f8; padding: 8px; border-radius: 4px; font-size: 12px;">\${
+        typeof data === 'object' ? JSON.stringify(data, null, 2) : data
+      }</pre>\` : ''}
+    \`;
+    
+    resultsDiv.appendChild(result);
+  }
+  
+  async function testBasicAuth() {
+    try {
+      console.log('Testing Basic Auth...');
+      
+      const credentials = btoa(\`\${ADMIN_USERNAME}:\${ADMIN_PASSWORD}\`);
+      
+      const response = await fetch(\`\${API_BASE_URL}/stats/dashboard?period=day\`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': \`Basic \${credentials}\`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(\`API request failed with status \${response.status}\`);
+      }
+      
+      const data = await response.json();
+      console.log('Basic Auth API call successful:', data);
+      
+      addResult('Basic Auth API Call', true, data);
+      return data;
+    } catch (err) {
+      console.error('Basic Auth test failed:', err);
+      addResult('Basic Auth API Call', false, { error: err.message });
+      return null;
+    }
+  }
+  
+  async function testApiService() {
+    try {
+      if (typeof window.apiService === 'undefined') {
+        console.warn('apiService not available');
+        addResult('apiService Check', false, { error: 'apiService not available in window scope' });
+        return;
+      }
+      
+      console.log('Testing apiService.getDashboardMetrics...');
+      const result = await window.apiService.getDashboardMetrics('day');
+      console.log('apiService.getDashboardMetrics result:', result);
+      
+      addResult('apiService.getDashboardMetrics', true, result);
+    } catch (err) {
+      console.error('apiService test failed:', err);
+      addResult('apiService.getDashboardMetrics', false, { error: err.message });
+    }
+  }
+  
+  async function testDashboardService() {
+    try {
+      if (typeof window.dashboardService === 'undefined') {
+        console.warn('dashboardService not available');
+        addResult('dashboardService Check', false, { error: 'dashboardService not available in window scope' });
+        return;
+      }
+      
+      console.log('Testing dashboardService.getDashboardStats...');
+      const result = await window.dashboardService.getDashboardStats();
+      console.log('dashboardService.getDashboardStats result:', result);
+      
+      addResult('dashboardService.getDashboardStats', true, result);
+    } catch (err) {
+      console.error('dashboardService test failed:', err);
+      addResult('dashboardService.getDashboardStats', false, { error: err.message });
+    }
+  }
+  
+  // Check window scope
+  addResult('Environment Check', true, {
+    url: window.location.href,
+    apiServiceAvailable: typeof window.apiService !== 'undefined',
+    dashboardServiceAvailable: typeof window.dashboardService !== 'undefined',
+    apiBaseUrl: API_BASE_URL
+  });
+  
+  // Run tests
+  async function runTests() {
+    await testBasicAuth();
+    await testApiService();
+    await testDashboardService();
+    console.log('All tests completed');
+  }
+  
+  runTests();
+})();`;
+
+    consoleScript.textContent = scriptText;
+    
+    // Set up event listeners
+    buttons.runAll.addEventListener('click', runAllTests);
+    buttons.basicAuth.addEventListener('click', testBasicAuth);
+    buttons.tokenAuth.addEventListener('click', testTokenAuth);
+    buttons.checkGlobal.addEventListener('click', checkGlobalObjects);
+    buttons.clearResults.addEventListener('click', () => {
+      resultsContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #a0aec0;">No test results yet. Run some tests to see output here.</div>';
+    });
+    buttons.copyScript.addEventListener('click', () => {
+      navigator.clipboard.writeText(scriptText);
+      const originalText = buttons.copyScript.textContent;
+      buttons.copyScript.textContent = 'Copied!';
+      setTimeout(() => {
+        buttons.copyScript.textContent = originalText;
+      }, 2000);
+    });
+    
+    // Initialize page
+    updateEnvironmentInfo();
+    addResult('API Tester initialized', true, {
+      time: new Date().toISOString(),
+      apiBaseUrl: API_BASE_URL
+    });
+  </script>
+</body>
+</html>

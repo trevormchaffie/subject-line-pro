@@ -8,11 +8,10 @@ const ActivityFeed = ({ activities = [], leads = [], analyses = [] }) => {
   // Add some debug logging to check what's being passed in
   console.log("ActivityFeed received:", { activities, leads, analyses });
 
-  const [key, setKey] = useState(0);
-
+  // Remove the key state and useEffect to fix the infinite update loop
   useEffect(() => {
     console.log("Activities, leads, or analyses changed in ActivityFeed:", { activities, leads, analyses });
-    setKey((prevKey) => prevKey + 1);
+    // No state updates here to prevent infinite loop
   }, [activities, leads, analyses]);
 
   const handleViewAll = () => {
