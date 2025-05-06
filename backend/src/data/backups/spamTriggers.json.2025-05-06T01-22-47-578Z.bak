@@ -1,0 +1,20 @@
+[
+  {
+    "id": "mabtr12pr7l14",
+    "pattern": "CASH NOW",
+    "category": "promotional",
+    "impact": 70,
+    "description": "Cash advance spam trigger",
+    "active": true,
+    "createdAt": "2025-05-06T01:22:11.377Z"
+  },
+  {
+    "id": "mabtr12p7orf2",
+    "pattern": "URGENT ACTION REQUIRED",
+    "category": "urgent",
+    "impact": 85,
+    "description": "Creates false urgency",
+    "active": true,
+    "createdAt": "2025-05-06T01:22:11.377Z"
+  }
+]

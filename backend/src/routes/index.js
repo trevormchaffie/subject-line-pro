@@ -7,6 +7,7 @@ const authController = require("../controllers/authController");
 const analyticsRoutes = require("./admin/analyticsRoutes");
 const statsRoutes = require("./stats.routes");
 const leadsRoutes = require("./leads.routes");
+const spamTriggerRoutes = require("./spamTriggerRoutes"); // Add this import
 const { authenticate } = require("../middleware/authMiddleware");
 const authOrBasic = require("../middleware/authOrBasicMiddleware");
 
@@ -40,6 +41,9 @@ router.get(
   analyticsController.getConversionMetrics
 );
 router.use("/admin/analytics", analyticsRoutes);
+
+// Spam Trigger Management routes - protected by authentication
+router.use("/spam-triggers", authenticate, spamTriggerRoutes);
 
 // Stats routes
 router.use("/stats", statsRoutes);

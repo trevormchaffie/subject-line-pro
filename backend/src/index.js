@@ -41,14 +41,14 @@ app.get("/health", (req, res) => {
 
 // Test endpoint for analytics
 app.get("/test-reports", (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     message: "Test endpoint for reports is working",
     analyticsRoutes: {
       getMetrics: "/api/admin/analytics/reports/metrics",
       generateReport: "/api/admin/analytics/reports/generate",
       exportReport: "/api/admin/analytics/reports/export",
-      scheduledReports: "/api/admin/analytics/reports/scheduled"
-    }
+      scheduledReports: "/api/admin/analytics/reports/scheduled",
+    },
   });
 });
 
@@ -57,7 +57,17 @@ app.get("/", (req, res) => {
   res.status(200).json({
     message: "Subject Line Pro API is running",
     version: "1.0.0",
-    endpoints: ["/health", "/api/analyze", "/api/leads", "/api/stats"],
+    endpoints: [
+      "/health",
+      "/api/analyze",
+      "/api/leads",
+      "/api/stats",
+      "/api/spam-triggers", // Added new endpoint
+    ],
+    adminEndpoints: [
+      "/api/admin/analytics",
+      "/api/admin/content/spam-triggers", // Added admin UI route
+    ],
   });
 });
 

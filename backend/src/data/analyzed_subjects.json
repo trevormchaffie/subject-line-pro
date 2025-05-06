@@ -937,5 +937,33 @@
     "hasPunctuation": false,
     "analyzedAt": "2025-05-01T16:42:39.611Z",
     "createdAt": "2025-05-01T16:42:39.618Z"
+  },
+  {
+    "id": "analysis_1746492918613_5mlikbel8",
+    "subjectLine": "New Tagline!",
+    "length": 12,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: valuable, guaranteed, discover",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-05-06T00:55:18.606Z",
+    "createdAt": "2025-05-06T00:55:18.613Z"
   }
 ]

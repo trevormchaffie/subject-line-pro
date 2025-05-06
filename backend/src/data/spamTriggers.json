@@ -1,0 +1,20 @@
+[
+  {
+    "pattern": "MAKE MONEY FAST",
+    "category": "promotional",
+    "impact": 80,
+    "description": "Get-rich-quick scheme language",
+    "active": true,
+    "id": "mabttr0inhmk2",
+    "createdAt": "2025-05-06T01:24:18.306Z"
+  },
+  {
+    "pattern": "ACT NOW LIMITED TIME",
+    "category": "urgent",
+    "impact": 75,
+    "description": "Scarcity tactic",
+    "active": true,
+    "id": "mabttr0irsd53",
+    "createdAt": "2025-05-06T01:24:18.306Z"
+  }
+]

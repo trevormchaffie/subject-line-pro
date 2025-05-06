@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/layout/Header";
 import SubjectLineInput from "./components/forms/SubjectLineInput";
 import AnalysisResults from "./components/analysis/AnalysisResults";
 import LeadCaptureForm from "./components/forms/LeadCaptureForm";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import ErrorMessage from "./components/ui/ErrorMessage";
+import ContentPage from "./pages/ContentPage";
 import apiService from "./services/apiService";
 import { analyzeSubjectLine } from "./services/analysisService"; // Local fallback
 
-function App() {
+function MainApp() {
   const [analysisResults, setAnalysisResults] = useState(null);
   const [subjectLine, setSubjectLine] = useState("");
   const [leadSubmitted, setLeadSubmitted] = useState(false);
@@ -250,6 +252,17 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<MainApp />} />
+      <Route path="/admin/content/spam-triggers" element={<ContentPage />} />
+      {/* Add more admin routes as needed */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
