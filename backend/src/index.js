@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const config = require("./config/config");
 const authRoutes = require("./routes/authRoutes");
+const powerWordRoutes = require("./routes/powerWordRoutes");
 
 // Import middleware
 const errorHandler = require("./middleware/errorHandler");
@@ -33,6 +34,8 @@ app.use(rateLimiter); // Apply rate limiting
 // Apply routes
 app.use("/api", apiRoutes);
 app.use("/api/auth", authRoutes);
+
+app.use("/api/power-words", powerWordRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

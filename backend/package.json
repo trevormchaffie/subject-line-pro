@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint src/**/*.js",
     "backup-data": "node src/utils/backupData.js"
   },
@@ -27,7 +27,9 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "node-fetch": "^2.7.0",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "supertest": "^7.1.0"
   }
 }

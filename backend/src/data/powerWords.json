@@ -1,0 +1,35 @@
+{
+  "categories": [
+    {
+      "id": "urgency",
+      "name": "Urgency",
+      "description": "Words that create time pressure",
+      "impact": "high"
+    },
+    {
+      "id": "curiosity",
+      "name": "Curiosity",
+      "description": "Words that spark interest",
+      "impact": "medium"
+    }
+  ],
+  "words": [
+    {
+      "id": "1",
+      "word": "limited",
+      "categoryId": "urgency",
+      "effectivenessRating": 4,
+      "description": "Creates scarcity perception",
+      "example": "Limited time offer",
+      "createdAt": "2025-01-15T00:00:00.000Z",
+      "updatedAt": "2025-01-15T00:00:00.000Z"
+    }
+  ],
+  "config": {
+    "ratingScale": {
+      "min": 1,
+      "max": 5,
+      "default": 3
+    }
+  }
+}
