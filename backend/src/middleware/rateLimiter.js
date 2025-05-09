@@ -16,6 +16,10 @@ const rateLimiter = rateLimit({
       status: 429,
     },
   },
+  // Skip rate limiting for auth-related endpoints to fix login issues
+  skip: (req, res) => {
+    return req.path.startsWith('/api/auth/');
+  },
   // Store used for tracking requests - default is memory store
   // For production, consider using a more robust store like Redis
 });

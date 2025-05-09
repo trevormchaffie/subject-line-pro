@@ -11,11 +11,13 @@ import LeadsPage from "./pages/admin/LeadsPage";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 import SettingsPage from "./pages/admin/SettingsPage";
 import ContentPage from "./pages/admin/ContentPage";
+import PowerWordsManagement from "./pages/admin/PowerWordsManagement";
 import ApiTestPage from "./pages/admin/ApiTestPage";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { registerServiceWorker } from "./registerSW.js";
 import syncService from "./services/syncService.js";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AdminLayout from "./components/admin/layout/AdminLayout";
 import routes from "./config/routeConfig";
 import "./index.css";
 
@@ -79,6 +81,26 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               />
               <Route
                 path={routes.admin.content}
+                element={
+                  <ProtectedRoute>
+                    <ContentPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={routes.admin.powerWords}
+                element={
+                  <ProtectedRoute>
+                    <AdminLayoutProvider>
+                      <AdminLayout>
+                        <PowerWordsManagement />
+                      </AdminLayout>
+                    </AdminLayoutProvider>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/content/spam-triggers"
                 element={
                   <ProtectedRoute>
                     <ContentPage />

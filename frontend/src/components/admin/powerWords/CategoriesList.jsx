@@ -1,81 +1,65 @@
 // src/components/admin/powerWords/CategoriesList.jsx
-import React, { useState, useEffect } from "react";
-import { Table, Button, Spinner, Badge, Modal } from "react-bootstrap";
-import {
-  getCategories,
-  deleteCategory,
-} from "../../../services/api/powerWordApi";
-import CategoryForm from "./CategoryForm";
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Form, InputGroup, Spinner, Badge } from 'react-bootstrap';
 
 const CategoriesList = ({ setError, showToast }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [editingCategory, setEditingCategory] = useState(null);
-  const [confirmDelete, setConfirmDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const loadCategories = async () => {
-    try {
-      setLoading(true);
-      const response = await getCategories();
-      setCategories(response.data.data);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to load categories");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Simulated data until actual API is connected
   useEffect(() => {
-    loadCategories();
-  }, [setError]);
+    // Simulate API call
+    setTimeout(() => {
+      setCategories([
+        { id: 'premium', name: 'Premium', description: 'Premium value words', impact: 'high' },
+        { id: 'value', name: 'Value', description: 'Value proposition words', impact: 'medium' },
+        { id: 'urgency', name: 'Urgency', description: 'Time-sensitive words', impact: 'high' },
+      ]);
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-  const handleEdit = (category) => {
-    setEditingCategory(category);
-    setShowAddModal(true);
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
-  const handleDelete = async () => {
-    if (!confirmDelete) return;
-
-    try {
-      await deleteCategory(confirmDelete.id);
-      loadCategories();
-      showToast("success", "Category deleted successfully");
-      setConfirmDelete(null);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete category");
-    }
-  };
-
-  const handleFormSubmit = () => {
-    loadCategories();
-    setShowAddModal(false);
-    setEditingCategory(null);
-  };
+  // Filter categories based on search term
+  const filteredCategories = categories.filter(category => 
+    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    category.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getImpactBadge = (impact) => {
-    const variants = {
-      low: "secondary",
-      medium: "primary",
-      high: "danger",
+    const colors = {
+      high: 'danger',
+      medium: 'warning',
+      low: 'info'
     };
-
-    return <Badge bg={variants[impact] || "secondary"}>{impact}</Badge>;
+    
+    return <Badge bg={colors[impact] || 'secondary'}>{impact}</Badge>;
   };
 
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Categories</h2>
-        <Button variant="primary" onClick={() => setShowAddModal(true)}>
-          Add Category
-        </Button>
+        <Button variant="primary">Add Category</Button>
+      </div>
+
+      <div className="mb-4">
+        <InputGroup>
+          <Form.Control
+            placeholder="Search categories..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </InputGroup>
       </div>
 
       {loading ? (
         <div className="text-center py-5">
-          <Spinner animation="border" />
+          <Spinner animation="border" role="status" />
         </div>
       ) : (
         <Table striped bordered hover responsive>
@@ -88,14 +72,14 @@ const CategoriesList = ({ setError, showToast }) => {
             </tr>
           </thead>
           <tbody>
-            {categories.length === 0 ? (
+            {filteredCategories.length === 0 ? (
               <tr>
                 <td colSpan="4" className="text-center">
                   No categories found
                 </td>
               </tr>
             ) : (
-              categories.map((category) => (
+              filteredCategories.map((category) => (
                 <tr key={category.id}>
                   <td>{category.name}</td>
                   <td>{category.description}</td>
@@ -105,14 +89,12 @@ const CategoriesList = ({ setError, showToast }) => {
                       variant="outline-primary"
                       size="sm"
                       className="me-2"
-                      onClick={() => handleEdit(category)}
                     >
                       Edit
                     </Button>
                     <Button
                       variant="outline-danger"
                       size="sm"
-                      onClick={() => setConfirmDelete(category)}
                     >
                       Delete
                     </Button>
@@ -123,52 +105,6 @@ const CategoriesList = ({ setError, showToast }) => {
           </tbody>
         </Table>
       )}
-
-      {/* Add/Edit Modal */}
-      <Modal
-        show={showAddModal}
-        onHide={() => {
-          setShowAddModal(false);
-          setEditingCategory(null);
-        }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {editingCategory ? "Edit Category" : "Add Category"}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CategoryForm
-            category={editingCategory}
-            onSubmit={handleFormSubmit}
-            setError={setError}
-            showToast={showToast}
-          />
-        </Modal.Body>
-      </Modal>
-
-      {/* Delete Confirmation Modal */}
-      <Modal show={!!confirmDelete} onHide={() => setConfirmDelete(null)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete the category "
-          <strong>{confirmDelete?.name}</strong>"?
-          <div className="alert alert-warning mt-3">
-            Note: You cannot delete a category that has power words assigned to
-            it.
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setConfirmDelete(null)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };

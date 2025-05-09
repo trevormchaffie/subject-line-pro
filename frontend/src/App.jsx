@@ -9,6 +9,7 @@ import ErrorMessage from "./components/ui/ErrorMessage";
 import ContentPage from "./pages/ContentPage";
 import apiService from "./services/apiService";
 import PowerWordsManagement from "./pages/admin/PowerWordsManagement";
+import AdminRoutes from "./routes/AdminRoutes";
 import { analyzeSubjectLine } from "./services/analysisService"; // Local fallback
 
 function MainApp() {
@@ -257,18 +258,7 @@ function MainApp() {
 }
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<MainApp />} />
-      {/* Admin Routes */}
-      <Route path="/admin" element={<AdminRoutes />}>
-        <Route path="content/spam-triggers" element={<ContentPage />} />
-        <Route path="power-words" element={<PowerWordsManagement />} />
-        {/* Add more admin routes as children here */}
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
+  return <MainApp />;
 }
 
 export default App;

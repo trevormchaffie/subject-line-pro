@@ -12,8 +12,8 @@ const config = {
     process.env.CORS_ORIGIN || "https://subjectlinepro.trevormchaffie.com",
 
   // Rate limiting
-  rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000, // 15 minutes
-  rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 100, // 100 requests per window
+  rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000, // 1 minute 
+  rateLimitMax: parseInt(process.env.RATE_LIMIT_MAX) || 300, // 300 requests per window
 
   // Data paths
   leadsDataPath: process.env.LEADS_DATA_PATH || "./src/data/leads.json",
