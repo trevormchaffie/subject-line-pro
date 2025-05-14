@@ -632,5 +632,22 @@
     ],
     "createdAt": "2025-04-30T16:56:07.834Z",
     "updatedAt": "2025-05-01T03:10:15.542Z"
+  },
+  {
+    "id": "lead_1746835608971_52zlxsc35",
+    "name": "Trevor",
+    "email": "T@trevor.co",
+    "businessType": "ecommerce",
+    "subjectLine": "Limited Time Today Only!",
+    "analysisResults": {
+      "overallScore": 84,
+      "spamScore": 15,
+      "suggestions": 3
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-05-10T00:06:48.971Z"
   }
 ]

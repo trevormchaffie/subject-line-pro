@@ -13,12 +13,12 @@ const initializeDataFile = async () => {
   } catch (error) {
     const initialData = {
       categories: [],
-      words: [],
-      config: {
+      powerWords: [],
+      settings: {
         ratingScale: {
-          min: 1,
-          max: 5,
-          default: 3,
+          min: 0,
+          max: 100,
+          step: 5,
         },
       },
     };
@@ -47,10 +47,21 @@ const getAllCategories = async () => {
 // Get category by ID
 const getCategoryById = async (id) => {
   const data = await readData();
-  const category = data.categories.find((c) => c.id === id);
+  
+  // Convert ID to number if it's a numeric string
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  // Find the category using a more flexible approach that handles both string and number IDs
+  const category = data.categories.find(c => {
+    // Convert category ID to number if it's a numeric string
+    const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+    return catId === numericId || c.id === id.toString();
+  });
+  
   if (!category) {
     throw new AppError(`Category with ID ${id} not found`, 404);
   }
+  
   return category;
 };
 
@@ -85,24 +96,45 @@ const createCategory = async (categoryData) => {
 // Update category
 const updateCategory = async (id, categoryData) => {
   const data = await readData();
-  const categoryIndex = data.categories.findIndex((c) => c.id === id);
+  
+  // Convert ID to number if it's a numeric string
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  // Find the category using a more flexible approach that handles both string and number IDs
+  const categoryIndex = data.categories.findIndex(c => {
+    // Convert category ID to number if it's a numeric string
+    const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+    return catId === numericId || c.id === id.toString();
+  });
 
   if (categoryIndex === -1) {
     throw new AppError(`Category with ID ${id} not found`, 404);
   }
 
   // Check for duplicate name if name is being updated
-  if (
-    categoryData.name &&
-    data.categories.some(
-      (c) =>
-        c.id !== id && c.name.toLowerCase() === categoryData.name.toLowerCase()
-    )
-  ) {
-    throw new AppError(
-      `Category with name '${categoryData.name}' already exists`,
-      400
-    );
+  if (categoryData.name) {
+    const nameExists = data.categories.some((c) => {
+      // Skip the current category being updated (using flexible ID comparison)
+      const currentCategoryId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+      const idToCheck = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+      
+      const isSameCategory = currentCategoryId === idToCheck || c.id === id.toString();
+      
+      // If it's the same category, allow the name update
+      if (isSameCategory) {
+        return false;
+      }
+      
+      // Check if another category has the same name
+      return c.name.toLowerCase() === categoryData.name.toLowerCase();
+    });
+    
+    if (nameExists) {
+      throw new AppError(
+        `Category with name '${categoryData.name}' already exists`,
+        400
+      );
+    }
   }
 
   data.categories[categoryIndex] = {
@@ -118,14 +150,28 @@ const updateCategory = async (id, categoryData) => {
 // Delete category
 const deleteCategory = async (id) => {
   const data = await readData();
-  const categoryIndex = data.categories.findIndex((c) => c.id === id);
+  
+  // Convert ID to number if it's a numeric string
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  // Find the category using a more flexible approach that handles both string and number IDs
+  const categoryIndex = data.categories.findIndex(c => {
+    // Convert category ID to number if it's a numeric string
+    const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+    return catId === numericId || c.id === id.toString();
+  });
 
   if (categoryIndex === -1) {
     throw new AppError(`Category with ID ${id} not found`, 404);
   }
 
   // Check if category has words assigned
-  if (data.words.some((word) => word.categoryId === id)) {
+  if (data.powerWords.some((word) => {
+    const wordCategoryId = typeof word.categoryId === 'string' && !isNaN(word.categoryId) 
+      ? parseInt(word.categoryId, 10) 
+      : word.categoryId;
+    return wordCategoryId === numericId || word.categoryId === id.toString();
+  })) {
     throw new AppError(`Cannot delete category with assigned words`, 400);
   }
 
@@ -137,18 +183,12 @@ const deleteCategory = async (id) => {
 // Get all power words
 const getAllPowerWords = async (filters = {}) => {
   const data = await readData();
-  let filteredWords = [...data.words];
+  let filteredWords = [...data.powerWords];
 
   // Apply filters
-  if (filters.categoryId) {
+  if (filters.category) {
     filteredWords = filteredWords.filter(
-      (word) => word.categoryId === filters.categoryId
-    );
-  }
-
-  if (filters.minRating) {
-    filteredWords = filteredWords.filter(
-      (word) => word.effectivenessRating >= parseInt(filters.minRating)
+      (word) => word.categoryId === filters.category
     );
   }
 
@@ -157,7 +197,7 @@ const getAllPowerWords = async (filters = {}) => {
     filteredWords = filteredWords.filter(
       (word) =>
         word.word.toLowerCase().includes(searchTerm) ||
-        word.description.toLowerCase().includes(searchTerm)
+        word.usage.toLowerCase().includes(searchTerm)
     );
   }
 
@@ -173,16 +213,40 @@ const getAllPowerWords = async (filters = {}) => {
     });
   }
 
-  return filteredWords;
+  // Apply pagination
+  const page = parseInt(filters.page) || 1;
+  const limit = parseInt(filters.limit) || 20;
+  const startIndex = (page - 1) * limit;
+
+  const paginatedWords = filteredWords.slice(startIndex, startIndex + limit);
+
+  return {
+    data: paginatedWords,
+    total: filteredWords.length,
+    page,
+    limit,
+    totalPages: Math.ceil(filteredWords.length / limit),
+  };
 };
 
 // Get power word by ID
 const getPowerWordById = async (id) => {
   const data = await readData();
-  const word = data.words.find((w) => w.id === id);
+  
+  // Convert ID to number if it's a numeric string
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  // Find the power word using a more flexible approach that handles both string and number IDs
+  const word = data.powerWords.find(w => {
+    // Convert word ID to number if it's a numeric string
+    const wordId = typeof w.id === 'string' && !isNaN(w.id) ? parseInt(w.id, 10) : w.id;
+    return wordId === numericId || w.id === id.toString();
+  });
+  
   if (!word) {
     throw new AppError(`Power word with ID ${id} not found`, 404);
   }
+  
   return word;
 };
 
@@ -192,9 +256,17 @@ const createPowerWord = async (wordData) => {
 
   // Validate category exists
   if (wordData.categoryId) {
-    const categoryExists = data.categories.some(
-      (c) => c.id === wordData.categoryId
-    );
+    // Convert categoryId to number if it's a numeric string
+    const categoryId = typeof wordData.categoryId === 'string' && !isNaN(wordData.categoryId) 
+      ? parseInt(wordData.categoryId, 10) 
+      : wordData.categoryId;
+    
+    const categoryExists = data.categories.some(c => {
+      // Convert category id to number if needed for comparison
+      const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+      return catId === categoryId || c.id === categoryId.toString();
+    });
+    
     if (!categoryExists) {
       throw new AppError(
         `Category with ID ${wordData.categoryId} not found`,
@@ -205,16 +277,18 @@ const createPowerWord = async (wordData) => {
 
   // Check for duplicate word
   if (
-    data.words.some((w) => w.word.toLowerCase() === wordData.word.toLowerCase())
+    data.powerWords.some(
+      (w) => w.word.toLowerCase() === wordData.word.toLowerCase()
+    )
   ) {
     throw new AppError(`Power word '${wordData.word}' already exists`, 400);
   }
 
   // Validate effectiveness rating
-  const { min, max } = data.config.ratingScale;
+  const { min, max } = data.settings.ratingScale;
   if (
-    wordData.effectivenessRating &&
-    (wordData.effectivenessRating < min || wordData.effectivenessRating > max)
+    wordData.effectiveness &&
+    (wordData.effectiveness < min || wordData.effectiveness > max)
   ) {
     throw new AppError(
       `Effectiveness rating must be between ${min} and ${max}`,
@@ -227,15 +301,14 @@ const createPowerWord = async (wordData) => {
     id: uuidv4(),
     word: wordData.word,
     categoryId: wordData.categoryId || null,
-    effectivenessRating:
-      wordData.effectivenessRating || data.config.ratingScale.default,
-    description: wordData.description || "",
-    example: wordData.example || "",
+    effectiveness: wordData.effectiveness || 70,
+    usage: wordData.usage || "",
+    examples: wordData.examples || [],
     createdAt: now,
     updatedAt: now,
   };
 
-  data.words.push(newWord);
+  data.powerWords.push(newWord);
   await writeData(data);
   return newWord;
 };
@@ -243,7 +316,15 @@ const createPowerWord = async (wordData) => {
 // Update power word
 const updatePowerWord = async (id, wordData) => {
   const data = await readData();
-  const wordIndex = data.words.findIndex((w) => w.id === id);
+  
+  // Check if id is a string and convert to number if needed
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  const wordIndex = data.powerWords.findIndex((w) => {
+    // Handle both numeric and string IDs
+    const wordId = typeof w.id === 'string' && !isNaN(w.id) ? parseInt(w.id, 10) : w.id;
+    return wordId === numericId || w.id === id.toString();
+  });
 
   if (wordIndex === -1) {
     throw new AppError(`Power word with ID ${id} not found`, 404);
@@ -251,9 +332,17 @@ const updatePowerWord = async (id, wordData) => {
 
   // Validate category exists
   if (wordData.categoryId) {
-    const categoryExists = data.categories.some(
-      (c) => c.id === wordData.categoryId
-    );
+    // Convert categoryId to number if it's a numeric string
+    const categoryId = typeof wordData.categoryId === 'string' && !isNaN(wordData.categoryId) 
+      ? parseInt(wordData.categoryId, 10) 
+      : wordData.categoryId;
+    
+    const categoryExists = data.categories.some(c => {
+      // Convert category id to number if needed for comparison
+      const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+      return catId === categoryId || c.id === categoryId.toString();
+    });
+    
     if (!categoryExists) {
       throw new AppError(
         `Category with ID ${wordData.categoryId} not found`,
@@ -263,20 +352,33 @@ const updatePowerWord = async (id, wordData) => {
   }
 
   // Check for duplicate word
-  if (
-    wordData.word &&
-    data.words.some(
-      (w) => w.id !== id && w.word.toLowerCase() === wordData.word.toLowerCase()
-    )
-  ) {
-    throw new AppError(`Power word '${wordData.word}' already exists`, 400);
+  if (wordData.word) {
+    const wordExists = data.powerWords.some((w) => {
+      // Skip the current word being updated (using flexible ID comparison)
+      const currentWordId = typeof w.id === 'string' && !isNaN(w.id) ? parseInt(w.id, 10) : w.id;
+      const idToCheck = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+      
+      const isSameWord = currentWordId === idToCheck || w.id === id.toString();
+      
+      // If it's the same word, allow the update
+      if (isSameWord) {
+        return false;
+      }
+      
+      // Check if another word has the same name
+      return w.word.toLowerCase() === wordData.word.toLowerCase();
+    });
+    
+    if (wordExists) {
+      throw new AppError(`Power word '${wordData.word}' already exists`, 400);
+    }
   }
 
   // Validate effectiveness rating
-  const { min, max } = data.config.ratingScale;
+  const { min, max } = data.settings.ratingScale;
   if (
-    wordData.effectivenessRating !== undefined &&
-    (wordData.effectivenessRating < min || wordData.effectivenessRating > max)
+    wordData.effectiveness !== undefined &&
+    (wordData.effectiveness < min || wordData.effectiveness > max)
   ) {
     throw new AppError(
       `Effectiveness rating must be between ${min} and ${max}`,
@@ -284,61 +386,146 @@ const updatePowerWord = async (id, wordData) => {
     );
   }
 
-  data.words[wordIndex] = {
-    ...data.words[wordIndex],
+  data.powerWords[wordIndex] = {
+    ...data.powerWords[wordIndex],
     ...wordData,
     id: id, // Ensure ID doesn't change
     updatedAt: new Date().toISOString(),
   };
 
   await writeData(data);
-  return data.words[wordIndex];
+  return data.powerWords[wordIndex];
 };
 
 // Delete power word
 const deletePowerWord = async (id) => {
   const data = await readData();
-  const wordIndex = data.words.findIndex((w) => w.id === id);
+  
+  // Convert ID to number if it's a numeric string
+  const numericId = typeof id === 'string' && !isNaN(id) ? parseInt(id, 10) : id;
+  
+  // Find the power word using a more flexible approach that handles both string and number IDs
+  const wordIndex = data.powerWords.findIndex(w => {
+    // Convert word ID to number if it's a numeric string
+    const wordId = typeof w.id === 'string' && !isNaN(w.id) ? parseInt(w.id, 10) : w.id;
+    return wordId === numericId || w.id === id.toString();
+  });
 
   if (wordIndex === -1) {
     throw new AppError(`Power word with ID ${id} not found`, 404);
   }
 
-  data.words.splice(wordIndex, 1);
+  data.powerWords.splice(wordIndex, 1);
   await writeData(data);
   return { message: `Power word with ID ${id} deleted successfully` };
 };
 
+// Import power words
+const importPowerWords = async (importData) => {
+  const data = await readData();
+  let imported = 0;
+  let errors = [];
+
+  for (const item of importData) {
+    try {
+      if (!item.word || !item.categoryId) {
+        errors.push(`Invalid data: ${JSON.stringify(item)}`);
+        continue;
+      }
+
+      const existing = data.powerWords.find(
+        (w) => w.word.toLowerCase() === item.word.toLowerCase()
+      );
+
+      if (existing) {
+        errors.push(`Duplicate word: ${item.word}`);
+        continue;
+      }
+
+      // Validate category exists
+      const categoryId = typeof item.categoryId === 'string' && !isNaN(item.categoryId) 
+        ? parseInt(item.categoryId, 10) 
+        : item.categoryId;
+      
+      const categoryExists = data.categories.some(c => {
+        // Convert category id to number if needed for comparison
+        const catId = typeof c.id === 'string' && !isNaN(c.id) ? parseInt(c.id, 10) : c.id;
+        return catId === categoryId || c.id === categoryId.toString();
+      });
+      
+      if (!categoryExists) {
+        errors.push(`Category with ID ${item.categoryId} not found for word: ${item.word}`);
+        continue;
+      }
+
+      data.powerWords.push({
+        id: uuidv4(),
+        word: item.word,
+        categoryId: item.categoryId,
+        effectiveness: item.effectiveness || 70,
+        usage: item.usage || "",
+        examples: item.examples || [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+
+      imported++;
+    } catch (err) {
+      errors.push(`Error processing ${item.word}: ${err.message}`);
+    }
+  }
+
+  await writeData(data);
+  return { imported, errors };
+};
+
+// Export power words
+const exportPowerWords = async (categoryId = null) => {
+  const data = await readData();
+  let words = data.powerWords;
+
+  if (categoryId) {
+    // Convert categoryId to number if it's a numeric string
+    const numericCategoryId = typeof categoryId === 'string' && !isNaN(categoryId) 
+      ? parseInt(categoryId, 10) 
+      : categoryId;
+    
+    words = words.filter(w => {
+      // Convert word's categoryId to number if it's a numeric string
+      const wordCategoryId = typeof w.categoryId === 'string' && !isNaN(w.categoryId) 
+        ? parseInt(w.categoryId, 10) 
+        : w.categoryId;
+      
+      return wordCategoryId === numericCategoryId || w.categoryId === categoryId.toString();
+    });
+  }
+
+  return words.map((w) => ({
+    word: w.word,
+    categoryId: w.categoryId,
+    effectiveness: w.effectiveness,
+    usage: w.usage,
+    examples: w.examples,
+  }));
+};
+
 // Update rating scale configuration
-const updateRatingScaleConfig = async (configData) => {
+const updateRatingScale = async (scaleData) => {
   const data = await readData();
 
-  // Validate min < max
-  if (configData.min >= configData.max) {
-    throw new AppError("Minimum rating must be less than maximum rating", 400);
-  }
-
-  // Validate default is within range
-  if (
-    configData.default < configData.min ||
-    configData.default > configData.max
-  ) {
-    throw new AppError("Default rating must be within the min-max range", 400);
-  }
-
-  data.config.ratingScale = {
-    ...data.config.ratingScale,
-    ...configData,
+  data.settings.ratingScale = {
+    ...data.settings.ratingScale,
+    ...scaleData,
   };
 
   await writeData(data);
-  return data.config.ratingScale;
+  return data.settings.ratingScale;
 };
 
 // Get rating scale configuration
-const getRatingScaleConfig = async () => {
+const getRatingScale = async () => {
   const data = await readData();
-  return data.config.ratingScale;
+  return data.settings.ratingScale;
 };
 
 module.exports = {
@@ -352,6 +539,8 @@ module.exports = {
   createPowerWord,
   updatePowerWord,
   deletePowerWord,
-  updateRatingScaleConfig,
-  getRatingScaleConfig,
+  importPowerWords,
+  exportPowerWords,
+  updateRatingScale,
+  getRatingScale,
 };

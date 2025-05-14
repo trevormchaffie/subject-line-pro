@@ -4,7 +4,6 @@ const cors = require("cors");
 const helmet = require("helmet");
 const config = require("./config/config");
 const authRoutes = require("./routes/authRoutes");
-const powerWordRoutes = require("./routes/powerWordRoutes");
 
 // Import middleware
 const errorHandler = require("./middleware/errorHandler");
@@ -24,6 +23,7 @@ app.use(
     origin: config.corsOrigin,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true // Enable credentials (cookies, authorization headers) 
   })
 );
 app.use(express.json()); // Parse JSON request body
@@ -34,8 +34,6 @@ app.use(rateLimiter); // Apply rate limiting
 // Apply routes
 app.use("/api", apiRoutes);
 app.use("/api/auth", authRoutes);
-
-app.use("/api/power-words", powerWordRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

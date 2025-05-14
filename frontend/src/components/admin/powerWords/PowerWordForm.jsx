@@ -2,34 +2,54 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 
-const PowerWordForm = ({ word, categories, onSubmit, setError, showToast }) => {
+const PowerWordForm = ({ word, categories, onSave, onCancel, ratingScale }) => {
   const [formData, setFormData] = useState({
     word: '',
     categoryId: '',
-    effectivenessRating: 3,
+    effectivenessRating: ratingScale?.default || 3,
     description: '',
-    example: ''
+    usage: ''  // Changed from 'example' to 'usage' to match backend field name
   });
   const [loading, setLoading] = useState(false);
 
   // Load data if editing an existing word
   useEffect(() => {
     if (word) {
+      console.log("Loading word data for editing:", word);
       setFormData({
         word: word.word || '',
         categoryId: word.categoryId || '',
-        effectivenessRating: word.effectivenessRating || 3,
+        effectivenessRating: word.effectiveness || ratingScale?.default || 3, // Use rating scale default
         description: word.description || '',
-        example: word.example || ''
+        usage: word.usage || ''  // Changed from 'example' to 'usage' to match backend field
       });
+    } else {
+      // Reset to defaults for new words, using rating scale
+      setFormData(prev => ({
+        ...prev,
+        effectivenessRating: ratingScale?.default || 3
+      }));
     }
-  }, [word]);
+  }, [word, ratingScale]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let parsedValue = value;
+    
+    // Convert numerical inputs to integers
+    if (name === 'effectivenessRating') {
+      parsedValue = parseInt(value, 10);
+      
+      // Ensure value is within min/max bounds
+      const min = ratingScale?.min || 0;
+      const max = ratingScale?.max || 100;
+      if (parsedValue < min) parsedValue = min;
+      if (parsedValue > max) parsedValue = max;
+    }
+    
     setFormData({
       ...formData,
-      [name]: name === 'effectivenessRating' ? parseInt(value, 10) : value
+      [name]: parsedValue
     });
   };
 
@@ -42,14 +62,12 @@ const PowerWordForm = ({ word, categories, onSubmit, setError, showToast }) => {
       if (!formData.word.trim()) {
         throw new Error('Power word is required');
       }
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Pass data back to parent component
-      onSubmit(formData);
+      await onSave(formData);
     } catch (err) {
-      setError(err.message || 'Failed to save power word');
+      console.error("Error saving power word:", err);
+      // No longer trying to call setError directly
     } finally {
       setLoading(false);
     }
@@ -86,19 +104,38 @@ const PowerWordForm = ({ word, categories, onSubmit, setError, showToast }) => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label>Effectiveness Rating (1-5)</Form.Label>
-        <Form.Control
-          type="number"
+        <Form.Label>{`Effectiveness Rating (${ratingScale?.min || 0}-${ratingScale?.max || 100}%)`}</Form.Label>
+        <Form.Range
           name="effectivenessRating"
           value={formData.effectivenessRating}
           onChange={handleChange}
-          min="1"
-          max="5"
-          required
+          min={ratingScale?.min || 0}
+          max={ratingScale?.max || 100}
+          step="1"
         />
+        <div className="d-flex justify-content-between align-items-center">
+          <Form.Control
+            type="number"
+            name="effectivenessRating"
+            value={formData.effectivenessRating}
+            onChange={handleChange}
+            min={ratingScale?.min || 0}
+            max={ratingScale?.max || 100}
+            required
+            style={{maxWidth: "100px"}}
+          />
+          <div className="ms-2 text-warning">
+            {Array(5).fill(null).map((_, i) => (
+              <span key={i}>{i < Math.round((formData.effectivenessRating / 100) * 5) ? "★" : "☆"}</span>
+            ))}
+          </div>
+        </div>
         <Form.Text className="text-muted">
-          Rate how effective this word is in email subject lines
+          Rate how effective this word is in email subject lines on a percentage scale (higher is better)
         </Form.Text>
+        <div className="alert alert-info small mt-2 mb-0 p-2">
+          <strong>Note:</strong> 100% = 5 stars, 60% = 3 stars, 20% = 1 star in the display
+        </div>
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -114,17 +151,20 @@ const PowerWordForm = ({ word, categories, onSubmit, setError, showToast }) => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label>Example Usage</Form.Label>
+        <Form.Label>Usage</Form.Label>
         <Form.Control
           type="text"
-          name="example"
-          value={formData.example}
+          name="usage"
+          value={formData.usage}
           onChange={handleChange}
-          placeholder="Example: 'Get exclusive access to our sale'"
+          placeholder="Example: 'Creates urgency in subject lines'"
         />
       </Form.Group>
 
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-end gap-2">
+        <Button variant="secondary" onClick={onCancel} disabled={loading}>
+          Cancel
+        </Button>
         <Button type="submit" variant="primary" disabled={loading}>
           {loading ? <Spinner animation="border" size="sm" /> : (word ? 'Update' : 'Create')}
         </Button>

@@ -1,10 +1,12 @@
 // src/routes/powerWordRoutes.js
 const express = require("express");
 const { body } = require("express-validator");
+const multer = require("multer");
 const powerWordController = require("../controllers/powerWordController");
 const { authenticate } = require("../middleware/auth");
 
 const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Apply authentication middleware to all routes
 router.use(authenticate);
@@ -43,24 +45,37 @@ router.put(
 router.delete("/categories/:id", powerWordController.deleteCategory);
 
 // Power word routes
-router.get("/words", powerWordController.getAllPowerWords);
-router.get("/words/:id", powerWordController.getPowerWordById);
+router.get("/", powerWordController.getAllPowerWords);
+
+// Bulk operations - Place specific routes BEFORE parameterized routes
 router.post(
-  "/words",
+  "/import",
+  upload.single("file"),
+  powerWordController.importPowerWords
+);
+router.get("/export", powerWordController.exportPowerWords);
+
+// Parameterized routes - These must come AFTER specific routes
+router.get("/:id", powerWordController.getPowerWordById);
+router.post(
+  "/",
   [
     body("word").trim().notEmpty().withMessage("Power word is required"),
     body("categoryId").optional().trim(),
-    body("effectivenessRating")
+    body("effectiveness")
       .optional()
-      .isInt()
-      .withMessage("Effectiveness rating must be a number"),
-    body("description").optional().trim(),
-    body("example").optional().trim(),
+      .isInt({ min: 0, max: 100 })
+      .withMessage("Effectiveness rating must be between 0 and 100"),
+    body("usage").optional().trim(),
+    body("examples")
+      .optional()
+      .isArray()
+      .withMessage("Examples must be an array"),
   ],
   powerWordController.createPowerWord
 );
 router.put(
-  "/words/:id",
+  "/:id",
   [
     body("word")
       .optional()
@@ -68,31 +83,37 @@ router.put(
       .notEmpty()
       .withMessage("Power word cannot be empty"),
     body("categoryId").optional().trim(),
-    body("effectivenessRating")
+    body("effectiveness")
       .optional()
-      .isInt()
-      .withMessage("Effectiveness rating must be a number"),
-    body("description").optional().trim(),
-    body("example").optional().trim(),
+      .isInt({ min: 0, max: 100 })
+      .withMessage("Effectiveness rating must be between 0 and 100"),
+    body("usage").optional().trim(),
+    body("examples")
+      .optional()
+      .isArray()
+      .withMessage("Examples must be an array"),
   ],
   powerWordController.updatePowerWord
 );
-router.delete("/words/:id", powerWordController.deletePowerWord);
+router.delete("/:id", powerWordController.deletePowerWord);
 
-// Rating config routes
-router.get("/rating-config", powerWordController.getRatingConfig);
+// Settings routes
+router.get("/settings/rating-scale", powerWordController.getRatingScale);
 router.put(
-  "/rating-config",
+  "/settings/rating-scale",
   [
     body("min")
-      .isInt({ min: 1 })
-      .withMessage("Minimum rating must be a positive integer"),
+      .isInt({ min: 0 })
+      .withMessage("Minimum rating must be a non-negative integer"),
     body("max")
-      .isInt({ min: 2 })
-      .withMessage("Maximum rating must be at least 2"),
-    body("default").isInt().withMessage("Default rating must be a number"),
+      .isInt({ min: 1 })
+      .withMessage("Maximum rating must be at least 1"),
+    body("step")
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage("Step must be a positive integer"),
   ],
-  powerWordController.updateRatingConfig
+  powerWordController.updateRatingScale
 );
 
 module.exports = router;

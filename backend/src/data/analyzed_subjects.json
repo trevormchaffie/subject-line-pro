@@ -1077,5 +1077,84 @@
     "hasPunctuation": false,
     "analyzedAt": "2025-05-09T02:34:28.745Z",
     "createdAt": "2025-05-09T02:34:28.759Z"
+  },
+  {
+    "id": "analysis_1746835584717_e6qexdb7b",
+    "subjectLine": "Limited Time Today Only!",
+    "length": 24,
+    "wordCount": 4,
+    "spamScore": 15,
+    "overallScore": 84,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains spam trigger word \"limited time\"",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Replace spam trigger words: limited time",
+      "Consider adding power words like: discover, exclusive, valuable",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": true,
+    "analyzedAt": "2025-05-10T00:06:24.709Z",
+    "createdAt": "2025-05-10T00:06:24.717Z"
+  },
+  {
+    "id": "analysis_1746985269996_tthsihcs8",
+    "subjectLine": "Newly",
+    "length": 5,
+    "wordCount": 1,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: discover, instantly, unlock",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-05-11T17:41:09.989Z",
+    "createdAt": "2025-05-11T17:41:09.996Z"
+  },
+  {
+    "id": "analysis_1746985987151_lwp424oip",
+    "subjectLine": "Test 5/11",
+    "length": 9,
+    "wordCount": 2,
+    "spamScore": 0,
+    "overallScore": 70,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Subject line is too short",
+        "impact": "low"
+      },
+      {
+        "text": "Too few words",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Add more detail to increase subject line length (aim for 30-50 characters)",
+      "Consider adding power words like: secret, discover, unlimited",
+      "Add personalization to increase engagement",
+      "Use at least 3-5 words for better impact"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-05-11T17:53:07.137Z",
+    "createdAt": "2025-05-11T17:53:07.151Z"
   }
 ]

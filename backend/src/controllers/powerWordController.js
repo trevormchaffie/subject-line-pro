@@ -49,11 +49,12 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // Power word controllers
 const getAllPowerWords = asyncHandler(async (req, res) => {
   const filters = {
-    categoryId: req.query.categoryId,
-    minRating: req.query.minRating,
+    category: req.query.category,
     search: req.query.search,
     sortBy: req.query.sortBy,
     sortDir: req.query.sortDir,
+    page: req.query.page,
+    limit: req.query.limit,
   };
 
   const powerWords = await powerWordService.getAllPowerWords(filters);
@@ -93,21 +94,49 @@ const deletePowerWord = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, data: result });
 });
 
-// Rating config controllers
-const getRatingConfig = asyncHandler(async (req, res) => {
-  const config = await powerWordService.getRatingScaleConfig();
+// Import/Export controllers
+const importPowerWords = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    throw new AppError("No file uploaded", 400);
+  }
+
+  const jsonData = JSON.parse(req.file.buffer.toString());
+  const result = await powerWordService.importPowerWords(jsonData);
+  res.status(200).json({ success: true, data: result });
+});
+
+const exportPowerWords = asyncHandler(async (req, res) => {
+  console.log("Export controller called with categoryId:", req.query.categoryId);
+  
+  try {
+    const data = await powerWordService.exportPowerWords(req.query.categoryId);
+    console.log("Export data prepared:", data.length, "words");
+    
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="power-words.json"'
+    );
+    res.json(data);
+  } catch (error) {
+    console.error("Export error:", error);
+    throw error;
+  }
+});
+
+// Rating scale controllers
+const getRatingScale = asyncHandler(async (req, res) => {
+  const config = await powerWordService.getRatingScale();
   res.status(200).json({ success: true, data: config });
 });
 
-const updateRatingConfig = asyncHandler(async (req, res) => {
+const updateRatingScale = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new AppError("Validation failed", 400, errors.array());
   }
 
-  const updatedConfig = await powerWordService.updateRatingScaleConfig(
-    req.body
-  );
+  const updatedConfig = await powerWordService.updateRatingScale(req.body);
   res.status(200).json({ success: true, data: updatedConfig });
 });
 
@@ -122,6 +151,8 @@ module.exports = {
   createPowerWord,
   updatePowerWord,
   deletePowerWord,
-  getRatingConfig,
-  updateRatingConfig,
+  importPowerWords,
+  exportPowerWords,
+  getRatingScale,
+  updateRatingScale,
 };

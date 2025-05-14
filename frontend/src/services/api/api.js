@@ -8,6 +8,8 @@ const api = axios.create({
   withCredentials: true, // Allow cookies for authentication
 });
 
+console.log("API base URL:", import.meta.env.VITE_API_URL || "http://localhost:3001/api");
+
 // Add auth token to requests
 api.interceptors.request.use(
   (config) => {

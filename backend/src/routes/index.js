@@ -8,7 +8,8 @@ const analyticsRoutes = require("./admin/analyticsRoutes");
 const statsRoutes = require("./stats.routes");
 const leadsRoutes = require("./leads.routes");
 const spamTriggerRoutes = require("./spamTriggerRoutes"); // Add this import
-const { authenticate } = require("../middleware/authMiddleware");
+const powerWordRoutes = require("./powerWordRoutes");
+const { authenticate } = require("../middleware/auth"); // Update to correct middleware path
 const authOrBasic = require("../middleware/authOrBasicMiddleware");
 
 // Analysis routes
@@ -44,6 +45,9 @@ router.use("/admin/analytics", analyticsRoutes);
 
 // Spam Trigger Management routes - protected by authentication
 router.use("/spam-triggers", authenticate, spamTriggerRoutes);
+
+// Power Words Management routes
+router.use("/power-words", powerWordRoutes);
 
 // Stats routes
 router.use("/stats", statsRoutes);

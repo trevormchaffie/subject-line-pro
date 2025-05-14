@@ -9,7 +9,7 @@ const config = {
 
   // CORS configuration
   corsOrigin:
-    process.env.CORS_ORIGIN || "https://subjectlinepro.trevormchaffie.com",
+    process.env.CORS_ORIGIN || "http://localhost:5173",
 
   // Rate limiting
   rateLimitWindowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 60000, // 1 minute 

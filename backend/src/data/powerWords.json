@@ -1,35 +1,138 @@
 {
   "categories": [
     {
-      "id": "urgency",
+      "id": "1",
       "name": "Urgency",
       "description": "Words that create time pressure",
+      "order": 1,
       "impact": "high"
     },
     {
-      "id": "curiosity",
-      "name": "Curiosity",
-      "description": "Words that spark interest",
-      "impact": "medium"
+      "id": 2,
+      "name": "Emotional",
+      "description": "Words that trigger emotional responses",
+      "order": 2
+    },
+    {
+      "id": 3,
+      "name": "Value",
+      "description": "Words that indicate benefits or savings",
+      "order": 3
+    },
+    {
+      "id": "test",
+      "name": "Test",
+      "description": "Test",
+      "impact": "low"
     }
   ],
-  "words": [
+  "powerWords": [
     {
       "id": "1",
-      "word": "limited",
-      "categoryId": "urgency",
-      "effectivenessRating": 4,
-      "description": "Creates scarcity perception",
-      "example": "Limited time offer",
-      "createdAt": "2025-01-15T00:00:00.000Z",
-      "updatedAt": "2025-01-15T00:00:00.000Z"
+      "word": "limited Time",
+      "categoryId": "1",
+      "effectiveness": 5,
+      "usage": "Create urgency",
+      "examples": [
+        "Limited time offer",
+        "Limited spots available"
+      ],
+      "description": "test",
+      "example": "",
+      "updatedAt": "2025-05-12T04:10:14.418Z"
+    },
+    {
+      "id": "02fb1cde-3383-4888-9220-65791dc553d5",
+      "word": "Free",
+      "categoryId": "1",
+      "effectiveness": 5,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-11T21:33:00.811Z",
+      "updatedAt": "2025-05-12T05:11:54.639Z",
+      "description": "Get It Freee",
+      "example": "Get it Free"
+    },
+    {
+      "id": "674e27bf-c8f4-4c2f-98ba-2678d5f12008",
+      "word": "Low Power",
+      "categoryId": "test",
+      "effectiveness": 3,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-12T04:14:54.274Z",
+      "updatedAt": "2025-05-12T05:10:58.355Z",
+      "description": "Test",
+      "example": "Low Power"
+    },
+    {
+      "id": "20751201-a957-42d9-a6c0-286536af36e1",
+      "word": "PowerWordMaya",
+      "categoryId": "2",
+      "effectiveness": 3,
+      "usage": "This PowerWordMaya example.",
+      "examples": [],
+      "createdAt": "2025-05-14T03:10:20.458Z",
+      "updatedAt": "2025-05-14T03:10:20.458Z"
+    },
+    {
+      "id": "65348d74-674d-4e67-b3ea-4f800fdcd744",
+      "word": "Updated",
+      "categoryId": "3",
+      "effectiveness": 39,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-14T03:27:10.059Z",
+      "updatedAt": "2025-05-14T03:27:10.059Z"
+    },
+    {
+      "id": "232c7a0a-05de-40f9-8564-caa13b90355c",
+      "word": "Times Up",
+      "categoryId": "1",
+      "effectiveness": 80,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-14T03:32:45.027Z",
+      "updatedAt": "2025-05-14T03:32:45.027Z"
+    },
+    {
+      "id": "e1715007-7f44-41ae-a260-4c8c47ec5498",
+      "word": "Sweet",
+      "categoryId": "2",
+      "effectiveness": 4,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-14T03:33:15.803Z",
+      "updatedAt": "2025-05-14T03:33:15.803Z"
+    },
+    {
+      "id": "d292f465-05a4-482a-9f9c-64ef7854665a",
+      "word": "Wicked",
+      "categoryId": "2",
+      "effectiveness": 49,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-14T03:37:47.109Z",
+      "updatedAt": "2025-05-14T16:14:17.169Z",
+      "description": ""
+    },
+    {
+      "id": "d8e9f434-91ce-4fcd-bb3c-1b551207a21f",
+      "word": "New!",
+      "categoryId": "3",
+      "effectiveness": 31,
+      "usage": "",
+      "examples": [],
+      "createdAt": "2025-05-14T16:14:39.285Z",
+      "updatedAt": "2025-05-14T16:14:39.285Z"
     }
   ],
-  "config": {
+  "settings": {
     "ratingScale": {
       "min": 1,
-      "max": 5,
-      "default": 3
+      "max": 100,
+      "step": 5,
+      "default": 50
     }
   }
 }
