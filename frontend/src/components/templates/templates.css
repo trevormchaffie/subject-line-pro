@@ -1,0 +1,130 @@
+/* CSS for Template Components */
+
+.template-form {
+  text-align: left;
+  padding: 20px 0;
+}
+
+.template-form h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.template-form .form-label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.template-form textarea {
+  resize: vertical;
+  min-height: 150px;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.75rem;
+}
+
+.template-form .form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.template-form .nav-tabs .nav-link {
+  font-weight: 500;
+  color: #495057;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-bottom: none;
+}
+
+.template-form .nav-tabs .nav-link.active {
+  background-color: white;
+  border-bottom: 1px solid white;
+}
+
+.template-form .tab-content {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  background-color: white;
+}
+
+.template-list {
+  text-align: left;
+}
+
+.template-list table thead th {
+  font-weight: 600;
+  color: #495057;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.template-list table tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.template-list table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.template-list .form-control,
+.template-list .form-select {
+  border-radius: 0.25rem;
+}
+
+.template-list .btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.template-list .btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.template-list .btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.template-list .btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.template-list .btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.template-list h2 {
+  margin-bottom: 1.5rem;
+}
+
+.power-word-badge {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.power-word-badge:hover {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+.version-history {
+  text-align: left;
+}
+
+.template-preview {
+  text-align: left;
+  min-height: 150px;
+}
+
+.variable-selector {
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+}

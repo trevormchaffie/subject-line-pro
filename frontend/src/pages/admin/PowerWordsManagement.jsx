@@ -7,6 +7,7 @@ import RatingConfig from "../../components/admin/powerWords/RatingConfig";
 import PowerWordForm from "../../components/admin/powerWords/PowerWordForm";
 import * as powerWordApi from "../../services/api/powerWordApi";
 import "../../components/admin/powerWords/bootstrap-imports.css";
+import AdminLayout from "../../components/admin/layout/AdminLayout";
 
 // Helper function to format error messages consistently
 const formatErrorMessage = (error, defaultMessage) => {
@@ -258,8 +259,9 @@ const PowerWordsManagement = () => {
   if (loading) return <div className="p-4">Loading...</div>;
 
   return (
-    <div className="container-fluid p-4">
-      <h1 className="mb-4">Power Words Management</h1>
+    <AdminLayout>
+      <div className="container-fluid p-4">
+        <h1 className="mb-4">Power Words Management</h1>
 
       {error && (
         <Alert variant="danger" onClose={() => setError(null)} dismissible>
@@ -335,7 +337,8 @@ const PowerWordsManagement = () => {
           </Tabs>
         </Card.Body>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   );
 };
 

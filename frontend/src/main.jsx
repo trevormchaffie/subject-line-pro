@@ -19,6 +19,8 @@ import syncService from "./services/syncService.js";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminLayout from "./components/admin/layout/AdminLayout";
 import routes from "./config/routeConfig";
+import TemplatesListPage from "./pages/admin/TemplatesListPage";
+import TemplateFormPage from "./pages/admin/TemplateFormPage";
 import "./index.css";
 
 // Register the service worker
@@ -91,11 +93,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 path={routes.admin.powerWords}
                 element={
                   <ProtectedRoute>
-                    <AdminLayoutProvider>
-                      <AdminLayout>
-                        <PowerWordsManagement />
-                      </AdminLayout>
-                    </AdminLayoutProvider>
+                    <PowerWordsManagement />
                   </ProtectedRoute>
                 }
               />
@@ -104,6 +102,31 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 element={
                   <ProtectedRoute>
                     <ContentPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/admin/templates"
+                element={
+                  <ProtectedRoute>
+                    <TemplatesListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/templates/new"
+                element={
+                  <ProtectedRoute>
+                    <TemplateFormPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/templates/edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <TemplateFormPage />
                   </ProtectedRoute>
                 }
               />

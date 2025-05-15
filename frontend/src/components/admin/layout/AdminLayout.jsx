@@ -35,15 +35,13 @@ const AdminLayout = ({ children }) => {
           }`}
         >
           <div className="sticky top-16 z-30 bg-gray-100 border-b border-gray-200">
-            <div className="container mx-auto px-4 py-2">
+            <div className="container-fluid px-4 py-2">
               <BreadcrumbTrail />
             </div>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-6">
-            <div className="container mx-auto">
-              {children}
-            </div>
+          <div className="flex-1 overflow-y-auto">
+            {children}
           </div>
         </main>
       </div>

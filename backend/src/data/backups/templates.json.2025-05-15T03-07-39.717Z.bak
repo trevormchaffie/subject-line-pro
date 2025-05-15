@@ -1,0 +1,23 @@
+[
+  {
+    "id": "3edc8d6d-c428-4c7f-b6d3-3b68bceb30bb",
+    "name": "Basic",
+    "description": "Basic Test",
+    "category": "general",
+    "isActive": true,
+    "createdBy": null,
+    "updatedBy": null,
+    "createdAt": "2025-05-15T02:59:24.204Z",
+    "updatedAt": "2025-05-15T02:59:24.204Z",
+    "versions": [
+      {
+        "id": "a057401e-d97b-410c-97cd-14906d523f91",
+        "content": "Hi {customer_name},\nThis Great!\n\n\nOut{deadline}",
+        "description": "Initial version",
+        "createdBy": null,
+        "createdAt": "2025-05-15T02:59:24.204Z"
+      }
+    ],
+    "currentVersion": "a057401e-d97b-410c-97cd-14906d523f91"
+  }
+]

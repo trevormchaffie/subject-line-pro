@@ -649,5 +649,22 @@
     "status": "New",
     "notes": [],
     "createdAt": "2025-05-10T00:06:48.971Z"
+  },
+  {
+    "id": "lead_1747277741316_8ahhcord3",
+    "name": "T",
+    "email": "T@T.c",
+    "businessType": "saas",
+    "subjectLine": "Test POWER Sunject line",
+    "analysisResults": {
+      "overallScore": 75,
+      "spamScore": 0,
+      "suggestions": 3
+    },
+    "ipAddress": "::1",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+    "status": "New",
+    "notes": [],
+    "createdAt": "2025-05-15T02:55:41.316Z"
   }
 ]

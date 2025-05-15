@@ -52,6 +52,9 @@ router.use("/power-words", powerWordRoutes);
 // Stats routes
 router.use("/stats", statsRoutes);
 
+// Template Routes
+router.use("/api/templates", require("./templateRoutes"));
+
 // Auth routes
 router.post("/auth/login", authController.login);
 router.get("/auth/verify", authenticate, authController.verifyAuth);

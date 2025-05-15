@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1747277406880",
+    "name": "customer_name",
+    "description": "Customer or recipient name",
+    "defaultValue": "Customer",
+    "type": "text",
+    "isSystem": true,
+    "createdAt": "2025-05-15T02:50:06.880Z"
+  },
+  {
+    "id": "1747277406883",
+    "name": "product",
+    "description": "Product or service name",
+    "defaultValue": "Product",
+    "type": "text",
+    "isSystem": true,
+    "createdAt": "2025-05-15T02:50:06.883Z"
+  },
+  {
+    "id": "1747277406884",
+    "name": "discount",
+    "description": "Discount percentage",
+    "defaultValue": "20",
+    "type": "number",
+    "isSystem": true,
+    "createdAt": "2025-05-15T02:50:06.884Z"
+  },
+  {
+    "id": "1747277406886",
+    "name": "deadline",
+    "description": "Offer deadline or expiration date",
+    "defaultValue": "tomorrow",
+    "type": "text",
+    "isSystem": true,
+    "createdAt": "2025-05-15T02:50:06.886Z"
+  },
+  {
+    "id": "1747277406888",
+    "name": "company",
+    "description": "Company name",
+    "defaultValue": "Company",
+    "type": "text",
+    "isSystem": true,
+    "createdAt": "2025-05-15T02:50:06.888Z"
+  }
+]

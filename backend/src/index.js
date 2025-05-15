@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const config = require("./config/config");
 const authRoutes = require("./routes/authRoutes");
+const { initializeDefaultVariables } = require("./data/defaultVariables");
 
 // Import middleware
 const errorHandler = require("./middleware/errorHandler");
@@ -23,7 +24,7 @@ app.use(
     origin: config.corsOrigin,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true // Enable credentials (cookies, authorization headers) 
+    credentials: true, // Enable credentials (cookies, authorization headers)
   })
 );
 app.use(express.json()); // Parse JSON request body
@@ -79,6 +80,12 @@ app.use(errorHandler);
 const PORT = 3001; // Changed from 3000 to 3001 to avoid conflicts
 app.listen(PORT, () => {
   console.log(`Server running in ${config.nodeEnv} mode on port ${PORT}`);
+
+  initializeDefaultVariables()
+    .then(() => console.log("Default template variables initialized"))
+    .catch((err) =>
+      console.error("Error initializing template variables:", err)
+    );
 });
 
 // Handle unhandled promise rejections

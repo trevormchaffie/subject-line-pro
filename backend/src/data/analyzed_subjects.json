@@ -1156,5 +1156,28 @@
     "hasPunctuation": false,
     "analyzedAt": "2025-05-11T17:53:07.137Z",
     "createdAt": "2025-05-11T17:53:07.151Z"
+  },
+  {
+    "id": "analysis_1747277726333_bdg5h8pvd",
+    "subjectLine": "Test POWER Sunject line",
+    "length": 23,
+    "wordCount": 4,
+    "spamScore": 0,
+    "overallScore": 75,
+    "powerWords": [],
+    "issues": [
+      {
+        "text": "Contains words in ALL CAPS",
+        "impact": "medium"
+      }
+    ],
+    "suggestions": [
+      "Consider adding power words like: unlock, valuable, stunning",
+      "Avoid using ALL CAPS as it can trigger spam filters",
+      "Add personalization to increase engagement"
+    ],
+    "hasPunctuation": false,
+    "analyzedAt": "2025-05-15T02:55:26.318Z",
+    "createdAt": "2025-05-15T02:55:26.333Z"
   }
 ]

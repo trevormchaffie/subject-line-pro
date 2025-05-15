@@ -17,6 +17,7 @@ const routes = {
     settings: "/admin/settings",
     content: "/admin/content",
     powerWords: "/admin/power-words",
+    templates: "/admin/templates",
   },
 };
 

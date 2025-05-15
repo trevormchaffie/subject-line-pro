@@ -1,0 +1,114 @@
+[
+  {
+    "id": "3edc8d6d-c428-4c7f-b6d3-3b68bceb30bb",
+    "name": "Basic",
+    "description": "Basic Test",
+    "category": "length",
+    "isActive": true,
+    "createdBy": null,
+    "updatedBy": "dev-user-id",
+    "createdAt": "2025-05-15T02:59:24.204Z",
+    "updatedAt": "2025-05-15T03:13:22.425Z",
+    "versions": [
+      {
+        "id": "dc93cade-bba9-41e5-802e-944ec304aebd",
+        "content": "Hi {customer_name},\nThis Great!\n\n\nOut{deadline}{customer_name}",
+        "description": "Updated on 2025-05-14, 11:13:22 p.m.",
+        "createdBy": "dev-user-id",
+        "createdAt": "2025-05-15T03:13:22.426Z"
+      },
+      {
+        "id": "a057401e-d97b-410c-97cd-14906d523f91",
+        "content": "Hi {customer_name},\nThis Great!\n\n\nOut{deadline}",
+        "description": "Initial version",
+        "createdBy": null,
+        "createdAt": "2025-05-15T02:59:24.204Z"
+      }
+    ],
+    "currentVersion": "dc93cade-bba9-41e5-802e-944ec304aebd"
+  },
+  {
+    "id": "e5094fff-e1f9-403b-9c26-788baa107707",
+    "name": "New",
+    "description": "SPam Word",
+    "category": "spam",
+    "isActive": true,
+    "createdBy": "dev-user-id",
+    "updatedBy": "dev-user-id",
+    "createdAt": "2025-05-15T03:07:39.717Z",
+    "updatedAt": "2025-05-15T03:07:39.717Z",
+    "versions": [
+      {
+        "id": "33fc0b47-23cc-43ed-83a7-b840aaea2357",
+        "content": "{customer_name} Is Rught\n\n{deadline} is tomorrow",
+        "description": "Initial version",
+        "createdBy": "dev-user-id",
+        "createdAt": "2025-05-15T03:07:39.717Z"
+      }
+    ],
+    "currentVersion": "33fc0b47-23cc-43ed-83a7-b840aaea2357"
+  },
+  {
+    "id": "7d68a776-3ead-41a0-95d6-792de0feedaf",
+    "name": "New",
+    "description": "Powwer Words",
+    "category": "power-words",
+    "isActive": true,
+    "createdBy": "dev-user-id",
+    "updatedBy": "dev-user-id",
+    "createdAt": "2025-05-15T03:14:34.442Z",
+    "updatedAt": "2025-05-15T03:14:34.442Z",
+    "versions": [
+      {
+        "id": "eb982477-2d51-4146-8836-1c46ec8f9a58",
+        "content": "Free, here we go!{discount}",
+        "description": "Initial version",
+        "createdBy": "dev-user-id",
+        "createdAt": "2025-05-15T03:14:34.442Z"
+      }
+    ],
+    "currentVersion": "eb982477-2d51-4146-8836-1c46ec8f9a58"
+  },
+  {
+    "id": "a2512493-9b86-487e-b2cb-00cf69469634",
+    "name": "New Template Style",
+    "description": "Personalized soemething",
+    "category": "personalization",
+    "isActive": true,
+    "createdBy": "dev-user-id",
+    "updatedBy": "dev-user-id",
+    "createdAt": "2025-05-15T03:30:57.151Z",
+    "updatedAt": "2025-05-15T03:30:57.151Z",
+    "versions": [
+      {
+        "id": "ef0c49a7-466a-432a-818f-4c99c48006b8",
+        "content": "{company} Times Up{deadline}",
+        "description": "Initial version",
+        "createdBy": "dev-user-id",
+        "createdAt": "2025-05-15T03:30:57.151Z"
+      }
+    ],
+    "currentVersion": "ef0c49a7-466a-432a-818f-4c99c48006b8"
+  },
+  {
+    "id": "47f66d7c-9dfd-4e29-848f-b4dfd990ef1a",
+    "name": "Mine Template",
+    "description": "sdfafsfds",
+    "category": "spam",
+    "isActive": true,
+    "createdBy": "dev-user-id",
+    "updatedBy": "dev-user-id",
+    "createdAt": "2025-05-15T04:02:02.701Z",
+    "updatedAt": "2025-05-15T04:02:02.701Z",
+    "versions": [
+      {
+        "id": "713af394-2671-4219-8138-9e6fae83da03",
+        "content": "{company}{deadline} limited Time{discount}",
+        "description": "Initial version",
+        "createdBy": "dev-user-id",
+        "createdAt": "2025-05-15T04:02:02.701Z"
+      }
+    ],
+    "currentVersion": "713af394-2671-4219-8138-9e6fae83da03"
+  }
+]

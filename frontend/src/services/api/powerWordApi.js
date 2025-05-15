@@ -30,6 +30,21 @@ export const deleteCategory = (id) => {
 
 // Power word endpoints
 export const getPowerWords = (params) => api.get("/power-words", { params });
+export const getAllPowerWords = async () => {
+  // Set a large limit to get all power words at once
+  const response = await api.get("/power-words", { 
+    params: { limit: 1000 } 
+  });
+  
+  // The backend returns { success: true, data: { data: [...], total: X } }
+  // We want to extract the array of power words
+  if (response.data && response.data.data && Array.isArray(response.data.data.data)) {
+    return { data: response.data.data.data };
+  } else if (response.data && response.data.data) {
+    return { data: response.data.data };
+  }
+  return response;
+};
 export const getPowerWord = (id) => api.get(`/power-words/${id}`);
 export const createPowerWord = (data) => {
   // Convert effectivenessRating to effectiveness for backend compatibility
