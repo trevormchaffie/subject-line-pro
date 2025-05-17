@@ -1,0 +1,39 @@
+{
+  "general": {
+    "appName": "Subject Line Pro",
+    "appDescription": "Spam CHecker",
+    "defaultLanguage": "en",
+    "dateFormat": "MM/DD/YYYY",
+    "timeFormat": "12h",
+    "sessionTimeout": 30,
+    "maxLoginAttempts": 5
+  },
+  "email": {
+    "smtpServer": "smtp.example.com",
+    "smtpPort": 587,
+    "smtpUsername": "notifications@example.com",
+    "smtpPassword": "•••••••••",
+    "fromEmail": "no-reply@subjectlinepro.com",
+    "replyToEmail": "support@subjectlinepro.com",
+    "emailTemplate": "default",
+    "notificationFrequency": "daily"
+  },
+  "api": {
+    "requestsPerMinute": 60,
+    "requestsPerHour": 1000,
+    "requestsPerDay": 10000,
+    "ipWhitelist": [],
+    "ipBlacklist": [],
+    "showUsageStats": true,
+    "throttlingEnabled": true
+  },
+  "ui": {
+    "theme": "light",
+    "primaryColor": "#003366",
+    "secondaryColor": "#475569",
+    "fontSize": "medium",
+    "dashboardLayout": "default",
+    "showHelp": true,
+    "enableAnimations": true
+  }
+}

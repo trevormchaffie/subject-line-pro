@@ -21,6 +21,7 @@ import AdminLayout from "./components/admin/layout/AdminLayout";
 import routes from "./config/routeConfig";
 import TemplatesListPage from "./pages/admin/TemplatesListPage";
 import TemplateFormPage from "./pages/admin/TemplateFormPage";
+import { SettingsProvider } from "./context/SettingsContext";
 import "./index.css";
 
 // Register the service worker
@@ -35,125 +36,127 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <AuthProvider>
           <AdminLayoutProvider>
-            <Routes>
-              {/* Public routes */}
-              <Route path={routes.public.home} element={<App />} />
-              <Route path={routes.public.login} element={<LoginPage />} />
+            <SettingsProvider>
+              <Routes>
+                {/* Public routes */}
+                <Route path={routes.public.home} element={<App />} />
+                <Route path={routes.public.login} element={<LoginPage />} />
 
-              {/* Protected admin routes */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.dashboard}
-                element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.leads}
-                element={
-                  <ProtectedRoute>
-                    <LeadsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.analytics}
-                element={
-                  <ProtectedRoute>
-                    <AnalyticsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.settings}
-                element={
-                  <ProtectedRoute>
-                    <SettingsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.content}
-                element={
-                  <ProtectedRoute>
-                    <ContentPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={routes.admin.powerWords}
-                element={
-                  <ProtectedRoute>
-                    <PowerWordsManagement />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/content/spam-triggers"
-                element={
-                  <ProtectedRoute>
-                    <ContentPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected admin routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.dashboard}
+                  element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.leads}
+                  element={
+                    <ProtectedRoute>
+                      <LeadsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.analytics}
+                  element={
+                    <ProtectedRoute>
+                      <AnalyticsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.settings}
+                  element={
+                    <ProtectedRoute>
+                      <SettingsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.content}
+                  element={
+                    <ProtectedRoute>
+                      <ContentPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={routes.admin.powerWords}
+                  element={
+                    <ProtectedRoute>
+                      <PowerWordsManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/content/spam-triggers"
+                  element={
+                    <ProtectedRoute>
+                      <ContentPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/admin/templates"
-                element={
-                  <ProtectedRoute>
-                    <TemplatesListPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/templates/new"
-                element={
-                  <ProtectedRoute>
-                    <TemplateFormPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/templates/edit/:id"
-                element={
-                  <ProtectedRoute>
-                    <TemplateFormPage />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/admin/templates"
+                  element={
+                    <ProtectedRoute>
+                      <TemplatesListPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/templates/new"
+                  element={
+                    <ProtectedRoute>
+                      <TemplateFormPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/templates/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <TemplateFormPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route path="/api-test" element={<ApiTestPage />} />
+                <Route path="/api-test" element={<ApiTestPage />} />
 
-              {/* Catch-all route - 404 */}
-              <Route
-                path="*"
-                element={
-                  <div className="min-h-screen flex flex-col items-center justify-center">
-                    <h1 className="text-3xl font-bold text-primary mb-4">
-                      Page Not Found
-                    </h1>
-                    <p className="text-gray-600 mb-4">
-                      The page you are looking for doesn't exist.
-                    </p>
-                    <a
-                      href={routes.public.home}
-                      className="text-primary hover:underline"
-                    >
-                      Return to Home
-                    </a>
-                  </div>
-                }
-              />
-            </Routes>
+                {/* Catch-all route - 404 */}
+                <Route
+                  path="*"
+                  element={
+                    <div className="min-h-screen flex flex-col items-center justify-center">
+                      <h1 className="text-3xl font-bold text-primary mb-4">
+                        Page Not Found
+                      </h1>
+                      <p className="text-gray-600 mb-4">
+                        The page you are looking for doesn't exist.
+                      </p>
+                      <a
+                        href={routes.public.home}
+                        className="text-primary hover:underline"
+                      >
+                        Return to Home
+                      </a>
+                    </div>
+                  }
+                />
+              </Routes>
+            </SettingsProvider>
           </AdminLayoutProvider>
         </AuthProvider>
       </BrowserRouter>

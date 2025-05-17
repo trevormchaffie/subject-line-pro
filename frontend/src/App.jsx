@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { SettingsProvider } from "./context/SettingsContext";
 import Header from "./components/layout/Header";
 import SubjectLineInput from "./components/forms/SubjectLineInput";
 import AnalysisResults from "./components/analysis/AnalysisResults";
@@ -7,12 +8,15 @@ import LeadCaptureForm from "./components/forms/LeadCaptureForm";
 import LoadingSpinner from "./components/ui/LoadingSpinner";
 import ErrorMessage from "./components/ui/ErrorMessage";
 import ContentPage from "./pages/ContentPage";
-import apiService from "./services/apiService";
 import PowerWordsManagement from "./pages/admin/PowerWordsManagement";
 import AdminRoutes from "./routes/AdminRoutes";
+import SettingsPage from "./pages/admin/SettingsPage";
 import { analyzeSubjectLine } from "./services/analysisService"; // Local fallback
+import apiService from "./services/apiService";
+import DashboardPage from "./pages/admin/DashboardPage";
 
-function MainApp() {
+function MainContent() {
+  // All your existing state and functions
   const [analysisResults, setAnalysisResults] = useState(null);
   const [subjectLine, setSubjectLine] = useState("");
   const [leadSubmitted, setLeadSubmitted] = useState(false);
@@ -34,11 +38,9 @@ function MainApp() {
     };
   }, []);
 
-  /**
-   * Analyzes a subject line using the backend API
-   * Falls back to local analysis if API fails or offline
-   */
+  // Your existing methods
   const handleAnalyze = async (text) => {
+    // Existing implementation
     setSubjectLine(text);
     setIsLoading(true);
     setError(null);
@@ -81,11 +83,8 @@ function MainApp() {
     }
   };
 
-  /**
-   * Submits lead information to the backend API
-   * In offline mode, data is stored temporarily
-   */
   const handleLeadSubmit = async (formData) => {
+    // Existing implementation
     setIsLoading(true);
     setError(null);
 
@@ -149,9 +148,6 @@ function MainApp() {
     }
   };
 
-  /**
-   * Retry after an error
-   */
   const handleRetry = () => {
     setError(null);
     if (subjectLine) {
@@ -159,6 +155,7 @@ function MainApp() {
     }
   };
 
+  // Main application JSX
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
@@ -258,7 +255,19 @@ function MainApp() {
 }
 
 function App() {
-  return <MainApp />;
+  return (
+    <SettingsProvider>
+      <Routes>
+        <Route path="/*" element={<MainContent />} />
+        <Route path="/admin" element={<AdminRoutes />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="power-words" element={<PowerWordsManagement />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </SettingsProvider>
+  );
 }
 
 export default App;

@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CSS Variables for Theme Configuration */
+:root {
+  /* Default theme colors */
+  --primary-color: #3b82f6;   /* Default blue from the UI settings */
+  --secondary-color: #475569; /* Default secondary from the UI settings */
+  --bg-color: #ffffff;
+  --text-color: #1f2937;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-bg: #f3f4f6;
+  
+  /* Default font size */
+  --base-font-size: 16px;
+}
+
+/* Dark theme variables - will be applied with a class */
+.dark-theme {
+  --bg-color: #1f2937;
+  --text-color: #f3f4f6;
+  --light-bg: #374151;
+}
+
+/* Apply variables to common elements */
+body {
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  font-size: var(--base-font-size);
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.border-primary {
+  border-color: var(--primary-color) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color) !important;
+}
+
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary-color) !important;
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+}
+
+/* Medium font size */
+.font-size-medium {
+  font-size: var(--base-font-size);
+}
+
+/* Small font size */
+.font-size-small {
+  font-size: calc(var(--base-font-size) * 0.875);
+}
+
+/* Large font size */
+.font-size-large {
+  font-size: calc(var(--base-font-size) * 1.125);
+}
